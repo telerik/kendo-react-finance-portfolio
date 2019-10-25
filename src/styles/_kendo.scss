@@ -1,4 +1,17 @@
 $button-bg: white;
+$splitter-bg: white;
+$splitter-hovered-text: white;
+$splitter-hovered-bg: white;
+$selected-text: white;
+$selected-bg: white;
 
 @import "@progress/kendo-theme-bootstrap/scss/button";
 @import "@progress/kendo-theme-bootstrap/scss/grid";
+@import "@progress/kendo-theme-bootstrap/scss/splitter";
+
+.k-splitbar {
+  box-shadow: 5px 5px 5px rgba(black, 0.2);
+}
+.k-splitbar-draggable-vertical .k-resize-handle {
+  display: none;
+}
