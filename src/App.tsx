@@ -1,24 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
+import styles from './app.module.scss';
+import {
+  Route,
+  BrowserRouter,
+  Switch
+} from 'react-router-dom';
+import { DetailedView } from './components/DetailedView';
+import { HeatmapView } from './components/HeatmapView';
+import { NavigationRow, Navigation } from './components/Navigation';
 
-const App: React.FC = () => {
+
+const App: React.FunctionComponent<any> = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <BrowserRouter >
+        <main className={styles.main}>
+          <Switch >
+            <Route path={"/watch/:id"}>
+              <DetailedView />
+            </Route>
+          </Switch>
+          <div className="container my-3">
+            <NavigationRow className="row">
+              <Navigation className="col flex-grow-1 text-center" />
+            </NavigationRow>
+          </div>
+          <div className="container">
+            <Switch >
+              <Route path={"/watch"}>
+                <DetailedView />
+              </Route>
+              <Route path={"/heatmap"}>
+                <HeatmapView />
+              </Route>
+            </Switch>
+          </div>
+        </main>
+      </BrowserRouter>
+      <Footer />
     </div>
   );
 }
