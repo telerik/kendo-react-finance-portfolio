@@ -4,27 +4,27 @@ import { DateRangePicker, DateInputProps } from '@progress/kendo-react-dateinput
 import { addDays } from '@progress/kendo-date-math';
 import { classNames } from '@progress/kendo-react-common';
 import { DropDownList, ListItemProps } from '@progress/kendo-react-dropdowns';
-import chartData from '../../data/chart.json';
 
 import { ReactComponent as areaIcon } from '../../icons/area.svg';
 import { ReactComponent as lineIcon } from '../../icons/line.svg';
 import { ReactComponent as candleIcon } from '../../icons/candle.svg';
 import {
     StockChart,
-    // ChartTitle,
     ChartSeries,
     ChartSeriesItem,
-    // ChartNavigator,
-    // ChartNavigatorSelect,
-    // ChartNavigatorSeries,
-    // ChartNavigatorSeriesItem
+    ChartNavigator,
+    ChartNavigatorSelect,
+    ChartNavigatorSeries,
+    ChartNavigatorSeriesItem
 } from '@progress/kendo-react-charts';
 
+import 'hammerjs';
 import styles from './detailed.module.scss';
+import { dataService } from '../../services';
 
 const DEFAULT_RANGE = {
-    start: new Date(),
-    end: addDays(new Date(), 1)
+    start: new Date(2019, 9, 24),
+    end: addDays(new Date(2019, 9, 24), 1)
 }
 
 const options = [
@@ -49,7 +49,7 @@ const CustomEndDateInput = (props: DateInputProps<null>) => {
                 props.onChange.call(undefined, {
                     syntheticEvent: event,
                     nativeEvent: event.nativeEvent,
-                    value: new Date(2019, 11, 30),
+                    value: new Date(2019, 9, 25),
                     target: null
                 });
             }
@@ -144,24 +144,10 @@ const ChartTypePicker = (props: any) => {
     )
 }
 
-const processData = (data: any) => {
-    const result = Object.keys(data.intraday).reduce((acc: any[], current: string) => {
-        const other = data.intraday[current];
-        return [...acc, {
-            open: Number.parseFloat(other.open),
-            close: Number.parseFloat(other.close),
-            low: Number.parseFloat(other.low),
-            volume: Number.parseFloat(other.volume),
-            date: `\/Date(${new Date(current).getTime()})\/`
-        }]
-    }, [])
-
-    return result;
-}
 
 export const DetailedChart = () => {
     const { symbol } = useParams();
-    const [data, setData] = React.useState(processData(chartData));
+    const [data, setData] = React.useState<any>([]);
     const [range, setRange] = React.useState(DEFAULT_RANGE);
     const [type, setType] = React.useState('candle');
 
@@ -173,12 +159,20 @@ export const DetailedChart = () => {
         setType(event.value);
     }
 
+    const fetchData = async () => {
+        const newData = await dataService.getSymbol(symbol);
+        setData(newData)
+    }
+
+    React.useEffect(() => { fetchData() }, []);
+
     return (
         <>
             <div className="row">
                 <div className="col text-left">
                     <DateRangePicker
                         defaultValue={range}
+                        onChange={handleChange}
                         startDateInputSettings={{ label: '' }}
                         endDateInput={CustomEndDateInput}
                     />
@@ -200,21 +194,21 @@ export const DetailedChart = () => {
                                 openField="open"
                                 closeField="close"
                                 lowField="low"
-                                highField="hight"
+                                highField="high"
                                 categoryField="date"
                             />
                         </ChartSeries>
-                        {/* <ChartNavigator>
-                            <ChartNavigatorSelect from={from} to={to} />
+                        <ChartNavigator>
+                            <ChartNavigatorSelect />
                             <ChartNavigatorSeries>
                                 <ChartNavigatorSeriesItem
-                                    // data={stockData}
+                                    data={data}
                                     type="area"
-                                    field="Close"
-                                    categoryField="Date"
+                                    field="close"
+                                    categoryField="date"
                                 />
                             </ChartNavigatorSeries>
-                        </ChartNavigator> */}
+                        </ChartNavigator>
                     </StockChart>
                 </div>
             </div>

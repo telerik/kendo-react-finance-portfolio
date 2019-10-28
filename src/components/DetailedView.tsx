@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
-import { data as sampleData } from '../data/grid.json';
+import { dataService } from '../services';
 
 export interface DetailedViewProps {
     symbols?: string[];
 }
 
 export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) => {
-    const [data] = React.useState(sampleData);
+    const [data, setData] = React.useState<any[]>([]);
 
     const fetchData = async () => {
-        // let response = await fetch("https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=API_KEY")
-        // let result = await response.json();
-        // setData(result);
+        const newData = await dataService.getAllSymbols();
+        setData(newData)
     }
 
     React.useEffect(() => { fetchData() }, []);
