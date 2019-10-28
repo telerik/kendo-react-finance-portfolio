@@ -15,7 +15,8 @@ import {
     ChartNavigator,
     ChartNavigatorSelect,
     ChartNavigatorSeries,
-    ChartNavigatorSeriesItem
+    ChartNavigatorSeriesItem,
+    Chart
 } from '@progress/kendo-react-charts';
 
 import 'hammerjs';
@@ -166,6 +167,17 @@ export const DetailedChart = () => {
 
     React.useEffect(() => { fetchData() }, []);
 
+    const ChartComp: React.ComponentType<any> = React.useMemo(() => {
+        switch (type) {
+            case 'candle':
+                return StockChart;
+            case 'line':
+                return Chart;
+            default:
+                return Chart;
+        }
+    }, [type]);
+
     return (
         <>
             <div className="row">
@@ -186,7 +198,7 @@ export const DetailedChart = () => {
             </div>
             <div className="row mt-3">
                 <div className="col">
-                    <StockChart>
+                    <ChartComp>
                         <ChartSeries>
                             <ChartSeriesItem
                                 data={data}
@@ -209,7 +221,7 @@ export const DetailedChart = () => {
                                 />
                             </ChartNavigatorSeries>
                         </ChartNavigator>
-                    </StockChart>
+                    </ChartComp>
                 </div>
             </div>
         </>
