@@ -10,7 +10,7 @@ import {
 import { DetailedView } from './components/DetailedView';
 import { HeatmapView } from './components/HeatmapView';
 import { NavigationRow, Navigation } from './components/Navigation';
-import { DetailedChart } from './components/DetailedChart';
+import { DetailedChart } from './components/Detailed/DetailedChart';
 
 import styles from './app.module.scss';
 import { classNames } from '@progress/kendo-react-common';
@@ -25,17 +25,21 @@ const App: React.FunctionComponent<any> = () => {
         <main className={styles.main}>
           <Splitter
             orientation={'vertical'}
+            defaultPanes={[
+              { size: '600px', min: '200px' },
+              {}
+            ]}
           >
-            <Switch >
+            <Switch>
               <Route path={"/watch/:symbol"}>
-                <div className={classNames(styles.detailed, "pt-4 pb-2")} style={{ minHeight: 200 }}>
+                <div className={classNames(styles.detailed, "pt-4 pb-2")} >
                   <div className="container">
                     <DetailedChart />
                   </div>
                 </div>
               </Route>
             </Switch>
-            <div style={{ minHeight: 400 }} className={classNames(styles.content, 'py-3')}>
+            <div className={classNames(styles.content, 'py-3')} style={{ minHeight: 600 }}>
               <div className={"container my-3"}>
                 <NavigationRow className="row">
                   <Navigation className="col flex-grow-1 text-center" />

@@ -2,16 +2,26 @@ $button-bg: white;
 $splitter-bg: white;
 $splitter-hovered-text: white;
 $splitter-hovered-bg: white;
-$selected-text: white;
-$selected-bg: white;
+$splitter-selected-text: white;
+$splitter-selected-bg: white;
+// $selected-text: white;
+// $selected-bg: white;
 
 @import "@progress/kendo-theme-bootstrap/scss/button";
 @import "@progress/kendo-theme-bootstrap/scss/grid";
 @import "@progress/kendo-theme-bootstrap/scss/splitter";
+@import "@progress/kendo-theme-bootstrap/scss/input";
+@import "@progress/kendo-theme-bootstrap/scss/calendar";
+@import "@progress/kendo-theme-bootstrap/scss/datetime";
+@import "@progress/kendo-theme-bootstrap/scss/dataviz";
 
 .k-splitbar {
   box-shadow: 5px 5px 5px rgba(black, 0.2);
+  background: none;
 }
 .k-splitbar-draggable-vertical .k-resize-handle {
   display: none;
+}
+.k-pane:not(.k-pane-static) {
+  background-color: rgba(#eceeef, 0.5);
 }

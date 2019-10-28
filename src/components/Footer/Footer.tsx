@@ -9,7 +9,7 @@ export const Footer = () => {
             style={{ background: `url(${footerBg})` }}
         >
             <div className="container-fluid">
-                <p className=" text-center">
+                <p className="text-center m-0">
                     Copyright © 2019 Progress Software Corporation and/or its subsidiaries or affiliates.
                 </p>
             </div>
