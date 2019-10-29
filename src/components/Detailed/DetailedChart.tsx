@@ -16,7 +16,18 @@ import {
     ChartNavigatorSelect,
     ChartNavigatorSeries,
     ChartNavigatorSeriesItem,
-    Chart
+    Chart,
+    ChartCategoryAxis,
+    ChartCategoryAxisItem,
+    ChartCategoryAxisCrosshair,
+    ChartValueAxis,
+    ChartValueAxisItem,
+    ChartValueAxisCrosshair,
+    ChartValueAxisCrosshairTooltip,
+    ChartValueAxisLabels,
+    ChartCategoryAxisLabels,
+    ChartNavigatorCategoryAxis,
+    ChartNavigatorCategoryAxisTitle
 } from '@progress/kendo-react-charts';
 
 import 'hammerjs';
@@ -28,61 +39,15 @@ const DEFAULT_RANGE = {
     end: addDays(new Date(2019, 9, 24), 1)
 }
 
-const options = [
-    { name: '1D', duration: 1 },
-    { name: '5D', duration: 5 },
-    { name: '1M', duration: 30 },
-    { name: '3M', duration: 90 },
-    { name: '6M', duration: 180 },
-    { name: 'YTD', duration: 365 }
-]
+const DEFAULT_INTERVAL = {
+    unit: "minutes",
+    step: 1
+}
 
-const CustomEndDateInput = (props: DateInputProps<null>) => {
-    const [selected, setSelected] = React.useState<string>(options[0].name);
-
-    const handleClick = React.useCallback(
-        (event: React.SyntheticEvent<HTMLAnchorElement>) => {
-            const duration = (event.target as HTMLElement).getAttribute('data-duration');
-            const name = (event.target as HTMLElement).getAttribute('data-name');
-
-            if (name) { setSelected(name); }
-            if (duration && props.onChange) {
-                props.onChange.call(undefined, {
-                    syntheticEvent: event,
-                    nativeEvent: event.nativeEvent,
-                    value: new Date(2019, 9, 25),
-                    target: null
-                });
-            }
-        }, [])
-
-    const handleFocus = React.useCallback(
-        (event: React.FocusEvent<any>) => {
-            event.stopPropagation();
-        }, [])
-
-    return (
-        <span className={classNames("d-inline-block", styles['end-date-input'])} onFocus={handleFocus}>
-            <ul className="k-reset d-flex">
-                {options.map((item, id) =>
-                    <li className="ml-3" key={item.name} >
-                        <a
-                            href="#"
-                            onClick={handleClick}
-                            data-name={item.name}
-                            data-duration={item.duration}
-                            className={classNames(
-                                'list-item',
-                                styles['list-item'],
-                                { [styles['list-item-selected']]: item.name === selected },
-                            )}
-                        >
-                            {item.name}
-                        </a>
-                    </li>
-                )}
-            </ul>
-        </span>)
+enum CHART_TYPES {
+    candle,
+    line,
+    area
 }
 
 const customItemRender = (el: React.ReactElement<HTMLLIElement>, props: ListItemProps) => (
@@ -117,11 +82,25 @@ const customValueRender = (el: any, value: any) => (
 
     </el.type>)
 
+const customIntervalValueRender = (el: any, value: any) => (
+    <el.type
+        {...el.props}
+        className={classNames(
+            "pl-2",
+            el.props.className,
+            styles['ddl-list-item'])}
+    >
+        {value
+            ? (<span className="ml-3">Interval {value.name}</span>)
+            : null}
+
+    </el.type >)
+
 const ChartTypePicker = (props: any) => {
     const data = React.useMemo(() => [
-        { name: 'Line', icon: lineIcon, type: 'line' },
-        { name: 'Area', icon: areaIcon, type: 'area' },
-        { name: 'Candle', icon: candleIcon, type: 'candle' }
+        { name: 'Line', icon: lineIcon, type: CHART_TYPES.line },
+        { name: 'Area', icon: areaIcon, type: CHART_TYPES.area },
+        { name: 'Candle', icon: candleIcon, type: CHART_TYPES.candle }
     ], []);
 
     const handleChange = React.useCallback(
@@ -145,12 +124,48 @@ const ChartTypePicker = (props: any) => {
     )
 }
 
+const ChartIntervalPicker = (props: any) => {
+    const data = React.useMemo(() => [
+        { name: '1M', interval: { unit: 'minutes', step: 1 } },
+        { name: '2M', interval: { unit: 'minutes', step: 2 } },
+        { name: '5M', interval: { unit: 'minutes', step: 5 } },
+        { name: '15M', interval: { unit: 'minutes', step: 15 } },
+        { name: '30M', interval: { unit: 'minutes', step: 30 } },
+        { name: '1H', interval: { unit: 'hours', step: 1 } },
+        { name: '4H', interval: { unit: 'hours', step: 4 } },
+        { name: '1D', interval: { unit: 'days', step: 1 } },
+        { name: '1W', interval: { unit: 'weeks', step: 1 } },
+        { name: '1M', interval: { unit: 'months', step: 1 } },
+        { name: '1Y', interval: { unit: 'years', step: 1 } },
+    ], []);
+
+    const handleChange = React.useCallback(
+        (event) => {
+            if (props.onChange) {
+                console.log(event.target.value);
+                props.onChange.call(undefined, { value: event.target.value.interval })
+            }
+        },
+        [props.onChange]
+    )
+
+    return (
+        <DropDownList
+            data={data}
+            value={data.find(i => i.interval.unit === props.value.unit && i.interval.step === props.value.step)}
+            onChange={handleChange}
+            textField={'name'}
+            valueRender={customIntervalValueRender}
+        />
+    )
+}
 
 export const DetailedChart = () => {
     const { symbol } = useParams();
     const [data, setData] = React.useState<any>([]);
     const [range, setRange] = React.useState(DEFAULT_RANGE);
-    const [type, setType] = React.useState('candle');
+    const [interval, setInterval] = React.useState(DEFAULT_INTERVAL);
+    const [type, setType] = React.useState<CHART_TYPES>(CHART_TYPES.candle);
 
     const handleChange = (event: any) => {
         setRange(event.value);
@@ -160,23 +175,29 @@ export const DetailedChart = () => {
         setType(event.value);
     }
 
-    const fetchData = async () => {
-        const newData = await dataService.getSymbol(symbol);
-        setData(newData)
+    const handleIntervalChange = (event: any) => {
+        setInterval(event.value);
     }
 
-    React.useEffect(() => { fetchData() }, []);
+    const fetchData = React.useCallback(async () => {
+        const newData = await dataService.getSymbol(symbol);
+        setData(newData)
+    }, [dataService, symbol])
 
-    const ChartComp: React.ComponentType<any> = React.useMemo(() => {
+    React.useEffect(() => { fetchData() }, [fetchData]);
+
+    const chartComp: React.ReactNode = React.useMemo(() => {
         switch (type) {
-            case 'candle':
-                return StockChart;
-            case 'line':
-                return Chart;
+            case CHART_TYPES.candle:
+                return <CandleChart data={data} interval={interval} range={range} />;
+            case CHART_TYPES.line:
+                return <LineChart data={data} interval={interval} />;
+            case CHART_TYPES.area:
+                return <AreaChart data={data} interval={interval} />;
             default:
-                return Chart;
+                return <LineChart data={data} interval={interval} />;
         }
-    }, [type]);
+    }, [type, interval, data, range]);
 
     return (
         <>
@@ -186,10 +207,14 @@ export const DetailedChart = () => {
                         defaultValue={range}
                         onChange={handleChange}
                         startDateInputSettings={{ label: '' }}
-                        endDateInput={CustomEndDateInput}
+                        endDateInputSettings={{ label: '' }}
                     />
                 </div>
                 <div className="col text-right">
+                    <ChartIntervalPicker
+                        value={interval}
+                        onChange={handleIntervalChange}
+                    />
                     <ChartTypePicker
                         value={type}
                         onChange={handleTypeChange}
@@ -198,32 +223,121 @@ export const DetailedChart = () => {
             </div>
             <div className="row mt-3">
                 <div className="col">
-                    <ChartComp transitions={false}>
-                        <ChartSeries>
-                            <ChartSeriesItem
-                                data={data}
-                                type="candlestick"
-                                openField="open"
-                                closeField="close"
-                                lowField="low"
-                                highField="high"
-                                categoryField="date"
-                            />
-                        </ChartSeries>
-                        <ChartNavigator>
-                            <ChartNavigatorSelect />
-                            <ChartNavigatorSeries>
-                                <ChartNavigatorSeriesItem
-                                    data={data}
-                                    type="area"
-                                    field="close"
-                                    categoryField="date"
-                                />
-                            </ChartNavigatorSeries>
-                        </ChartNavigator>
-                    </ChartComp>
+                    {chartComp}
                 </div>
             </div>
         </>
     )
+}
+
+const AreaChart = (props: any) => {
+    return (<Chart>
+        <ChartSeries>
+            <ChartSeriesItem
+                data={props.data}
+                type="area"
+                field="close"
+                style="smooth"
+                categoryField="date"
+            />
+        </ChartSeries>
+        <ChartValueAxis>
+            <ChartValueAxisItem >
+                <ChartValueAxisLabels format={"{0:c}"} />
+                <ChartValueAxisCrosshair >
+                    <ChartValueAxisCrosshairTooltip format={"{0:c}"} />
+                </ChartValueAxisCrosshair>
+            </ChartValueAxisItem>
+        </ChartValueAxis>
+        <ChartCategoryAxis>
+            <ChartCategoryAxisItem baseUnit={props.interval.unit} baseUnitStep={props.interval.step}>
+                <ChartCategoryAxisCrosshair />
+            </ChartCategoryAxisItem>
+        </ChartCategoryAxis>
+    </Chart>)
+}
+
+const LineChart = (props: any) => {
+    return (<Chart>
+        <ChartSeries>
+            <ChartSeriesItem
+                data={props.data}
+                type="line"
+                field="close"
+                style="smooth"
+                categoryField="date"
+            />
+        </ChartSeries>
+        <ChartValueAxis>
+            <ChartValueAxisItem >
+                <ChartValueAxisLabels format={"{0:c}"} />
+                <ChartValueAxisCrosshair >
+                    <ChartValueAxisCrosshairTooltip format={"{0:c}"} />
+                </ChartValueAxisCrosshair>
+            </ChartValueAxisItem>
+        </ChartValueAxis>
+        <ChartCategoryAxis>
+            <ChartCategoryAxisItem baseUnit={props.interval.unit} baseUnitStep={props.interval.step}>
+                <ChartCategoryAxisCrosshair />
+            </ChartCategoryAxisItem>
+        </ChartCategoryAxis>
+    </Chart>)
+}
+
+const CandleChart = (props: any) => {
+    return (<StockChart >
+        <ChartSeries>
+            <ChartSeriesItem
+                data={props.data}
+                colorField="color"
+                downColorField="color"
+                type="candlestick"
+                openField="open"
+                closeField="close"
+                lowField="low"
+                highField="high"
+                aggregate="avg"
+                categoryField="date"
+            />
+            <ChartSeriesItem
+                data={props.data}
+                type="column"
+                field={"change"}
+                axis={"change"}
+                colorField="color"
+                categoryField="date"
+            />
+        </ChartSeries>
+        <ChartValueAxis>
+            <ChartValueAxisItem>
+                <ChartValueAxisLabels format={"{0:c}"} />
+                <ChartValueAxisCrosshair >
+                    <ChartValueAxisCrosshairTooltip format={"{0:c}"} />
+                </ChartValueAxisCrosshair>
+            </ChartValueAxisItem>
+            <ChartValueAxisItem min={0} max={2} visible={false} name="change">
+                <ChartValueAxisLabels />
+            </ChartValueAxisItem>
+        </ChartValueAxis>
+        <ChartCategoryAxis>
+            <ChartCategoryAxisItem type="date" baseUnit={props.interval.unit} baseUnitStep={props.interval.step}>
+                <ChartCategoryAxisCrosshair />
+                <ChartCategoryAxisLabels visible={false} />
+            </ChartCategoryAxisItem>
+        </ChartCategoryAxis>
+        <ChartNavigator>
+            {/* <ChartNavigatorSelect from={props.range.start} to={props.range.end} /> */}
+            <ChartNavigatorSeries >
+                <ChartNavigatorSeriesItem
+                    data={props.data}
+                    type="area"
+                    field="volume"
+                    categoryField="date"
+                />
+            </ChartNavigatorSeries>
+            {/* <ChartNavigatorCategoryAxis>
+                <ChartNavigatorCategoryAxis type="date" />
+            </ChartNavigatorCategoryAxis> */}
+        </ChartNavigator>
+    </StockChart>)
 }
