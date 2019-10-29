@@ -20,7 +20,8 @@ import SNE from '../data/symbols/SNE.json';
 import TSM from '../data/symbols/TSM.json';
 import TWTR from '../data/symbols/TWTR.json';
 import TXN from '../data/symbols/TXN.json';
-import VODL from '../data/symbols/VOD.L.json';
+import VODL from '../data/symbols/VODL.json';
+import INTU from '../data/symbols/INTU.json';
 
 const symbolsMap: any = {
     SNAP,
@@ -44,7 +45,8 @@ const symbolsMap: any = {
     TSM,
     TWTR,
     TXN,
-    VODL
+    VODL,
+    INTU
 }
 
 const processData = (data: any) => {
@@ -57,7 +59,8 @@ const processData = (data: any) => {
             "high": Number.parseFloat(other.high),
             "low": Number.parseFloat(other.low),
             "volume": Number.parseFloat(other.volume),
-            "date": `/Date(${new Date(current).getTime()})/`
+            "date": `/Date(${new Date(current).getTime()})/`,
+            "current": new Date(current)
         }]
     }, [])
 

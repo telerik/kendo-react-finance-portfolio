@@ -1,21 +1,20 @@
 import * as React from 'react';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
 import { dataService } from '../services';
-import { Sparkline } from '@progress/kendo-react-charts';
-
+import { Chart, ChartSeries, ChartSeriesItem, ChartValueAxis, ChartValueAxisItem, ChartArea, ChartCategoryAxis, ChartCategoryAxisItem } from '@progress/kendo-react-charts';
 export interface DetailedViewProps {
     symbols?: string[];
 }
 
 const nFormatter = (num: number) => {
     if (num >= 1000000000) {
-       return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
     }
     if (num >= 1000000) {
-       return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
     }
     if (num >= 1000) {
-       return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
     }
     return num;
 }
@@ -39,10 +38,30 @@ const NumberCell = (props: any) => {
 }
 
 const ChartCell = (props: any) => {
-    console.log(props.dataItem.chartData)
+    let data = dataService.getSymbol(props.dataItem.symbol)
+    let currentHours = 0
+    let closeData = data.map(item => {
+        if (item.current.getHours() !== currentHours) {
+            currentHours = item.current.getHours()
+            return item.close
+        }
+    })
+    let filtered = closeData.filter(item => item)
+    let color = filtered[0] < filtered[filtered.length-1] ? '#5CB85C' : '#D9534F';
     return (
         <td>
-            <Sparkline data={props.dataItem.chartData || []} />
+            <Chart style={{ height: 70 }}>
+                <ChartValueAxis>
+                    <ChartValueAxisItem visible={false} majorGridLines={{ visible: false }} axisCrossingValue={color === 'green' ? 0 : 1000}/>
+                </ChartValueAxis>
+                <ChartCategoryAxis>
+                    <ChartCategoryAxisItem majorGridLines={{ visible: false }} visible={false} />
+                </ChartCategoryAxis>
+                <ChartSeries>
+                    <ChartSeriesItem data={filtered} type='line' markers={{ visible: false }} color={color} />
+                    <ChartSeriesItem data={filtered} type='area' markers={{ visible: false }} color={color} opacity={0.2}/>
+                </ChartSeries>
+            </Chart>
         </td>
     )
 }
@@ -64,11 +83,11 @@ export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) 
             <GridColumn field="price" className='price-cell' />
             <GridColumn field="day_change" title="Change" cell={ChangeCell} />
             <GridColumn field="change_pct" title="% Change" cell={ChangeCell} />
-            <GridColumn field="volume" title="Volume" cell={NumberCell}/>
-            <GridColumn field="volume_avg" title="Avg Vol" cell={NumberCell}/>
+            <GridColumn field="volume" title="Volume" cell={NumberCell} />
+            <GridColumn field="volume_avg" title="Avg Vol" cell={NumberCell} />
             <GridColumn field="market_cap" title="Market Cap" cell={NumberCell} />
             <GridColumn field="pe" title="PE Ratio (TTM)" />
-            <GridColumn cell={ChartCell}/>
+            <GridColumn cell={ChartCell} width={200} title='1 Day Chart'/>
         </Grid>
     )
 }
