@@ -68,7 +68,8 @@ const processData = (data: any) => {
             formatedDate,
             change: Math.abs(change),
             color,
-            date: new Date(current)
+            date: new Date(current),
+            timestamp: new Date(current).getTime()
         }]
     }, [])
 

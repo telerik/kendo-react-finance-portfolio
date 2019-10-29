@@ -27,6 +27,9 @@ import {
     ChartValueAxisLabels,
     ChartCategoryAxisLabels,
     ChartNavigatorCategoryAxis,
+    ChartPanes,
+    ChartPane,
+    ChartNavigatorPane,
 } from '@progress/kendo-react-charts';
 
 import 'hammerjs';
@@ -132,14 +135,12 @@ const ChartIntervalPicker = (props: any) => {
         { name: '4H', interval: { unit: 'hours', step: 4 } },
         { name: '1D', interval: { unit: 'days', step: 1 } },
         { name: '1W', interval: { unit: 'weeks', step: 1 } },
-        { name: '1M', interval: { unit: 'months', step: 1 } },
-        { name: '1Y', interval: { unit: 'years', step: 1 } },
+        { name: '1M', interval: { unit: 'months', step: 1 } }
     ], []);
 
     const handleChange = React.useCallback(
         (event) => {
             if (props.onChange) {
-                console.log(event.target.value);
                 props.onChange.call(undefined, { value: event.target.value.interval })
             }
         },
@@ -164,7 +165,7 @@ export const DetailedChart = () => {
     const [interval, setInterval] = React.useState(DEFAULT_INTERVAL);
     const [type, setType] = React.useState<CHART_TYPES>(CHART_TYPES.candle);
 
-    const handleChange = (event: any) => {
+    const handleRangeChange = (event: any) => {
         setRange(event.value);
     }
 
@@ -186,7 +187,7 @@ export const DetailedChart = () => {
     const chartComp: React.ReactNode = React.useMemo(() => {
         switch (type) {
             case CHART_TYPES.candle:
-                return <CandleChart data={data} interval={interval} range={range} />;
+                return <CandleChart data={data} interval={interval} range={range} onRangeChange={handleRangeChange} />;
             case CHART_TYPES.line:
                 return <LineChart data={data} interval={interval} />;
             case CHART_TYPES.area:
@@ -194,7 +195,7 @@ export const DetailedChart = () => {
             default:
                 return <LineChart data={data} interval={interval} />;
         }
-    }, [type, interval, data, range]);
+    }, [type, interval, data, range, handleRangeChange]);
 
     return (
         <>
@@ -202,7 +203,7 @@ export const DetailedChart = () => {
                 <div className="col text-left">
                     <DateRangePicker
                         defaultValue={range}
-                        onChange={handleChange}
+                        onChange={handleRangeChange}
                         startDateInputSettings={{ label: '' }}
                         endDateInputSettings={{ label: '' }}
                     />
@@ -282,10 +283,18 @@ const LineChart = (props: any) => {
 }
 
 const CandleChart = (props: any) => {
-    return (<StockChart >
+    const handleSelectStart = (args: any) => {
+        props.onRangeChange.call(undefined, {
+            value: {
+                start: args.from,
+                end: args.to
+            }
+        });
+    }
+    return (<StockChart transitions={false} onSelectEnd={handleSelectStart}>
         <ChartSeries>
             <ChartSeriesItem
-                data={props.data}
+                data={props.data.filter((d: any) => props.range.start.getTime() <= d.timestamp && d.timestamp <= props.range.end.getTime())}
                 colorField="color"
                 downColorField="color"
                 type="candlestick"
@@ -293,46 +302,62 @@ const CandleChart = (props: any) => {
                 closeField="close"
                 lowField="low"
                 highField="high"
-                aggregate="avg"
+                categoryField="date"
+            />
+            <ChartSeriesItem
+                data={props.data.filter((d: any) => props.range.start.getTime() <= d.timestamp && d.timestamp <= props.range.end.getTime())}
+                type="column"
+                field={"change"}
+                axis={"valueChangeAxis"}
+                colorField="color"
                 categoryField="date"
             />
             <ChartSeriesItem
                 data={props.data}
-                type="column"
-                field={"change"}
-                axis={"change"}
-                colorField="color"
-                categoryField="date"
+                axis="valueNavigatorAxis"
+                type="area"
+                field="volume"
+                categoryAxis="navigatorAxis"
             />
         </ChartSeries>
-        <ChartValueAxis>
+        <ChartPanes>
+            <ChartPane />
+            <ChartPane name="navigator" height={100} />
+        </ChartPanes>
+        <ChartValueAxis >
             <ChartValueAxisItem>
                 <ChartValueAxisLabels format={"{0:c}"} />
                 <ChartValueAxisCrosshair >
                     <ChartValueAxisCrosshairTooltip format={"{0:c}"} />
                 </ChartValueAxisCrosshair>
             </ChartValueAxisItem>
-            <ChartValueAxisItem min={0} max={10} visible={false} name="change">
-                <ChartValueAxisLabels />
-            </ChartValueAxisItem>
+            <ChartValueAxisItem
+                name="valueChangeAxis"
+                labels={{ visible: false }}
+                min={0}
+                max={100}
+            />
+            <ChartValueAxisItem
+                name="valueNavigatorAxis"
+                pane="navigator"
+                labels={{ visible: false }}
+            />
         </ChartValueAxis>
         <ChartCategoryAxis>
-            <ChartCategoryAxisItem type="date" baseUnit={props.interval.unit} baseUnitStep={props.interval.step}>
-                <ChartCategoryAxisCrosshair />
-                <ChartCategoryAxisLabels visible={false} />
-            </ChartCategoryAxisItem>
-        </ChartCategoryAxis>
-        <ChartNavigator>
-            <ChartNavigatorSelect from={props.range.start} to={props.range.end} />
-            <ChartNavigatorSeries >
-                <ChartNavigatorSeriesItem
-                    data={props.data}
-                    type="area"
-                    field="volume"
-                    categoryField="date"
-                />
-            </ChartNavigatorSeries>
-            <ChartNavigatorCategoryAxis type="date" baseUnit={"days"} baseUnitStep={1} />
-        </ChartNavigator>
+            <ChartCategoryAxisItem
+                labels={{ visible: false }}
+                type="category"
+                reverse={true}
+            />
+            <ChartCategoryAxisItem
+                name="change"
+            />
+            <ChartCategoryAxisItem
+                name="navigatorAxis"
+                pane={"navigator"}
+                select={{ from: props.range.start, to: props.range.end }}
+            />
+        </ChartCategoryAxis>        
+        <ChartNavigator visible={false} />
     </StockChart>)
 }
