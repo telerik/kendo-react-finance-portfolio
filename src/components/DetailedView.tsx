@@ -42,8 +42,8 @@ const ChartCell = (props: any) => {
     let data = dataService.getSymbol(props.dataItem.symbol)
     let currentHours = 0
     let closeData = data.map(item => {
-        if (item.current.getHours() !== currentHours) {
-            currentHours = item.current.getHours()
+        if (item.date.getHours() !== currentHours) {
+            currentHours = item.date.getHours()
             return item.close
         }
     })
@@ -119,5 +119,5 @@ export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) 
 }
 
 DetailedView.defaultProps = {
-    symbols: ["SNAP", "TWTR", "VOD.L"]
+    symbols: ["SNAP", "TWTR"]
 }

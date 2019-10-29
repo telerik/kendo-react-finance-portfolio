@@ -1,0 +1,36 @@
+// typography
+$roboto: "Roboto", Helvetica, Arial, sans-serif;
+$ubunto: "Ubuntu", sans-serif;
+
+$font-weight-200: 200;
+
+// colors
+$white: #fff;
+$white-50: rgba(255, 255, 255, 0.5);
+
+// header
+$header-height: 140px;
+$header-title-padding: 0.5rem;
+$profile-image-width: 58px;
+$profile-image-height: 58px;
+$profile-image-margin-top: 2rem;
+
+// footer
+$footer-padding: 10px;
+$footer-height: 43px;
+$footer-font-size: 16px;
+$progress-logo-height: 20px;
+$progress-logo-width: 100px;
+
+// dropdownlist
+$dropdownlist-font-size: 16px;
+$dropdownlist-item-selected-bg: #e9ecef;
+$dropdownlist-item-selected-text: #1c7cd5;
+
+// grid
+$grid-header-subtitle: 13px;
+$grid-row-selection-bg: #007bff;
+$grid-cell-positive-color: #5cb85c;
+$grid-cell-negative-color: #d9534f;
+$grid-sorting-icon-margin: 4px;
+$grid-sorting-icon-right-position: 20px;

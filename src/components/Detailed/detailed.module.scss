@@ -2,21 +2,21 @@
 }
 
 .list-item {
-  color: black;
-  &:hover {
-    text-decoration: none;
-    color: black;
-  }
+  // color: black;
+  // &:hover {
+  //   text-decoration: none;
+  //   color: black;
+  // }
 
-  &.list-item-selected {
-    font-weight: bold;
-    &::after {
-      content: "";
-      display: block;
-      height: 0.25rem;
-      background-color: #007bff;
-    }
-  }
+  // &.list-item-selected {
+  //   font-weight: bold;
+  //   &::after {
+  //     content: "";
+  //     display: block;
+  //     height: 0.25rem;
+  //     background-color: #007bff;
+  //   }
+  // }
 }
 
 .ddl-list-item {

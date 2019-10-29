@@ -20,7 +20,6 @@ import SNE from '../data/symbols/SNE.json';
 import TSM from '../data/symbols/TSM.json';
 import TWTR from '../data/symbols/TWTR.json';
 import TXN from '../data/symbols/TXN.json';
-import VODL from '../data/symbols/VODL.json';
 import INTU from '../data/symbols/INTU.json';
 
 const symbolsMap: any = {
@@ -45,7 +44,6 @@ const symbolsMap: any = {
     TSM,
     TWTR,
     TXN,
-    VODL,
     INTU
 }
 
@@ -58,7 +56,7 @@ const processData = (data: any) => {
         const low = Number.parseFloat(other.low);
         const volume = Number.parseFloat(other.volume);
         const formatedDate = `/Date(${new Date(current).getTime()})/`;
-        const change = Number.parseFloat(((open - close) / ((open + close) / 2) * 100).toFixed(2));
+        const change = Number.parseFloat((((open - close) / open) * 100).toFixed(2));
         const color = change >= 0 ? '#58B854' : '#DC514C';
 
         return [...acc, {

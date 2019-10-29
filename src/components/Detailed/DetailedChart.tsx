@@ -27,7 +27,6 @@ import {
     ChartValueAxisLabels,
     ChartCategoryAxisLabels,
     ChartNavigatorCategoryAxis,
-    ChartNavigatorCategoryAxisTitle
 } from '@progress/kendo-react-charts';
 
 import 'hammerjs';
@@ -40,7 +39,7 @@ const DEFAULT_RANGE = {
 }
 
 const DEFAULT_INTERVAL = {
-    unit: "minutes",
+    unit: "hours",
     step: 1
 }
 
@@ -126,8 +125,6 @@ const ChartTypePicker = (props: any) => {
 
 const ChartIntervalPicker = (props: any) => {
     const data = React.useMemo(() => [
-        { name: '1M', interval: { unit: 'minutes', step: 1 } },
-        { name: '2M', interval: { unit: 'minutes', step: 2 } },
         { name: '5M', interval: { unit: 'minutes', step: 5 } },
         { name: '15M', interval: { unit: 'minutes', step: 15 } },
         { name: '30M', interval: { unit: 'minutes', step: 30 } },
@@ -315,7 +312,7 @@ const CandleChart = (props: any) => {
                     <ChartValueAxisCrosshairTooltip format={"{0:c}"} />
                 </ChartValueAxisCrosshair>
             </ChartValueAxisItem>
-            <ChartValueAxisItem min={0} max={2} visible={false} name="change">
+            <ChartValueAxisItem min={0} max={10} visible={false} name="change">
                 <ChartValueAxisLabels />
             </ChartValueAxisItem>
         </ChartValueAxis>
@@ -326,7 +323,7 @@ const CandleChart = (props: any) => {
             </ChartCategoryAxisItem>
         </ChartCategoryAxis>
         <ChartNavigator>
-            {/* <ChartNavigatorSelect from={props.range.start} to={props.range.end} /> */}
+            <ChartNavigatorSelect from={props.range.start} to={props.range.end} />
             <ChartNavigatorSeries >
                 <ChartNavigatorSeriesItem
                     data={props.data}
@@ -335,9 +332,7 @@ const CandleChart = (props: any) => {
                     categoryField="date"
                 />
             </ChartNavigatorSeries>
-            {/* <ChartNavigatorCategoryAxis>
-                <ChartNavigatorCategoryAxis type="date" />
-            </ChartNavigatorCategoryAxis> */}
+            <ChartNavigatorCategoryAxis type="date" baseUnit={"days"} baseUnitStep={1} />
         </ChartNavigator>
     </StockChart>)
 }
