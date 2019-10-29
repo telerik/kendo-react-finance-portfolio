@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
 import { dataService } from '../services';
 import { Chart, ChartSeries, ChartSeriesItem, ChartValueAxis, ChartValueAxisItem, ChartArea, ChartCategoryAxis, ChartCategoryAxisItem } from '@progress/kendo-react-charts';
+import { useHistory } from "react-router-dom";
 export interface DetailedViewProps {
     symbols?: string[];
 }
@@ -47,19 +48,19 @@ const ChartCell = (props: any) => {
         }
     })
     let filtered = closeData.filter(item => item)
-    let color = filtered[0] < filtered[filtered.length-1] ? '#5CB85C' : '#D9534F';
+    let color = filtered[0] < filtered[filtered.length - 1] ? '#5CB85C' : '#D9534F';
     return (
         <td>
-            <Chart style={{ height: 70 }}>
+            <Chart style={{ height: 70 }} transitions={false}>
                 <ChartValueAxis>
-                    <ChartValueAxisItem visible={false} majorGridLines={{ visible: false }} axisCrossingValue={color === 'green' ? 0 : 1000}/>
+                    <ChartValueAxisItem visible={false} majorGridLines={{ visible: false }} axisCrossingValue={color === 'green' ? 0 : 1000} />
                 </ChartValueAxis>
                 <ChartCategoryAxis>
                     <ChartCategoryAxisItem majorGridLines={{ visible: false }} visible={false} />
                 </ChartCategoryAxis>
                 <ChartSeries>
                     <ChartSeriesItem data={filtered} type='line' markers={{ visible: false }} color={color} />
-                    <ChartSeriesItem data={filtered} type='area' markers={{ visible: false }} color={color} opacity={0.2}/>
+                    <ChartSeriesItem data={filtered} type='area' markers={{ visible: false }} color={color} opacity={0.2} />
                 </ChartSeries>
             </Chart>
         </td>
@@ -68,16 +69,41 @@ const ChartCell = (props: any) => {
 
 export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) => {
     const [data, setData] = React.useState<any[]>([]);
-
+    let history = useHistory()
     const fetchData = async () => {
         const newData = await dataService.getAllSymbols();
         setData(newData)
+    }
+    const selectionChange = (props: any) => {
+        let newSelectData = data.map(item => {
+            if(item.symbol === props.dataItem.symbol){
+                item.selected = !props.dataItem.selected
+            }
+            return item
+        })
+        setData(newSelectData);
+    }
+    const navigateTo = (props: any) => {
+        let newSelectData = data.map(item => {
+            if(item.symbol === props.dataItem.symbol){
+                item.selected = true
+            } else {
+                item.selected = false
+            }
+            return item
+        })
+        setData(newSelectData);
+        history.push(`/watch/${props.dataItem.symbol}`);
     }
     React.useEffect(() => { fetchData() }, []);
     return (
         <Grid
             data={data}
+            selectedField="selected"
+            onSelectionChange={selectionChange}
+            onRowClick={navigateTo}
         >
+            <GridColumn field="selected" width="50px" headerCell={props => null}/>
             <GridColumn field="symbol" title="Symbol" className='symbol-cell' />
             <GridColumn field="name" title="Name" />
             <GridColumn field="price" className='price-cell' />
@@ -87,7 +113,7 @@ export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) 
             <GridColumn field="volume_avg" title="Avg Vol" cell={NumberCell} />
             <GridColumn field="market_cap" title="Market Cap" cell={NumberCell} />
             <GridColumn field="pe" title="PE Ratio (TTM)" />
-            <GridColumn cell={ChartCell} width={200} title='1 Day Chart'/>
+            <GridColumn cell={ChartCell} width={200} title='1 Day Chart' />
         </Grid>
     )
 }

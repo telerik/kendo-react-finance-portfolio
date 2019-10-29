@@ -198,7 +198,7 @@ export const DetailedChart = () => {
             </div>
             <div className="row mt-3">
                 <div className="col">
-                    <ChartComp>
+                    <ChartComp transitions={false}>
                         <ChartSeries>
                             <ChartSeriesItem
                                 data={data}
