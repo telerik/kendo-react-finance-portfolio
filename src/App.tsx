@@ -11,6 +11,7 @@ import { DetailedView } from './components/DetailedView';
 import { HeatmapView } from './components/HeatmapView';
 import { NavigationRow, Navigation } from './components/Navigation';
 import { DetailedChart } from './components/Detailed/DetailedChart';
+import { UserProfile } from './components/UserProfile';
 
 import styles from './app.module.scss';
 import { classNames } from '@progress/kendo-react-common';
@@ -23,6 +24,9 @@ const App: React.FunctionComponent<any> = () => {
       <Header />
       <BrowserRouter >
         <main className={styles.main}>
+        <Route path={"/profile/"}>
+          <UserProfile/>
+        </Route>
           <Splitter
             orientation={'vertical'}
             defaultPanes={[

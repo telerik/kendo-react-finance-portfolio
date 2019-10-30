@@ -36,7 +36,6 @@ export const HeatmapView = () => {
             }
         ]
         const setData = (options: any) => {
-            console.log(TreeData)
             options.success(TreeData)
         }
 
@@ -66,7 +65,7 @@ export const HeatmapView = () => {
     return (
         <div>
             heatmap
-            <div id='heatmap'></div>
+            <div id='heatmap' style={{height: 600, marginBottom: 50}}></div>
         </div>
     )
 }

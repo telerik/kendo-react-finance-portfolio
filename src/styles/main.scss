@@ -6,3 +6,55 @@
 body {
   font-family: $roboto;
 }
+
+.wrapper-profile {
+  padding: 20px 100px;
+  .avatar {
+    width: 50%;
+    text-align: center;
+  }
+
+  td {
+    padding: 8px 12px;
+  }
+
+  td:first-of-type {
+    width: 200px;
+  }
+
+  td:last-of-type {
+    font-weight: bold;
+  }
+
+  .green {
+    color: green;
+  }
+
+  .red {
+    color: red;
+  }
+
+  .inner-wrapper {
+    padding: 10px 20px;
+  }
+
+  .inner-section {
+    width: 33vw;
+  }
+
+  .large {
+    font-size: 2em;
+  }
+
+  .profile-header {
+    margin-bottom: 30px;
+  }
+
+  .symbol-col {
+    color: $grid-row-selection-bg;
+  }
+
+  img {
+    border-radius: 50%;
+  }
+}
