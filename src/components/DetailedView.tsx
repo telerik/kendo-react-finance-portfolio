@@ -3,6 +3,7 @@ import { Grid, GridColumn, GridCellProps } from '@progress/kendo-react-grid';
 import { dataService } from '../services';
 import { Chart, ChartSeries, ChartSeriesItem, ChartValueAxis, ChartValueAxisItem, ChartArea, ChartCategoryAxis, ChartCategoryAxisItem } from '@progress/kendo-react-charts';
 import { useHistory } from "react-router-dom";
+import { Button } from '@progress/kendo-react-buttons';
 export interface DetailedViewProps {
     symbols?: string[];
 }
@@ -100,26 +101,38 @@ export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) 
         setData(newSelectData);
         history.push(`/watch/${props.dataItem.symbol}`);
     }
+    const deleteSelected = () => {
+        let newData = data.map(item=> {
+            if(!item.selected){
+                return item;
+            }
+        })
+        let filtered = newData.filter(item => item)
+        setData(filtered);
+    }
     React.useEffect(() => { fetchData() }, []);
     return (
-        <Grid
-            data={data}
-            selectedField="selected"
-            onSelectionChange={selectionChange}
-            onRowClick={navigateTo}
-        >
-            <GridColumn field="selected" width="50px" headerCell={props => null}/>
-            <GridColumn field="symbol" title="Symbol" className='symbol-cell' />
-            <GridColumn field="name" title="Name" />
-            <GridColumn field="price" className='price-cell' />
-            <GridColumn field="day_change" title="Change" cell={ChangeCell} />
-            <GridColumn field="change_pct" title="% Change" cell={ChangeCell} />
-            <GridColumn field="volume" title="Volume" cell={NumberCell} />
-            <GridColumn field="volume_avg" title="Avg Vol" cell={NumberCell} />
-            <GridColumn field="market_cap" title="Market Cap" cell={NumberCell} />
-            <GridColumn field="pe" title="PE Ratio (TTM)" />
-            <GridColumn cell={ChartCell} width={200} title='1 Day Chart' />
-        </Grid>
+        <>
+            <Button iconClass='k-i-delete' onClick={deleteSelected}>Remove</Button>
+            <Grid
+                data={data}
+                selectedField="selected"
+                onSelectionChange={selectionChange}
+                onRowClick={navigateTo}
+            >
+                <GridColumn field="selected" width="50px" headerCell={props => null}/>
+                <GridColumn field="symbol" title="Symbol" className='symbol-cell' />
+                <GridColumn field="name" title="Name" />
+                <GridColumn field="price" className='price-cell' />
+                <GridColumn field="day_change" title="Change" cell={ChangeCell} />
+                <GridColumn field="change_pct" title="% Change" cell={ChangeCell} />
+                <GridColumn field="volume" title="Volume" cell={NumberCell} />
+                <GridColumn field="volume_avg" title="Avg Vol" cell={NumberCell} />
+                <GridColumn field="market_cap" title="Market Cap" cell={NumberCell} />
+                <GridColumn field="pe" title="PE Ratio (TTM)" />
+                <GridColumn cell={ChartCell} width={200} title='1 Day Chart' />
+            </Grid>
+        </>
     )
 }
 
