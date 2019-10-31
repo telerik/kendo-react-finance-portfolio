@@ -4,6 +4,7 @@ import { dataService } from '../services';
 import { Chart, ChartSeries, ChartSeriesItem, ChartValueAxis, ChartValueAxisItem, ChartArea, ChartCategoryAxis, ChartCategoryAxisItem } from '@progress/kendo-react-charts';
 import { useHistory } from "react-router-dom";
 import { Button } from '@progress/kendo-react-buttons';
+import { DropDownList } from '@progress/kendo-react-dropdowns';
 export interface DetailedViewProps {
     symbols?: string[];
 }
@@ -75,10 +76,12 @@ class ChartCell extends React.Component<GridCellProps>{
 
 export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) => {
     const [data, setData] = React.useState<any[]>([]);
+    const [dropDownData, setDropDownData] = React.useState<any[]>([]);
     let history = useHistory()
     const fetchData = async () => {
         const newData = await dataService.getAllSymbols();
-        setData(newData)
+        setData(newData.slice(0, newData.length / 2))
+        setDropDownData(newData.slice(newData.length / 2, newData.length))
     }
     const selectionChange = (props: any) => {
         let newSelectData = data.map(item => {
@@ -110,10 +113,33 @@ export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) 
         let filtered = newData.filter(item => item)
         setData(filtered);
     }
+
+    const AddButtonRender = (props: any) => {
+        return <Button {...props}>Add new</Button>
+    }
+    const handleDropDownClose = (props: any) => {
+        let newData = [...data]
+        let newDropDownListData = [...dropDownData]
+        if(newDropDownListData.length > 0 && props.target.value){
+            let index = newDropDownListData.findIndex(item => item.symbol === props.target.value.symbol)
+            newDropDownListData.splice(index, 1);
+            newData.unshift(props.target.value);
+            setDropDownData(newDropDownListData);
+            setData(newData);
+        }
+    }
     React.useEffect(() => { fetchData() }, []);
     return (
         <>
             <Button iconClass='k-i-delete' onClick={deleteSelected}>Remove</Button>
+            <DropDownList data={dropDownData}
+                textField='symbol'
+                valueRender={AddButtonRender}
+                className="add-new"
+                style={{width: 60}}
+                popupSettings={{width: "300px"}}
+                onClose={handleDropDownClose}
+            />
             <Grid
                 data={data}
                 selectedField="selected"

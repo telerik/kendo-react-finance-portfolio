@@ -7,6 +7,10 @@ body {
   font-family: $roboto;
 }
 
+.add-new .k-select {
+  display: none;
+}
+
 .wrapper-profile {
   padding: 20px 100px;
   .avatar {
