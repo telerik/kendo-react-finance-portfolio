@@ -11,7 +11,7 @@ export const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
     return (
         <div className={classNames(props.className)}>
             <ButtonGroup>
-                <Link to="/watch"><Button>Result List</Button></Link>
+                <Link to="/stocks"><Button>Result List</Button></Link>
                 <Link to="/heatmap"><Button>Heatmap View</Button></Link>
             </ButtonGroup>
         </div>

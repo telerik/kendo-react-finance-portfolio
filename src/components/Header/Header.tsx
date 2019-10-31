@@ -9,7 +9,7 @@ export const Header: React.FunctionComponent<any> = () => {
             style={{ background: `url(${headerBg})` }}
         >
             <div className="container-fluid pt-4 pb-2">
-                <h1 className="mb-0 header-title">Stock watchlist</h1>
+                <h1 className="mb-0 header-title">Stock stockslist</h1>
                 <p>currency in USD</p>
             </div>
         </header >

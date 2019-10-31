@@ -349,6 +349,7 @@ const AreaChart = (props: any) => {
                 type="area"
                 field="close"
                 color="#007BFF"
+                // eslint-disable-next-line
                 style={"smooth"}
                 categoryAxis="close"
                 axis="valueCloseAxis"
@@ -416,6 +417,7 @@ const LineChart = (props: any) => {
                 type="line"
                 field="close"
                 color="#007BFF"
+                // eslint-disable-next-line
                 style="smooth"
                 categoryAxis="close"
                 axis="valueCloseAxis"

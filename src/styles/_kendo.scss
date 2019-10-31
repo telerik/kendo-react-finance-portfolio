@@ -1,6 +1,5 @@
 // colors
 $accent: #1c7cd5;
-$text-color: #373a3c;
 
 // buttons
 $button-bg: white;
@@ -20,7 +19,10 @@ $dropdownlist-focused-border: transparent;
 $dropdownlist-focused-shadow: none;
 $dropdownlist-hovered-border: none;
 $dropdownlist-border: transparent;
-$dropdownlist-text: $text-color;
+// $dropdownlist-text: rgba(255, 255, 255, 0.5);
+
+// inputs
+$input-focused-border: $accent;
 
 // grid
 $grid-padding-x: 0.4rem;
@@ -30,9 +32,11 @@ $grid-cell-vertical-border-width: 0;
 $grid-cell-horizontal-border-width: 1px;
 $grid-header-bg: #eceeef;
 $grid-header-text: #55595c;
+$grid-sorting-index-font-size: 20px;
 
-// popup
-$popup-padding-y: 0;
+// dialog
+$dialog-buttongroup-padding-x: 15px;
+$dialog-buttongroup-padding-y: 15px;
 
 @import "~@progress/kendo-theme-bootstrap/scss/button";
 @import "~@progress/kendo-theme-bootstrap/scss/grid";
@@ -44,6 +48,8 @@ $popup-padding-y: 0;
 @import "~@progress/kendo-theme-bootstrap/scss/dropdownlist";
 @import "~@progress/kendo-theme-bootstrap/scss/dataviz";
 @import "~@progress/kendo-theme-bootstrap/scss/tooltip";
+@import "~@progress/kendo-theme-bootstrap/scss/common/icons";
+@import "~@progress/kendo-theme-bootstrap/scss/popup";
 
 .k-splitbar {
   box-shadow: 5px 5px 5px rgba(black, 0.2);
@@ -56,4 +62,18 @@ $popup-padding-y: 0;
 
 .k-pane:not(.k-pane-static) {
   background-color: rgba(#eceeef, 0.5);
+}
+
+.k-grid th.k-header {
+  color: $text-light;
+  font-weight: bold;
+  line-height: 1;
+  vertical-align: middle;
+
+  & > a.k-link {
+    // padding-top: 0;
+    // padding-bottom: 0;
+    // margin-top: auto;
+    // margin-bottom: auto;
+  }
 }
