@@ -12,6 +12,7 @@
     "@progress/kendo-react-inputs": "^3.6.0",
     "@progress/kendo-react-intl": "^3.6.0",
     "@progress/kendo-react-layout": "^3.6.0",
+    "@progress/kendo-react-tooltip": "^3.6.0",
     "@progress/kendo-theme-bootstrap": "^4.4.0",
     "@progress/kendo-ui": "^2019.3.1023",
     "@types/jest": "24.0.19",

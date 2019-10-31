@@ -2,7 +2,7 @@ import * as React from 'react';
 import { dataService } from '../services';
 import $ from 'jquery';
 import '@progress/kendo-ui';
-import { setData } from '@telerik/kendo-intl';
+import { Tooltip } from '@progress/kendo-react-tooltip';
 
 export const HeatmapView = () => {
     const fetchData = async () => {
@@ -40,7 +40,8 @@ export const HeatmapView = () => {
         }
 
         const renderItem = (props: any) => {
-            return `<span>${props.text}<br/>${props.dataItem.change}%</span>`;
+            let title = JSON.stringify(props.dataItem)
+            return `<span title=${title}>${props.text}<br/>${props.dataItem.change}%</span>`;
         }
 
         $("#heatmap").kendoTreeMap({
@@ -61,11 +62,24 @@ export const HeatmapView = () => {
         })
 
     }
+    const toolTipTemplate = (props: any) => {
+        let item = JSON.parse(props.title)
+        return (
+          <span>
+            <span>Company: {item.name}</span>
+            <br/>
+            <span>Change: {item.change}%</span>
+            <br/>
+            <span>Market cap: {item.value}</span>
+          </span>
+        )
+    }
     React.useEffect(() => { fetchData() }, []);
     return (
         <div>
-            heatmap
-            <div id='heatmap' style={{height: 600, marginBottom: 50}}></div>
+            <Tooltip showCallout={false} content={toolTipTemplate}>
+                <div id='heatmap' style={{height: 600, marginBottom: 50}}></div>
+            </Tooltip>
         </div>
     )
 }
