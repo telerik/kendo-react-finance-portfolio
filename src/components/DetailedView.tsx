@@ -32,7 +32,7 @@ const ChangeCell = (props: any) => {
 }
 
 const NumberCell = (props: any) => {
-    const value = props.dataItem[props.field]
+    const value = props.dataItem[props.field];
     return (
         <td>
             {nFormatter(value)}
@@ -85,7 +85,7 @@ export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) 
     }
     const selectionChange = (props: any) => {
         let newSelectData = data.map(item => {
-            if(item.symbol === props.dataItem.symbol){
+            if (item.symbol === props.dataItem.symbol) {
                 item.selected = !props.dataItem.selected
             }
             return item
@@ -94,7 +94,7 @@ export const DetailedView: React.FunctionComponent<DetailedViewProps> = (props) 
     }
     const navigateTo = (props: any) => {
         let newSelectData = data.map(item => {
-            if(item.symbol === props.dataItem.symbol){
+            if (item.symbol === props.dataItem.symbol) {
                 item.selected = true
             } else {
                 item.selected = false

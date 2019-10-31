@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { DateRangePicker, DateInputProps } from '@progress/kendo-react-dateinputs';
-import { addDays } from '@progress/kendo-date-math';
+import { DateRangePicker } from '@progress/kendo-react-dateinputs';
+import { MS_PER_DAY } from '@progress/kendo-date-math';
 import { classNames } from '@progress/kendo-react-common';
 import { DropDownList, ListItemProps } from '@progress/kendo-react-dropdowns';
 
@@ -19,26 +19,19 @@ import {
     Chart,
     ChartCategoryAxis,
     ChartCategoryAxisItem,
-    ChartCategoryAxisCrosshair,
     ChartValueAxis,
     ChartValueAxisItem,
-    ChartValueAxisCrosshair,
-    ChartValueAxisCrosshairTooltip,
-    ChartValueAxisLabels,
-    ChartCategoryAxisLabels,
     ChartNavigatorCategoryAxis,
-    ChartPanes,
-    ChartPane,
-    ChartNavigatorPane,
 } from '@progress/kendo-react-charts';
 
 import 'hammerjs';
 import styles from './detailed.module.scss';
 import { dataService } from '../../services';
+import { useInternationalization } from '@progress/kendo-react-intl';
 
 const DEFAULT_RANGE = {
-    start: new Date(2019, 9, 24),
-    end: addDays(new Date(2019, 9, 24), 1)
+    start: new Date(2019, 9, 20),
+    end: new Date(2019, 9, 23)
 }
 
 const DEFAULT_INTERVAL = {
@@ -100,9 +93,9 @@ const customIntervalValueRender = (el: any, value: any) => (
 
 const ChartTypePicker = (props: any) => {
     const data = React.useMemo(() => [
+        { name: 'Candle', icon: candleIcon, type: CHART_TYPES.candle },
         { name: 'Line', icon: lineIcon, type: CHART_TYPES.line },
-        { name: 'Area', icon: areaIcon, type: CHART_TYPES.area },
-        { name: 'Candle', icon: candleIcon, type: CHART_TYPES.candle }
+        { name: 'Area', icon: areaIcon, type: CHART_TYPES.area }
     ], []);
 
     const handleChange = React.useCallback(
@@ -117,6 +110,7 @@ const ChartTypePicker = (props: any) => {
     return (
         <DropDownList
             data={data}
+            style={{ width: 130 }}
             value={data.find(i => i.type === props.value)}
             onChange={handleChange}
             textField={'name'}
@@ -135,7 +129,6 @@ const ChartIntervalPicker = (props: any) => {
         { name: '4H', interval: { unit: 'hours', step: 4 } },
         { name: '1D', interval: { unit: 'days', step: 1 } },
         { name: '1W', interval: { unit: 'weeks', step: 1 } },
-        { name: '1M', interval: { unit: 'months', step: 1 } }
     ], []);
 
     const handleChange = React.useCallback(
@@ -150,12 +143,101 @@ const ChartIntervalPicker = (props: any) => {
     return (
         <DropDownList
             data={data}
+            style={{ width: 150 }}
             value={data.find(i => i.interval.unit === props.value.unit && i.interval.step === props.value.step)}
             onChange={handleChange}
             textField={'name'}
             valueRender={customIntervalValueRender}
         />
     )
+}
+
+const ChartRangePicker = (props: any) => {
+    const [value, setValue] = React.useState(props.value);
+
+    const handleChange = React.useCallback(
+        (event) => {
+            setValue(event.value);
+            if (event.value.start && event.value.end) {
+                props.onChange.call(undefined, event);
+            }
+        },
+        [setValue, props.onChange]
+    )
+
+    const sync = () => {
+        setValue(props.value);
+    }
+
+    React.useEffect(sync, [props.value]);
+
+    return (
+        <DateRangePicker
+            value={value}
+            onChange={handleChange}
+            startDateInputSettings={{ label: '', width: 130 }}
+            endDateInputSettings={{ label: '', width: 130 }}
+        />
+    )
+}
+
+const options = [
+    { name: '1H', duration: MS_PER_DAY / 24 },
+    { name: '4H', duration: MS_PER_DAY / 6 },
+    { name: '12H', duration: MS_PER_DAY / 2 },
+    { name: '1D', duration: MS_PER_DAY },
+    { name: '4D', duration: MS_PER_DAY * 4 },
+    { name: '1W', duration: MS_PER_DAY * 7 },
+]
+const ChartPredefinedRange = (props: any) => {
+    const [selected, setSelected] = React.useState<string | null>(null);
+
+    const handleClick = React.useCallback(
+        (event: React.SyntheticEvent<HTMLAnchorElement>) => {
+            const name = (event.target as HTMLElement).getAttribute("data-name");
+            setSelected(name);
+            if (!props.last) { return; }
+            const end = props.last;
+            const start = new Date(end.getTime() - Number((event.target as HTMLElement).getAttribute("data-duration")));
+            const value = {
+                start,
+                end
+            }
+            if (props.onChange) {
+                props.onChange.call(undefined, { value })
+            }
+        }, [props.last, props.onChange])
+
+    const clear = () => {
+        const current = options.find(o => o.name === selected);
+        if (current && props.value.start && props.last.getTime() - current.duration !== props.value.start.getTime()) {
+            setSelected(null);
+        }
+    }
+
+    React.useEffect(clear, [props.value, props.last, selected]);
+    return (
+        <div className={classNames("d-inline-block", styles['end-date-input'])}>
+            <ul className="k-reset d-flex">
+                {options.map((item, id) =>
+                    <li className="ml-3" key={item.name} >
+                        <a
+                            href="#"
+                            onClick={handleClick}
+                            data-name={item.name}
+                            data-duration={item.duration}
+                            className={classNames(
+                                'list-item',
+                                styles['list-item'],
+                                { [styles['list-item-selected']]: item.name === selected },
+                            )}
+                        >
+                            {item.name}
+                        </a>
+                    </li>
+                )}
+            </ul>
+        </div>)
 }
 
 export const DetailedChart = () => {
@@ -189,26 +271,31 @@ export const DetailedChart = () => {
             case CHART_TYPES.candle:
                 return <CandleChart data={data} interval={interval} range={range} onRangeChange={handleRangeChange} />;
             case CHART_TYPES.line:
-                return <LineChart data={data} interval={interval} />;
+                return <LineChart data={data} interval={interval} range={range} />;
             case CHART_TYPES.area:
-                return <AreaChart data={data} interval={interval} />;
+                return <AreaChart data={data} interval={interval} range={range} />;
             default:
-                return <LineChart data={data} interval={interval} />;
+                return <LineChart data={data} interval={interval} range={range} />;
         }
     }, [type, interval, data, range, handleRangeChange]);
 
     return (
         <>
             <div className="row">
-                <div className="col text-left">
-                    <DateRangePicker
-                        defaultValue={range}
+                <div className="col-4 text-left">
+                    <ChartRangePicker
+                        value={range}
                         onChange={handleRangeChange}
-                        startDateInputSettings={{ label: '' }}
-                        endDateInputSettings={{ label: '' }}
                     />
                 </div>
-                <div className="col text-right">
+                <div className="col-4 text-center m-auto">
+                    <ChartPredefinedRange
+                        value={range}
+                        onChange={handleRangeChange}
+                        last={(data && data.length) ? new Date(data[data.length - 1].timestamp) : null}
+                    />
+                </div>
+                <div className="col-4 text-right">
                     <ChartIntervalPicker
                         value={interval}
                         onChange={handleIntervalChange}
@@ -219,8 +306,8 @@ export const DetailedChart = () => {
                     />
                 </div>
             </div>
-            <div className="row mt-3">
-                <div className="col">
+            <div className="row mt-3" style={{ marginLeft: -72 }}>
+                <div className="col" >
                     {chartComp}
                 </div>
             </div>
@@ -229,61 +316,166 @@ export const DetailedChart = () => {
 }
 
 const AreaChart = (props: any) => {
+    const plotBands = React.useMemo(
+        () => {
+            let result = [];
+            let index = 0;
+            if (!props.range.start || !props.range.end) { return; }
+            const step = props.interval.unit === 'hours'
+                ? props.interval.step * (MS_PER_DAY / 4)
+                : props.interval.step * (MS_PER_DAY / 24);
+            for (let i = props.range.start.getTime();
+                i < props.range.end.getTime();
+                i += step) {
+                if (index++ % 2 === 0) {
+                    result.push({
+                        color: '#000',
+                        opacity: 0.03,
+                        from: new Date(i),
+                        to: new Date(i + step)
+                    })
+                }
+            }
+
+            return result;
+        }, [props.range.start, props.range.end, props.interval.step, props.interval.unit]);
+
     return (<Chart>
         <ChartSeries>
             <ChartSeriesItem
                 data={props.data}
                 type="area"
                 field="close"
+                color="#007BFF"
                 style="smooth"
+                categoryAxis="close"
+                axis="valueCloseAxis"
                 categoryField="date"
+                markers={{ visible: false, border: { color: "#007BFF" } }}
+                tooltip={{ background: "#007BFF", visible: true, format: "{0:c}" }}
             />
         </ChartSeries>
         <ChartValueAxis>
-            <ChartValueAxisItem >
-                <ChartValueAxisLabels format={"{0:c}"} />
-                <ChartValueAxisCrosshair >
-                    <ChartValueAxisCrosshairTooltip format={"{0:c}"} />
-                </ChartValueAxisCrosshair>
-            </ChartValueAxisItem>
+            <ChartValueAxisItem
+                name="valueCloseAxis"
+                labels={{ format: "{0:c}" }}
+            />
         </ChartValueAxis>
         <ChartCategoryAxis>
-            <ChartCategoryAxisItem baseUnit={props.interval.unit} baseUnitStep={props.interval.step}>
-                <ChartCategoryAxisCrosshair />
-            </ChartCategoryAxisItem>
+            <ChartCategoryAxisItem
+                type="date"
+                name="close"
+                plotBands={plotBands}
+                baseUnit={props.interval.unit}
+                baseUnitStep={props.interval.step}
+                maxDivisions={20}
+                min={props.range.start}
+                max={props.range.end}
+                crosshair={{
+                    visible: true,
+                    tooltip: { visible: true, }
+                }}
+            />
         </ChartCategoryAxis>
     </Chart>)
 }
 
 const LineChart = (props: any) => {
+    const intl = useInternationalization();
+
+    const plotBands = React.useMemo(
+        () => {
+            let result = [];
+            let index = 0;
+            if (!props.range.start || !props.range.end) { return; }
+            const step = props.interval.unit === 'hours'
+                ? props.interval.step * (MS_PER_DAY / 4)
+                : props.interval.step * (MS_PER_DAY / 24);
+            for (let i = props.range.start.getTime();
+                i < props.range.end.getTime();
+                i += step) {
+                if (index++ % 2 === 0) {
+                    result.push({
+                        color: '#000',
+                        opacity: 0.03,
+                        from: new Date(i),
+                        to: new Date(i + step)
+                    })
+                }
+            }
+
+            return result;
+        }, [props.range]);
+
     return (<Chart>
         <ChartSeries>
             <ChartSeriesItem
                 data={props.data}
                 type="line"
                 field="close"
+                color="#007BFF"
                 style="smooth"
+                categoryAxis="close"
+                axis="valueCloseAxis"
                 categoryField="date"
+                markers={{ visible: true, border: { color: '#007BFF' } }}
+                tooltip={{ background: "#007BFF", visible: true, format: "{0:c}" }}
+            />
+            <ChartSeriesItem
+                data={props.data}
+                type="column"
+                field={"change"}
+                axis={"valueChangeAxis"}
+                categoryAxis="change"
+                colorField="color"
+                border={{ color: 'transparent' }}
+                categoryField="date"
+                gap={0.75}
+                tooltip={{ format: "{0:p2}" }}
             />
         </ChartSeries>
         <ChartValueAxis>
-            <ChartValueAxisItem >
-                <ChartValueAxisLabels format={"{0:c}"} />
-                <ChartValueAxisCrosshair >
-                    <ChartValueAxisCrosshairTooltip format={"{0:c}"} />
-                </ChartValueAxisCrosshair>
-            </ChartValueAxisItem>
+            <ChartValueAxisItem
+                name="valueCloseAxis"
+                labels={{ format: "{0:c}" }}
+            />
+            <ChartValueAxisItem
+                name="valueChangeAxis"
+                min={0}
+                max={0.4}
+                visible={false}
+            />
         </ChartValueAxis>
         <ChartCategoryAxis>
-            <ChartCategoryAxisItem baseUnit={props.interval.unit} baseUnitStep={props.interval.step}>
-                <ChartCategoryAxisCrosshair />
-            </ChartCategoryAxisItem>
+            <ChartCategoryAxisItem
+                type="date"
+                baseUnit={"days"}
+                name="close"
+                labels={{ content: (e) => e.value.getDate() === 1 ? intl.formatDate(e.value, "MMM") : e.value.getDate() }}
+                min={props.range.start}
+                max={props.range.end}
+            />
+            <ChartCategoryAxisItem
+                type="date"
+                name="change"
+                line={{ visible: false }}
+                majorTicks={{ visible: false }}
+                minorTicks={{ visible: false }}
+                plotBands={plotBands}
+                baseUnit={props.interval.unit}
+                baseUnitStep={props.interval.step}
+                min={props.range.start}
+                max={props.range.end}
+                labels={{ visible: false }}
+            />
         </ChartCategoryAxis>
     </Chart>)
 }
 
 const CandleChart = (props: any) => {
-    const handleSelectStart = (args: any) => {
+    const intl = useInternationalization();
+
+    const handleSelectEnd = (args: any) => {
         props.onRangeChange.call(undefined, {
             value: {
                 start: args.from,
@@ -291,73 +483,134 @@ const CandleChart = (props: any) => {
             }
         });
     }
-    return (<StockChart transitions={false} onSelectEnd={handleSelectStart}>
-        <ChartSeries>
-            <ChartSeriesItem
-                data={props.data.filter((d: any) => props.range.start.getTime() <= d.timestamp && d.timestamp <= props.range.end.getTime())}
-                colorField="color"
-                downColorField="color"
-                type="candlestick"
-                openField="open"
-                closeField="close"
-                lowField="low"
-                highField="high"
-                categoryField="date"
-            />
-            <ChartSeriesItem
-                data={props.data.filter((d: any) => props.range.start.getTime() <= d.timestamp && d.timestamp <= props.range.end.getTime())}
-                type="column"
-                field={"change"}
-                axis={"valueChangeAxis"}
-                colorField="color"
-                categoryField="date"
-            />
-            <ChartSeriesItem
-                data={props.data}
-                axis="valueNavigatorAxis"
-                type="area"
-                field="volume"
-                categoryAxis="navigatorAxis"
-            />
-        </ChartSeries>
-        <ChartPanes>
-            <ChartPane />
-            <ChartPane name="navigator" height={100} />
-        </ChartPanes>
-        <ChartValueAxis >
-            <ChartValueAxisItem>
-                <ChartValueAxisLabels format={"{0:c}"} />
-                <ChartValueAxisCrosshair >
-                    <ChartValueAxisCrosshairTooltip format={"{0:c}"} />
-                </ChartValueAxisCrosshair>
-            </ChartValueAxisItem>
-            <ChartValueAxisItem
-                name="valueChangeAxis"
-                labels={{ visible: false }}
-                min={0}
-                max={100}
-            />
-            <ChartValueAxisItem
-                name="valueNavigatorAxis"
-                pane="navigator"
-                labels={{ visible: false }}
-            />
-        </ChartValueAxis>
-        <ChartCategoryAxis>
-            <ChartCategoryAxisItem
-                labels={{ visible: false }}
-                type="category"
-                reverse={true}
-            />
-            <ChartCategoryAxisItem
-                name="change"
-            />
-            <ChartCategoryAxisItem
-                name="navigatorAxis"
-                pane={"navigator"}
-                select={{ from: props.range.start, to: props.range.end }}
-            />
-        </ChartCategoryAxis>        
-        <ChartNavigator visible={false} />
-    </StockChart>)
+
+    const customAggregate = React.useMemo(
+        () => ({
+            open: (val: any[]) => val[0],
+            close: (val: any[]) => val[val.length - 1],
+            high: (val: any[]) => Math.max(...val),
+            low: (val: any[]) => Math.min(...val),
+            volume: (val: any[]) => val[0]
+        }),
+        [])
+
+    const customChangeAggregate = React.useCallback(
+        (_values, _, dataItems) => {
+            const first = dataItems[0];
+            const last = dataItems[dataItems.length - 1];
+            return Math.abs((last.close - first.open) / dataItems.length / 10);
+        },
+        []
+    )
+
+    const plotBands = React.useMemo(
+        () => {
+            let result = [];
+            let index = 0;
+            if (!props.range.start || !props.range.end) { return; }
+            const step = props.interval.unit === 'hours'
+                ? props.interval.step * (MS_PER_DAY / 4)
+                : props.interval.step * (MS_PER_DAY / 24);
+            for (let i = props.range.start.getTime();
+                i < props.range.end.getTime();
+                i += step) {
+                if (index++ % 2 === 0) {
+                    result.push({
+                        color: '#000',
+                        opacity: 0.03,
+                        from: new Date(i),
+                        to: new Date(i + step)
+                    })
+                }
+            }
+
+            return result;
+        }, [props.range]);
+
+    return (
+        <StockChart
+            renderAs="canvas"
+            zoomable={false}
+            transitions={false}
+            onSelectEnd={handleSelectEnd}
+        >
+            <ChartSeries>
+                <ChartSeriesItem
+                    data={props.data}
+                    colorField="color"
+                    downColorField="color"
+                    type="candlestick"
+                    openField="open"
+                    closeField="close"
+                    lowField="low"
+                    highField="high"
+                    categoryField="date"
+                    aggregate={customAggregate}
+                    gap={0.75}
+                    border={{ color: 'transparent' }}
+                    tooltip={{
+                        format: `
+                        <table>
+                        <tbody>
+                        <tr><th>{4:t}</th><th>{4:d/M}</th></tr> 
+                        <tr><td>Open:</td> <td>{0:c2}</td></tr>
+                        <tr><td>High:</td><td>{1:c2}</td></tr>
+                        <tr><td>Low:</td><td>{2:c2}</td></tr>
+                        <tr><td>Close:</td><td>{3:c2}</td></tr>
+                        </tbody>
+                        </table>
+                    `}}
+                />
+                <ChartSeriesItem
+                    data={props.data}
+                    type="column"
+                    field={"change"}
+                    axis={"valueChangeAxis"}
+                    colorField="color"
+                    border={{ color: 'transparent' }}
+                    categoryField="date"
+                    gap={0.75}
+                    aggregate={customChangeAggregate}
+                    tooltip={{ format: "{0:p2}" }}
+                />
+            </ChartSeries>
+            <ChartValueAxis>
+                <ChartValueAxisItem
+                    labels={{ format: "{0:c}" }}
+                    crosshair={{ visible: true }}
+                />
+                <ChartValueAxisItem
+                    name="valueChangeAxis"
+                    min={0}
+                    max={0.4}
+                    visible={false}
+                />
+            </ChartValueAxis>
+            <ChartCategoryAxis>
+                <ChartCategoryAxisItem
+                    crosshair={{ visible: true }}
+                    baseUnit={props.interval.unit}
+                    baseUnitStep={props.interval.step}
+                    plotBands={plotBands}
+                    labels={{ visible: false }}
+                />
+            </ChartCategoryAxis>
+            <ChartNavigator>
+                <ChartNavigatorSelect from={props.range.start} to={props.range.end} />
+                <ChartNavigatorSeries>
+                    <ChartNavigatorSeriesItem
+                        data={props.data}
+                        type="area"
+                        field="close"
+                        categoryField="date"
+                        tooltip={{ visible: false }}
+                        highlight={{ visible: false }}
+                    />
+                </ChartNavigatorSeries>
+                <ChartNavigatorCategoryAxis
+                    baseUnit={"days"}
+                    labels={{ content: (e) => e.value.getDate() === 1 ? intl.formatDate(e.value, "MMM") : e.value.getDate() }}
+                />
+            </ChartNavigator>
+        </StockChart>)
 }

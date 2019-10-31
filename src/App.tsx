@@ -52,7 +52,7 @@ const App: React.FunctionComponent<any> = () => {
               <div className="container">
                 <Switch >
                   <Route path={"/watch"}>
-                    <DetailedView />
+                    {/* <DetailedView /> */}
                   </Route>
                   <Route path={"/heatmap"}>
                     <HeatmapView />
