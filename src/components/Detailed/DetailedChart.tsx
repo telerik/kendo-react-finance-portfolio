@@ -219,7 +219,7 @@ const ChartPredefinedRange = (props: any) => {
     return (
         <div className={classNames("d-inline-block", styles['end-date-input'])}>
             <ul className="k-reset d-flex">
-                {options.map((item, id) =>
+                {options.map((item) =>
                     <li className="ml-3" key={item.name} >
                         <a
                             href="#"
@@ -247,9 +247,11 @@ export const DetailedChart = () => {
     const [interval, setInterval] = React.useState(DEFAULT_INTERVAL);
     const [type, setType] = React.useState<CHART_TYPES>(CHART_TYPES.candle);
 
-    const handleRangeChange = (event: any) => {
-        setRange(event.value);
-    }
+    const handleRangeChange = React.useMemo(
+        () => (event: any) => {
+            setRange(event.value);
+        },
+        [])
 
     const handleTypeChange = (event: any) => {
         setType(event.value);
@@ -262,7 +264,7 @@ export const DetailedChart = () => {
     const fetchData = React.useCallback(async () => {
         const newData = await dataService.getSymbol(symbol);
         setData(newData)
-    }, [dataService, symbol])
+    }, [symbol])
 
     React.useEffect(() => { fetchData() }, [fetchData]);
 
@@ -347,7 +349,7 @@ const AreaChart = (props: any) => {
                 type="area"
                 field="close"
                 color="#007BFF"
-                style="smooth"
+                style={"smooth"}
                 categoryAxis="close"
                 axis="valueCloseAxis"
                 categoryField="date"
@@ -405,7 +407,7 @@ const LineChart = (props: any) => {
             }
 
             return result;
-        }, [props.range]);
+        }, [props.range, props.interval.unit, props.interval.step]);
 
     return (<Chart>
         <ChartSeries>
@@ -525,7 +527,7 @@ const CandleChart = (props: any) => {
             }
 
             return result;
-        }, [props.range]);
+        }, [props.range, props.interval.unit, props.interval.step]);
 
     return (
         <StockChart
