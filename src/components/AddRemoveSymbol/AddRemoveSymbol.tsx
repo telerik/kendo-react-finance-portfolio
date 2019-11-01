@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { classNames } from '@progress/kendo-react-common';
 import { Button } from '@progress/kendo-react-buttons';
-import { AutoComplete, DropDownList } from '@progress/kendo-react-dropdowns';
-import { Popup } from '@progress/kendo-react-popup';
-import { AddSymbol } from './AddSymbol';
+import { DropDownList, DropDownListFilterChangeEvent } from '@progress/kendo-react-dropdowns';
 import { dataService } from '../../services';
 import styles from './add.module.scss';
 import { SymbolsContext } from '../../context/SymbolsContext';
-import { SectorContext, SECTOR } from '../../context/SectorContext';
+import { SectorContext } from '../../context/SectorContext';
+import { filterBy } from "@progress/kendo-data-query";
+import { FilterDescriptor } from '@progress/kendo-react-dropdowns/dist/npm/common/filterDescriptor';
 
 export interface AddRemoveSymbolProps {
     className?: string;
@@ -40,6 +40,7 @@ const customValueRender = (el: any) => (
 export const AddRemoveSymbol = (props: AddRemoveSymbolProps) => {
     const { sector } = React.useContext(SectorContext);
     const { symbols, onSymbolsChange, onSymbolsRemove } = React.useContext(SymbolsContext);
+    const [filter, setFilter] = React.useState<string>("");
     const [allSymbols, setAllSymbols] = React.useState([]);
 
     const handleRemoveClick = React.useCallback(
@@ -59,9 +60,14 @@ export const AddRemoveSymbol = (props: AddRemoveSymbolProps) => {
         [sector]
     );
 
+    const handleFilterChange = React.useCallback(
+        (event: DropDownListFilterChangeEvent) => { setFilter(event.filter.value) },
+        [setFilter]
+    );
+
     const handleSymbolsAdd = React.useCallback(
         (event) => {
-            if (onSymbolsChange) {
+            if (onSymbolsChange && event.target && event.target.value && event.target.value.symbol) {
                 const newSymbols = !symbols[sector].some((s: any) => s === event.target.value.symbol)
                     ? symbols[sector].concat([event.target.value.symbol])
                     : symbols[sector];
@@ -82,9 +88,15 @@ export const AddRemoveSymbol = (props: AddRemoveSymbolProps) => {
                 className="dropdown-icon-before"
                 value={null}
                 onChange={handleSymbolsAdd}
-                data={allSymbols}
+                data={filterBy(allSymbols, {
+                    logic: 'or',
+                    filters: [
+                        { field: 'symbol', operator: "contains", value: filter },
+                        { field: "name", operator: 'contains', value: filter }
+                    ]
+                })}
                 filterable={true}
-                // onFilterChange={}
+                onFilterChange={handleFilterChange}
                 popupSettings={{
                     width: '300px'
                 }}

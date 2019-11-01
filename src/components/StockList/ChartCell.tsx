@@ -26,7 +26,7 @@ export const ChartCell = (props: GridCellProps) => {
 
     return (
         <td className={styles['chart-cell']}>
-            <Chart renderAs="canvas" style={{ height: 50 }} transitions={false}>
+            <Chart renderAs="canvas" style={{ height: 50 }} transitions={false} zoomable={false}>
                 <ChartSeries>
                     <ChartSeriesItem
                         data={data}

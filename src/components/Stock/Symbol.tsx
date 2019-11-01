@@ -26,7 +26,7 @@ export const Symbol = (props: SymbolProps) => {
         [props.symbol]
     )
 
-    const direction = data && data.length && (data[0].close < data[data.length - 1].close)
+    const direction = data && (Number(data["price_open"]) < Number(data["price"]))
         ? 'up'
         : 'down'
 

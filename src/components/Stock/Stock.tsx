@@ -347,7 +347,10 @@ const AreaChart = (props: any) => {
             return result;
         }, [props.range, props.interval.unit, props.interval.step, props.interval.duration]);
 
-    return (<Chart>
+    return (<Chart
+        renderAs="canvas"
+        zoomable={false}
+        transitions={false}>
         <ChartSeries>
             <ChartSeriesItem
                 data={props.data}
@@ -414,14 +417,17 @@ const LineChart = (props: any) => {
             return result;
         }, [props.range, props.interval.unit, props.interval.step, props.interval.duration]);
 
-    return (<Chart>
+    return (<Chart
+        renderAs="canvas"
+        zoomable={false}
+        transitions={false}
+    >
         <ChartSeries>
             <ChartSeriesItem
                 data={props.data}
                 type="line"
                 field="close"
                 color="#007BFF"
-                // eslint-disable-next-line
                 style="smooth"
                 categoryAxis="close"
                 axis="valueCloseAxis"
@@ -457,9 +463,16 @@ const LineChart = (props: any) => {
         <ChartCategoryAxis>
             <ChartCategoryAxisItem
                 type="date"
-                baseUnit={"days"}
+                baseUnit={props.interval.unit}
+                baseUnitStep={props.interval.step * 4}
                 name="close"
-                labels={{ content: (e) => e.value.getDate() === 1 ? intl.formatDate(e.value, "MMM") : e.value.getDate() }}
+                labels={{
+                    content: (e) => e.value.getDate() === 1
+                        ? intl.formatDate(e.value, "MMM")
+                        : e.value.getHours() === 0
+                            ? e.value.getDate()
+                            : ''
+                }}
                 min={props.range.start}
                 max={props.range.end}
             />
@@ -467,6 +480,7 @@ const LineChart = (props: any) => {
                 type="date"
                 name="change"
                 line={{ visible: false }}
+                crosshair={{ visible: true, tooltip: { visible: true, format: '{0:t}' } }}
                 majorTicks={{ visible: false }}
                 minorTicks={{ visible: false }}
                 plotBands={plotBands}
@@ -511,6 +525,7 @@ const CandleChart = (props: any) => {
         []
     )
 
+
     const plotBands = React.useMemo(
         () => {
             let result = [];
@@ -532,7 +547,7 @@ const CandleChart = (props: any) => {
             }
 
             return result;
-        }, [props.range, props.interval.unit, props.interval.step, props.interval.duration]);
+        }, [props.range, props.interval.duration]);
 
     return (
         <StockChart
@@ -540,8 +555,9 @@ const CandleChart = (props: any) => {
             zoomable={false}
             transitions={false}
             onSelectEnd={handleSelectEnd}
+            onZoomStart={(e) => e.preventDefault()}
         >
-            <ChartSeries>
+            <ChartSeries >
                 <ChartSeriesItem
                     data={props.data}
                     colorField="color"
@@ -602,8 +618,8 @@ const CandleChart = (props: any) => {
                     labels={{ visible: false }}
                 />
             </ChartCategoryAxis>
-            <ChartNavigator>
-                <ChartNavigatorSelect from={props.range.start} to={props.range.end} />
+            <ChartNavigator >
+                <ChartNavigatorSelect mousewheel={false} from={props.range.start} to={props.range.end} />
                 <ChartNavigatorSeries>
                     <ChartNavigatorSeriesItem
                         data={props.data}
