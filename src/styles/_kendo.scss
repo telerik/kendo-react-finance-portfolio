@@ -19,7 +19,6 @@ $dropdownlist-focused-border: transparent;
 $dropdownlist-focused-shadow: none;
 $dropdownlist-hovered-border: none;
 $dropdownlist-border: transparent;
-// $dropdownlist-text: rgba(255, 255, 255, 0.5);
 
 // inputs
 $input-focused-border: $accent;
@@ -38,6 +37,9 @@ $grid-sorting-index-font-size: 20px;
 $dialog-buttongroup-padding-x: 15px;
 $dialog-buttongroup-padding-y: 15px;
 
+// popup
+$popup-padding-y: 0;
+
 @import "~@progress/kendo-theme-bootstrap/scss/button";
 @import "~@progress/kendo-theme-bootstrap/scss/grid";
 @import "~@progress/kendo-theme-bootstrap/scss/splitter";
@@ -46,22 +48,28 @@ $dialog-buttongroup-padding-y: 15px;
 @import "~@progress/kendo-theme-bootstrap/scss/calendar";
 @import "~@progress/kendo-theme-bootstrap/scss/datetime";
 @import "~@progress/kendo-theme-bootstrap/scss/dropdownlist";
+@import "~@progress/kendo-theme-bootstrap/scss/autocomplete";
 @import "~@progress/kendo-theme-bootstrap/scss/dataviz";
 @import "~@progress/kendo-theme-bootstrap/scss/tooltip";
 @import "~@progress/kendo-theme-bootstrap/scss/common/icons";
 @import "~@progress/kendo-theme-bootstrap/scss/popup";
+@import "~@progress/kendo-theme-bootstrap/scss/numerictextbox";
+
+.k-widget.k-splitter {
+  background-color: rgba(236, 238, 239, 0.5);
+}
 
 .k-splitbar {
   box-shadow: 5px 5px 5px rgba(black, 0.2);
-  background: none;
+  background: white;
 }
 
 .k-splitbar-draggable-vertical .k-resize-handle {
   display: none;
 }
 
-.k-pane:not(.k-pane-static) {
-  background-color: rgba(#eceeef, 0.5);
+.k-pane.k-pane-static {
+  background-color: white;
 }
 
 .k-grid th.k-header {
@@ -69,11 +77,17 @@ $dialog-buttongroup-padding-y: 15px;
   font-weight: bold;
   line-height: 1;
   vertical-align: middle;
+}
 
-  & > a.k-link {
-    // padding-top: 0;
-    // padding-bottom: 0;
-    // margin-top: auto;
-    // margin-bottom: auto;
+.k-splitbar {
+  &:active {
+    background-color: transparent;
   }
+}
+
+.dropdown-icon-before {
+  border-radius: 4px;
+}
+.dropdown-icon-before .k-select {
+  order: -1;
 }

@@ -7,7 +7,7 @@ import { Tooltip } from '@progress/kendo-react-tooltip';
 export const HeatmapView = () => {
     const fetchData = async () => {
         const newData = await dataService.getAllSymbols();
-        const prizeUpItemsCollection = newData.map(item => {
+        const prizeUpItemsCollection = newData.map((item: any) => {
             if (item.change_pct.indexOf('-') !== 0) {
                 let newItem = { value: 0, name: '', change: '' }
                 newItem.value = parseInt(item.market_cap);
@@ -16,7 +16,7 @@ export const HeatmapView = () => {
                 return newItem
             }
         })
-        const prizeDownItemsCollection = newData.map(item => {
+        const prizeDownItemsCollection = newData.map((item: any) => {
             if (item.change_pct.indexOf('-') === 0) {
                 let newItem = { value: 0, name: '', change: '' }
                 newItem.value = parseInt(item.market_cap);
@@ -25,13 +25,13 @@ export const HeatmapView = () => {
                 return newItem
             }
         })
-        const prizeUpItems = prizeUpItemsCollection.filter(item => item)
-        const prizeDownItems = prizeDownItemsCollection.filter(item => item)
+        const prizeUpItems = prizeUpItemsCollection.filter((item: any) => item)
+        const prizeDownItems = prizeDownItemsCollection.filter((item: any) => item)
         let TreeData = [
             {
                 name: 'Market capitalization', value: 1, items: [
-                    { value: 1, name: 'Prize up', items: prizeUpItems, color: 'red' },
-                    { value: 1, name: 'Prize down', items: prizeDownItems, color: 'green' }
+                    { value: 1, name: "Price up", items: prizeUpItems },
+                    { value: 1, name: "Price down", items: prizeDownItems }
                 ]
             }
         ]
@@ -58,28 +58,15 @@ export const HeatmapView = () => {
             }),
             valueField: "value",
             textField: "name",
-            colors: [["#006400", "#7fb17f"], ["#ff0000", "#ff6666"]]
+            colors: [["#00AD51", "#00EF81"], ["#FF0000", "#FF8F8F"]]
         })
 
     }
-    const toolTipTemplate = (props: any) => {
-        let item = JSON.parse(props.title)
-        return (
-          <span>
-            <span>Company: {item.name}</span>
-            <br/>
-            <span>Change: {item.change}%</span>
-            <br/>
-            <span>Market cap: {item.value}</span>
-          </span>
-        )
-    }
+
     React.useEffect(() => { fetchData() }, []);
     return (
         <div>
-            <Tooltip showCallout={false} content={toolTipTemplate}>
-                <div id='heatmap' style={{height: 600, marginBottom: 50}}></div>
-            </Tooltip>
+            <div id='heatmap' style={{ height: 600, marginBottom: 50 }}></div>
         </div>
     )
 }

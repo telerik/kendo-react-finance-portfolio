@@ -1,33 +1,68 @@
 import * as React from 'react';
-import { Chart, ChartSeries, ChartSeriesItem, ChartValueAxis, ChartValueAxisItem, ChartArea, ChartCategoryAxis, ChartCategoryAxisItem } from '@progress/kendo-react-charts';
+import { Chart, ChartSeries, ChartSeriesItem, ChartValueAxis, ChartValueAxisItem, ChartCategoryAxis, ChartCategoryAxisItem } from '@progress/kendo-react-charts';
 import { dataService } from '../../services';
 import { GridCellProps } from '@progress/kendo-react-grid';
+import styles from './stock-list.module.scss';
 
 export const ChartCell = (props: GridCellProps) => {
-    let data = dataService.getSymbol(props.dataItem.symbol)
-    let currentHours = 0
-    let closeData = data.map(item => {
-        if (item.date.getHours() !== currentHours) {
-            currentHours = item.date.getHours()
-            return item.close
-        }
-    })
-    let filtered = closeData.filter(item => item)
-    let color = filtered[0] < filtered[filtered.length - 1] ? '#5CB85C' : '#D9534F';
+    const [data, setData] = React.useState<any>([]);
+    const fetchDate = React.useCallback(
+        async () => {
+            const newDate = await dataService.getOneDaySymbol(props.dataItem.symbol);
+            setData(newDate)
+        },
+        [props.dataItem.symbol]
+    )
+
+    React.useEffect(() => { fetchDate() }, [props.dataItem.symbol]);
+
+    const direction = data && data.length && (data[0].close < data[data.length - 1].close)
+        ? 'up'
+        : 'down'
+
+    const color = direction === 'down'
+        ? '#d9534f'
+        : '#5cb85c';
+
     return (
-        <td>
-            {/* <Chart style={{ height: 70 }} transitions={false}>
+        <td className={styles['chart-cell']}>
+            <Chart renderAs="canvas" style={{ height: 50 }} transitions={false}>
+                <ChartSeries>
+                    <ChartSeriesItem
+                        data={data}
+                        type='line'
+                        field="close"
+                        markers={{ visible: false }}
+                        color={color}
+                        categoryField="date"
+                    />
+                    <ChartSeriesItem
+                        data={data}
+                        type='area'
+                        field="close"
+                        categoryField="date"
+                        markers={{ visible: false }}
+                        color={color}
+                        opacity={0.2}
+                    />
+                </ChartSeries>
                 <ChartValueAxis>
-                    <ChartValueAxisItem visible={false} majorGridLines={{ visible: false }} axisCrossingValue={color === '#5CB85C' ? null : 1000} />
+                    <ChartValueAxisItem
+                        visible={false}
+                        majorGridLines={{ visible: false }}
+                        axisCrossingValue={direction === 'up' ? null : 1000}
+                    />
                 </ChartValueAxis>
                 <ChartCategoryAxis>
-                    <ChartCategoryAxisItem majorGridLines={{ visible: false }} visible={false} />
+                    <ChartCategoryAxisItem
+                        type="date"
+                        baseUnit="hours"
+                        baseUnitStep={24}
+                        majorGridLines={{ visible: false }}
+                        visible={false}
+                    />
                 </ChartCategoryAxis>
-                <ChartSeries>
-                    <ChartSeriesItem data={filtered} type='line' markers={{ visible: false }} color={color} />
-                    <ChartSeriesItem data={filtered} type='area' markers={{ visible: false }} color={color} opacity={0.2} />
-                </ChartSeries>
-            </Chart> */}
+            </Chart>
         </td>
-    )
+    );
 }

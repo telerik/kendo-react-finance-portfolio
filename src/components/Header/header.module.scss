@@ -1,5 +1,18 @@
 .header {
-  h1, p {
-      color: white;
+  h1,
+  p {
+    color: white;
+  }
+}
+
+.currency-input {
+  img {
+    width: 58px;
+    height: 58px;
+    border-radius: 100%;
+  }
+  span {
+    font-weight: 300;
+    color: white;
   }
 }

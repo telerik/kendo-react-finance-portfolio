@@ -4,80 +4,137 @@ import { Footer } from './components/Footer';
 import {
   Route,
   BrowserRouter,
-  Switch
 } from 'react-router-dom';
 
-import { StockList } from './components/StockList';
-import { HeatmapView } from './components/HeatmapView';
-import { NavigationRow, Navigation } from './components/Navigation';
-import { DetailedChart } from './components/Detailed/DetailedChart';
-import { UserProfile } from './components/UserProfile';
+import { UserProfile } from './components/User/UserProfile';
 
 import styles from './app.module.scss';
-import { classNames } from '@progress/kendo-react-common';
-import { Splitter } from '@progress/kendo-react-layout';
-import { AddRemoveSymbol } from './components/AddRemoveSymbol';
+import { CurrencyContext, CURRENCY } from './context/CurrencyContext';
+import { SectorContext, SECTOR } from './context/SectorContext';
 
+/* CLDR Data */
+
+import likelySubtags from 'cldr-core/supplemental/likelySubtags.json';
+import currencyData from 'cldr-core/supplemental/currencyData.json';
+import weekData from 'cldr-core/supplemental/weekData.json';
+
+import bgNumbers from 'cldr-numbers-full/main/bg/numbers.json';
+import bgLocalCurrency from 'cldr-numbers-full/main/bg/currencies.json';
+import bgCaGregorian from 'cldr-dates-full/main/bg/ca-gregorian.json';
+import bgDateFields from 'cldr-dates-full/main/bg/dateFields.json';
+
+import usNumbers from 'cldr-numbers-full/main/en/numbers.json';
+import usLocalCurrency from 'cldr-numbers-full/main/en/currencies.json';
+import usCaGregorian from 'cldr-dates-full/main/en/ca-gregorian.json';
+import usDateFields from 'cldr-dates-full/main/en/dateFields.json';
+
+import gbNumbers from 'cldr-numbers-full/main/en-GB/numbers.json';
+import gbLocalCurrency from 'cldr-numbers-full/main/en-GB/currencies.json';
+import gbCaGregorian from 'cldr-dates-full/main/en-GB/ca-gregorian.json';
+import gbDateFields from 'cldr-dates-full/main/en-GB/dateFields.json';
+
+import { load } from '@progress/kendo-react-intl';
+import { CustomIntlProvider } from './components/CustomIntlProvider';
+import { StockPage } from './pages/StockPage';
+import { HeatmapPage } from './pages/HeatmapPage';
+import { VirtualizedPage } from './pages/VirtualizedPage';
+import { SymbolsContext } from './context/SymbolsContext';
+
+load(
+  likelySubtags,
+  currencyData,
+  weekData,
+  bgNumbers,
+  bgLocalCurrency,
+  bgCaGregorian,
+  bgDateFields,
+  usNumbers,
+  usLocalCurrency,
+  usCaGregorian,
+  usDateFields,
+  gbNumbers,
+  gbLocalCurrency,
+  gbCaGregorian,
+  gbDateFields
+);
 
 const App: React.FunctionComponent<any> = () => {
+  const selectedSymbols = React.useRef<string[]>([]);
+  const [symbols, setSymbols] = React.useState<any>({
+    [SECTOR.HEALTHCARE]: ['SYK', "GILD", "DHR", "CVS", "BMY", "TMO", "SNY"],
+    [SECTOR.TECHNOLOGY]: ['TWTR', 'AAPL', "MSFT", "SNAP", "NVDA", "CSCO"]
+  })
+  const [sector, setSector] = React.useState<SECTOR>(SECTOR.TECHNOLOGY);
+  const [currency, setCurrency] = React.useState<CURRENCY>(CURRENCY.USD);
+
+  const locales = {
+    [CURRENCY.USD]: 'en-US',
+    [CURRENCY.BGN]: 'bg-BG',
+    [CURRENCY.GBP]: 'en-GB'
+  }
+
+  const handleCurrencyChange = React.useCallback(
+    (value: CURRENCY) => { setCurrency(value); },
+    [setCurrency]
+  )
+
+  const handleSectorChange = React.useCallback(
+    (value: SECTOR) => { setSector(value); },
+    [setSector]
+  )
+
+  const handleSymbolsChange = React.useCallback(
+    (value: string[]) => { setSymbols({ ...symbols, [sector]: value }); },
+    [setSymbols, sector]
+  )
+
+  const handleSelectedSymbolsChange = React.useCallback(
+    (value: [string]) => { selectedSymbols.current = value; },
+    [selectedSymbols, selectedSymbols.current]
+  )
+
+  const handleSymbolsRemove = React.useCallback(
+    () => {
+      const newSymbols = symbols[sector].filter((s: string) => !selectedSymbols.current.some((x) => x === s));
+      setSymbols({ ...symbols, [sector]: newSymbols })
+    },
+    [setSymbols, symbols, sector]
+  );
+
   return (
     <div className="App">
-      <Header />
-      <BrowserRouter >
-        <main className={styles.main}>
-          <Route path={"/profile/"}>
-            <UserProfile />
-          </Route>
-          <Splitter
-            orientation={'vertical'}
-            defaultPanes={[
-              { size: '600px', min: '200px' },
-              {}
-            ]}
-          >
-            <Switch>
-              <Route path={"/stocks/:symbol"}>
-                <div className={classNames(styles.detailed, "pt-4 pb-2")} >
-                  <div className="container">
-                    <DetailedChart />
-                  </div>
-                </div>
-              </Route>
-            </Switch>
-            <div className={classNames(styles.content, 'py-3')} style={{ minHeight: 600 }}>
-              <div className={"container my-3"}>
-                <NavigationRow className="row justify-content-center">
-                  <Switch>
-                    <Route path={"/stocks"}>
-                      <AddRemoveSymbol className="col-4 text-left" />
-                    </Route>
-                    <Route />
-                  </Switch>
-                  <Navigation className="col-4 flex-grow-1 text-center" />
-                  <Switch>
-                    <Route path={"/stocks"}>
-                      <AddRemoveSymbol className="col-4 text-right" />
-                    </Route>
-                    <Route />
-                  </Switch>
-                </NavigationRow>
-              </div>
-              <div className="container">
-                <Switch >
-                  <Route path={"/stocks"}>
-                    <StockList />
+      <CustomIntlProvider locale={locales[currency]}>
+        <SymbolsContext.Provider value={{
+          symbols, onSymbolsChange: handleSymbolsChange,
+          onSelectedSymbolsChange: handleSelectedSymbolsChange,
+          onSymbolsRemove: handleSymbolsRemove
+        }}>
+          <SectorContext.Provider value={{ sector, onSectorChange: handleSectorChange }}>
+            <CurrencyContext.Provider value={{ currency, onCurrencyChange: handleCurrencyChange }}>
+              <BrowserRouter >
+                <main className={styles.main}>
+                  <Route path={"/profile/"}>
+                    <UserProfile />
                   </Route>
-                  <Route path={"/heatmap"}>
-                    <HeatmapView />
+                  <Route path="/stocks/" >
+                    <Header />
+                    <StockPage />
                   </Route>
-                </Switch>
-              </div>
-            </div>
-          </Splitter>
-
-        </main>
-      </BrowserRouter>
-      <Footer />
+                  <Route path="/heatmap">
+                    <Header />
+                    <HeatmapPage />
+                  </Route>
+                  <Route path="/virtualized">
+                    <Header />
+                    <VirtualizedPage />
+                  </Route>
+                </main>
+              </BrowserRouter>
+              <Footer />
+            </CurrencyContext.Provider>
+          </SectorContext.Provider>
+        </SymbolsContext.Provider>
+      </CustomIntlProvider>
     </div>
   );
 }
