@@ -57,7 +57,7 @@ export const ChartCell = (props: GridCellProps) => {
                     <ChartCategoryAxisItem
                         type="date"
                         baseUnit="hours"
-                        baseUnitStep={24}
+                        baseUnitStep={1}
                         majorGridLines={{ visible: false }}
                         visible={false}
                     />
