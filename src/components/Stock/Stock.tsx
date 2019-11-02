@@ -8,7 +8,6 @@ import { DropDownList, ListItemProps } from '@progress/kendo-react-dropdowns';
 import { ReactComponent as areaIcon } from '../../icons/area.svg';
 import { ReactComponent as lineIcon } from '../../icons/line.svg';
 import { ReactComponent as candleIcon } from '../../icons/candle.svg';
-import { Symbol } from './Symbol';
 import {
     StockChart,
     ChartSeries,
@@ -287,7 +286,6 @@ export const Stock = () => {
 
     return (
         <>
-            <Symbol symbol={symbol} />
             <div className="row">
                 <div className="col-4 text-left">
                     <ChartRangePicker

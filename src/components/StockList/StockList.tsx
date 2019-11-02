@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, GridColumn, GridSelectionChangeEvent, GridRowClickEvent } from '@progress/kendo-react-grid';
 import { dataService } from '../../services';
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { ChangeCell } from './ChangeCell';
 import { NumberCell } from './NumberCell';
 import { ChartCell } from './ChartCell';
@@ -13,10 +13,12 @@ import { PriceCell } from './PriceCell';
 import styles from './stock-list.module.scss';
 import { SectorContext } from '../../context/SectorContext';
 import { SymbolsContext } from '../../context/SymbolsContext';
+import { Symbol } from '../Stock/Symbol';
 
 
 export const StockList: React.FunctionComponent = () => {
     const history = useHistory();
+    const { symbol } = useParams();
     const { sector } = React.useContext(SectorContext);
     const { symbols, onSelectedSymbolsChange } = React.useContext(SymbolsContext);
     const [data, setData] = React.useState<any[]>([]);
@@ -50,7 +52,39 @@ export const StockList: React.FunctionComponent = () => {
         },
         [data, setData])
 
+    const magicPrice = (price: string) => {
+        const rnd = (Math.random() + 0.01);
+        const volatility = 0.03;
+        let cngP = 2 * volatility * rnd;
+        if (cngP > volatility) {
+            cngP -= (2 * volatility);
+        }
+        const num = Number(price);
+        const change = num * cngP;
+        return String(num + change)
+    }
+
     React.useEffect(() => { fetchData() }, [sector, symbols]);
+    React.useEffect(() => {
+        const intv = window.setInterval(() => {
+            const newData = data.map((old) => {
+                let item = {
+                    ...old,
+                    price_open: old.price,
+                    price: magicPrice(old.price)
+                }
+
+                item.day_change = String(Number(item.price) - Number(item.price_open));
+                item.change_pct = String(((Number(item.price) - Number(item.price_open)) / Number(item.price)) * 100);
+
+                return item;
+            })
+
+            setData(newData);
+        }, 2000)
+
+        return () => window.clearInterval(intv);
+    }, [sector, symbols, data]);
 
     const chartCell = React.useMemo(
         () => ChartCell,
@@ -59,6 +93,7 @@ export const StockList: React.FunctionComponent = () => {
 
     return (
         <>
+            <Symbol symbol={symbol} data={data.find((i: any) => i.symbol === symbol)}/>
             <Grid
                 data={data}
                 selectedField="selected"

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Splitter } from '@progress/kendo-react-layout';
 import {
-    Route,
     Switch
 } from 'react-router-dom';
 import { classNames } from '@progress/kendo-react-common';
@@ -11,7 +10,6 @@ import { Stock } from '../components/Stock/Stock';
 import { NavigationRow, Navigation } from '../components/Navigation';
 import { AddRemoveSymbol } from '../components/AddRemoveSymbol';
 import { StockList } from '../components/StockList';
-import { HeatmapView } from '../components/HeatmapView';
 import { ChangeSector } from '../components/SectorChange';
 
 export const StockPage = () => {
