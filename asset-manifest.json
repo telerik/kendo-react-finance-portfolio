@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/kendo-react-finance-portfolio/static/css/main.96701605.chunk.css",
-    "main.js": "/kendo-react-finance-portfolio/static/js/main.472d98c0.chunk.js",
-    "main.js.map": "/kendo-react-finance-portfolio/static/js/main.472d98c0.chunk.js.map",
+    "main.js": "/kendo-react-finance-portfolio/static/js/main.70d41dfb.chunk.js",
+    "main.js.map": "/kendo-react-finance-portfolio/static/js/main.70d41dfb.chunk.js.map",
     "runtime-main.js": "/kendo-react-finance-portfolio/static/js/runtime-main.7a63929c.js",
     "runtime-main.js.map": "/kendo-react-finance-portfolio/static/js/runtime-main.7a63929c.js.map",
     "static/js/2.86b4f697.chunk.js": "/kendo-react-finance-portfolio/static/js/2.86b4f697.chunk.js",
     "static/js/2.86b4f697.chunk.js.map": "/kendo-react-finance-portfolio/static/js/2.86b4f697.chunk.js.map",
     "index.html": "/kendo-react-finance-portfolio/index.html",
-    "precache-manifest.a3642d7b724ebc7eaa8e377c78edd84b.js": "/kendo-react-finance-portfolio/precache-manifest.a3642d7b724ebc7eaa8e377c78edd84b.js",
+    "precache-manifest.8e9c0c9692d10423238b6939c99e2f2e.js": "/kendo-react-finance-portfolio/precache-manifest.8e9c0c9692d10423238b6939c99e2f2e.js",
     "service-worker.js": "/kendo-react-finance-portfolio/service-worker.js",
     "static/css/main.96701605.chunk.css.map": "/kendo-react-finance-portfolio/static/css/main.96701605.chunk.css.map",
     "static/media/area.2e780390.svg": "/kendo-react-finance-portfolio/static/media/area.2e780390.svg",
@@ -22,6 +22,6 @@
     "static/js/runtime-main.7a63929c.js",
     "static/js/2.86b4f697.chunk.js",
     "static/css/main.96701605.chunk.css",
-    "static/js/main.472d98c0.chunk.js"
+    "static/js/main.70d41dfb.chunk.js"
   ]
 }
