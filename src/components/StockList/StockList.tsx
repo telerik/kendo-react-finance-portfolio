@@ -67,7 +67,11 @@ export const StockList: React.FunctionComponent = () => {
     React.useEffect(() => { fetchData() }, [sector, symbols]);
     React.useEffect(() => {
         const intv = window.setInterval(() => {
+            let didFound = false;
             const newData = data.map((old) => {
+                const rnd = Math.random();
+                if (rnd > 0.10 || didFound) { return old; }
+
                 let item = {
                     ...old,
                     price_open: old.price,
@@ -76,12 +80,12 @@ export const StockList: React.FunctionComponent = () => {
 
                 item.day_change = String(Number(item.price) - Number(item.price_open));
                 item.change_pct = String(((Number(item.price) - Number(item.price_open)) / Number(item.price)) * 100);
-
+                didFound = true;
                 return item;
             })
 
             setData(newData);
-        }, 2000)
+        }, 500)
 
         return () => window.clearInterval(intv);
     }, [sector, symbols, data]);
@@ -93,7 +97,7 @@ export const StockList: React.FunctionComponent = () => {
 
     return (
         <>
-            <Symbol symbol={symbol} data={data.find((i: any) => i.symbol === symbol)}/>
+            <Symbol symbol={symbol} data={data.find((i: any) => i.symbol === symbol)} />
             <Grid
                 data={data}
                 selectedField="selected"

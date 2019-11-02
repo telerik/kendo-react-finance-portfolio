@@ -54,6 +54,7 @@ $popup-padding-y: 0;
 @import "~@progress/kendo-theme-bootstrap/scss/common/icons";
 @import "~@progress/kendo-theme-bootstrap/scss/popup";
 @import "~@progress/kendo-theme-bootstrap/scss/numerictextbox";
+@import "~@progress/kendo-theme-bootstrap/scss/common/animations";
 
 .k-widget.k-splitter {
   background-color: rgba(236, 238, 239, 0.5);
@@ -90,4 +91,11 @@ $popup-padding-y: 0;
 }
 .dropdown-icon-before .k-select {
   order: -1;
+}
+
+.k-animation-container{
+  display: block;
+}
+.k-child-animation-container {
+  display: inline-block;
 }
