@@ -116,10 +116,6 @@ const App: React.FunctionComponent<any> = () => {
                   <Route path={"/profile/"}>
                     <UserProfile />
                   </Route>
-                  <Route path="/stocks/" >
-                    <Header />
-                    <StockPage />
-                  </Route>
                   <Route path="/heatmap">
                     <Header />
                     <HeatmapPage />
@@ -127,6 +123,10 @@ const App: React.FunctionComponent<any> = () => {
                   <Route path="/virtualized">
                     <Header />
                     <VirtualizedPage />
+                  </Route>
+                  <Route path={["/stocks/:symbol?", "/"]}  >
+                    <Header />
+                    <StockPage />
                   </Route>
                 </main>
               </BrowserRouter>

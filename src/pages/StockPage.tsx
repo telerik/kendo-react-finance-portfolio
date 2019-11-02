@@ -17,52 +17,35 @@ import { ChangeSector } from '../components/SectorChange';
 export const StockPage = () => {
     return (
         <>
-        <Splitter
-            orientation={'vertical'}
-            defaultPanes={[
-                { size: '520px', min: '200px' },
-                {}
-            ]}
-        >
-            <Switch>
-                <Route path={"/stocks/:symbol?"}>
+            <Splitter
+                orientation={'vertical'}
+                defaultPanes={[
+                    { size: '520px', min: '200px' },
+                    {}
+                ]}
+            >
+                <Switch>
                     <div className={classNames(styles.detailed, "pt-4 pb-2")} >
                         <div className="container">
                             <Stock />
                         </div>
                     </div>
-                </Route>
-            </Switch>
-            <div className={classNames(styles.content, 'py-3')} style={{ minHeight: 600 }}>
-                <div className={"container my-3"}>
-                    <NavigationRow className="row justify-content-center">
-                        <Switch>
-                            <Route path={"/stocks"}>
-                                <AddRemoveSymbol className="col-4 text-left" />
-                            </Route>
-                            <Route />
-                        </Switch>
-                        <Navigation className="col-4 flex-grow-1 text-center" />
-                        <Switch>
-                            <Route path={"/stocks"}>
-                                <ChangeSector className="col-4 text-right" />
-                            </Route>
-                            <Route />
-                        </Switch>
-                    </NavigationRow>
-                </div>
-                <div className="container">
-                    <Switch >
-                        <Route path={"/stocks"}>
+                </Switch>
+                <div className={classNames(styles.content, 'py-3')} style={{ minHeight: 600 }}>
+                    <div className={"container my-3"}>
+                        <NavigationRow className="row justify-content-center">
+                            <AddRemoveSymbol className="col-4 text-left" />
+                            <Navigation className="col-4 flex-grow-1 text-center" />
+                            <ChangeSector className="col-4 text-right" />
+                        </NavigationRow>
+                    </div>
+                    <div className="container">
+                        <Switch >
                             <StockList />
-                        </Route>
-                        <Route path={"/heatmap"}>
-                            <HeatmapView />
-                        </Route>
-                    </Switch>
+                        </Switch>
+                    </div>
                 </div>
-            </div>
-        </Splitter>
+            </Splitter>
         </>
     )
 }
