@@ -111,7 +111,7 @@ const App: React.FunctionComponent<any> = () => {
         }}>
           <SectorContext.Provider value={{ sector, onSectorChange: handleSectorChange }}>
             <CurrencyContext.Provider value={{ currency, onCurrencyChange: handleCurrencyChange }}>
-              <BrowserRouter >
+              <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <main className={styles.main}>
                   <Route path={"/profile/"}>
                     <UserProfile />
@@ -124,7 +124,11 @@ const App: React.FunctionComponent<any> = () => {
                     <Header />
                     <VirtualizedPage />
                   </Route>
-                  <Route path={["/stocks/:symbol?", "/"]}  >
+                  <Route path={["/stocks/:symbol?"]}  >
+                    <Header />
+                    <StockPage />
+                  </Route>
+                  <Route >
                     <Header />
                     <StockPage />
                   </Route>

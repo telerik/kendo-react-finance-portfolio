@@ -10,14 +10,14 @@ import { useHistory } from 'react-router-dom';
 export const UserProfile = () => {
     const history = useHistory();
     const [data, setData] = React.useState<any[]>([]);
-    const fetchData = async () => {
+    const fetchData = React.useCallback(async () => {
         const newData = await dataService.getAllSymbols();
         const parsedData = newData.map((item: any) => {
             item.proportion = Math.random() / 10;
             return item;
         })
         setData(parsedData)
-    }
+    }, [])
 
     const handleBackClick = React.useCallback(
         () => {

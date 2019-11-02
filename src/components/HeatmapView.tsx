@@ -6,7 +6,7 @@ import '@progress/kendo-ui';
 export const HeatmapView = () => {
     const fetchData = React.useCallback(async () => {
         const newData = await dataService.getAllSymbols();
-        const prizeUpItemsCollection = newData.forEach((item: any) => {
+        const prizeUpItemsCollection = newData.map((item: any) => {
             if (item.change_pct.indexOf('-') !== 0) {
                 let newItem = { value: 0, name: '', change: '' }
                 newItem.value = parseInt(item.market_cap);
@@ -15,7 +15,7 @@ export const HeatmapView = () => {
                 return newItem
             }
         })
-        const prizeDownItemsCollection = newData.forEach((item: any) => {
+        const prizeDownItemsCollection = newData.map((item: any) => {
             if (item.change_pct.indexOf('-') === 0) {
                 let newItem = { value: 0, name: '', change: '' }
                 newItem.value = parseInt(item.market_cap);

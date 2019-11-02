@@ -40,7 +40,7 @@ export const dataService = {
         return symbols.data;
     },
     getAllSymbols: async () => {
-        const health = await fetch(`${process.env.PUBLIC_URL}:3000/data/health-symbols.json`);
+        const health = await fetch(`${process.env.PUBLIC_URL}/data/health-symbols.json`);
         const tech = await fetch(`${process.env.PUBLIC_URL}/data/tech-symbols.json`);
 
         const healthSymbols = await health.json();
