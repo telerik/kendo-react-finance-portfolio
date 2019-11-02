@@ -2,12 +2,11 @@ import * as React from 'react';
 import { dataService } from '../services';
 import $ from 'jquery';
 import '@progress/kendo-ui';
-import { Tooltip } from '@progress/kendo-react-tooltip';
 
 export const HeatmapView = () => {
-    const fetchData = async () => {
+    const fetchData = React.useCallback(async () => {
         const newData = await dataService.getAllSymbols();
-        const prizeUpItemsCollection = newData.map((item: any) => {
+        const prizeUpItemsCollection = newData.forEach((item: any) => {
             if (item.change_pct.indexOf('-') !== 0) {
                 let newItem = { value: 0, name: '', change: '' }
                 newItem.value = parseInt(item.market_cap);
@@ -16,7 +15,7 @@ export const HeatmapView = () => {
                 return newItem
             }
         })
-        const prizeDownItemsCollection = newData.map((item: any) => {
+        const prizeDownItemsCollection = newData.forEach((item: any) => {
             if (item.change_pct.indexOf('-') === 0) {
                 let newItem = { value: 0, name: '', change: '' }
                 newItem.value = parseInt(item.market_cap);
@@ -60,10 +59,9 @@ export const HeatmapView = () => {
             textField: "name",
             colors: [["#00AD51", "#00EF81"], ["#FF0000", "#FF8F8F"]]
         })
+    }, []);
 
-    }
-
-    React.useEffect(() => { fetchData() }, []);
+    React.useEffect(() => { fetchData() }, [fetchData]);
     return (
         <div>
             <div id='heatmap' style={{ height: 600, marginBottom: 50 }}></div>

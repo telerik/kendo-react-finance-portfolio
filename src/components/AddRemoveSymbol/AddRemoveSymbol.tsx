@@ -3,11 +3,10 @@ import { classNames } from '@progress/kendo-react-common';
 import { Button } from '@progress/kendo-react-buttons';
 import { DropDownList, DropDownListFilterChangeEvent } from '@progress/kendo-react-dropdowns';
 import { dataService } from '../../services';
-import styles from './add.module.scss';
 import { SymbolsContext } from '../../context/SymbolsContext';
 import { SectorContext } from '../../context/SectorContext';
 import { filterBy } from "@progress/kendo-data-query";
-import { FilterDescriptor } from '@progress/kendo-react-dropdowns/dist/npm/common/filterDescriptor';
+import styles from './add.module.scss';
 
 export interface AddRemoveSymbolProps {
     className?: string;
@@ -78,7 +77,7 @@ export const AddRemoveSymbol = (props: AddRemoveSymbolProps) => {
         [onSymbolsChange, symbols, sector]
     )
 
-    React.useEffect(() => { fetchData() }, [sector]);
+    React.useEffect(() => { fetchData() }, [sector, fetchData]);
 
     return (
         <div className={classNames(props.className)}>

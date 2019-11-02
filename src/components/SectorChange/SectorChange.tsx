@@ -34,7 +34,7 @@ export const ChangeSector = (props: ChangeSectorProps) => {
                 onSectorChange.call(undefined, event.target.value.sector)
             }
         },
-        []
+        [onSectorChange]
     )
 
     return (

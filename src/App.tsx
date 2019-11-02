@@ -85,12 +85,12 @@ const App: React.FunctionComponent<any> = () => {
 
   const handleSymbolsChange = React.useCallback(
     (value: string[]) => { setSymbols({ ...symbols, [sector]: value }); },
-    [setSymbols, sector]
+    [setSymbols, sector, symbols]
   )
 
   const handleSelectedSymbolsChange = React.useCallback(
     (value: [string]) => { selectedSymbols.current = value; },
-    [selectedSymbols, selectedSymbols.current]
+    [selectedSymbols]
   )
 
   const handleSymbolsRemove = React.useCallback(

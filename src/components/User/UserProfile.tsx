@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
 import { dataService } from '../../services';
-import { Chart, ChartSeries, ChartSeriesItem, ChartTooltip, ChartSeriesLabels, ChartTitle, ChartLegend } from '@progress/kendo-react-charts';
+import { Chart, ChartSeries, ChartSeriesItem, ChartTooltip, ChartLegend } from '@progress/kendo-react-charts';
 import useImage from '../../images/user.jpg';
 import styles from './user.module.scss';
 import { classNames } from '@progress/kendo-react-common';
@@ -23,7 +23,7 @@ export const UserProfile = () => {
         () => {
             history.goBack();
         },
-        []
+        [history]
     )
     const tooltipRender = (props: any) => {
         if (props.point) {
@@ -32,7 +32,7 @@ export const UserProfile = () => {
             return symbol + " - " + proportion.toPrecision(3);
         }
     }
-    React.useEffect(() => { fetchData() }, []);
+    React.useEffect(() => { fetchData() }, [fetchData]);
 
     return (
         <div className={classNames(styles['wrapper-profile'], 'wrapper-profile')}>

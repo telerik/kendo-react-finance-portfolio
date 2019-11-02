@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import styles from './stock.module.scss';
-import { dataService } from '../../services';
 import { useInternationalization } from '@progress/kendo-react-intl';
 
 export interface SymbolProps {

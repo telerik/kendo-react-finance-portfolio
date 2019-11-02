@@ -62,7 +62,7 @@ export const Header: React.FunctionComponent<any> = () => {
                     <div className="col">
                         <div className="text-right">
                             <Link to="/profile">
-                                <img src={userImg} />
+                                <img src={userImg} alt="user"/>
                             </Link>
                         </div>
                     </div>

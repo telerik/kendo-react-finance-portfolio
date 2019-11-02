@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 import { classNames } from '@progress/kendo-react-common';
 
-import styles from '../app.module.scss';
 import { Stock } from '../components/Stock/Stock';
 import { NavigationRow, Navigation } from '../components/Navigation';
 import { AddRemoveSymbol } from '../components/AddRemoveSymbol';
@@ -22,14 +21,12 @@ export const StockPage = () => {
                     {}
                 ]}
             >
-                <Switch>
-                    <div className={classNames(styles.detailed, "pt-4 pb-2")} >
-                        <div className="container">
-                            <Stock />
-                        </div>
+                <div className={classNames("pt-4 pb-2")} >
+                    <div className="container">
+                        <Stock />
                     </div>
-                </Switch>
-                <div className={classNames(styles.content, 'py-3')} style={{ minHeight: 600 }}>
+                </div>
+                <div className={classNames('py-3')} style={{ minHeight: 600 }}>
                     <div className={"container my-3"}>
                         <NavigationRow className="row justify-content-center">
                             <AddRemoveSymbol className="col-4 text-left" />

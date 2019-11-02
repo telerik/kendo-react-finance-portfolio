@@ -23,10 +23,10 @@ export const StockList: React.FunctionComponent = () => {
     const { symbols, onSelectedSymbolsChange } = React.useContext(SymbolsContext);
     const [data, setData] = React.useState<any[]>([]);
 
-    const fetchData = async () => {
+    const fetchData = React.useCallback(async () => {
         const newData = await dataService.getSectorSymbol(sector);
         setData(newData.filter((d: any) => symbols[sector].some((s: string) => s === d.symbol)))
-    }
+    }, [setData, sector, symbols])
 
     const handleSelectionChange = React.useCallback(
         (event: GridSelectionChangeEvent) => {
@@ -42,7 +42,7 @@ export const StockList: React.FunctionComponent = () => {
             }
 
             setData(newSelectData);
-        }, [data, setData])
+        }, [data, setData, onSelectedSymbolsChange])
 
     const handleRowClick = React.useCallback(
         (event: GridRowClickEvent) => {
@@ -50,7 +50,7 @@ export const StockList: React.FunctionComponent = () => {
             setData(newSelectData);
             history.push(`/stocks/${event.dataItem.symbol}`);
         },
-        [data, setData])
+        [data, setData, history])
 
     const magicPrice = (price: string) => {
         const rnd = (Math.random() + 0.01);
@@ -64,7 +64,7 @@ export const StockList: React.FunctionComponent = () => {
         return String(num + change)
     }
 
-    React.useEffect(() => { fetchData() }, [sector, symbols]);
+    React.useEffect(() => { fetchData() }, [sector, symbols, fetchData]);
     React.useEffect(() => {
         const intv = window.setInterval(() => {
             let didFound = false;
@@ -92,7 +92,7 @@ export const StockList: React.FunctionComponent = () => {
 
     const chartCell = React.useMemo(
         () => ChartCell,
-        [data]
+        []
     )
 
     return (

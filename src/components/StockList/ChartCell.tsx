@@ -14,7 +14,7 @@ export const ChartCell = (props: GridCellProps) => {
         [props.dataItem.symbol]
     )
 
-    React.useEffect(() => { fetchDate() }, [props.dataItem.symbol]);
+    React.useEffect(() => { fetchDate() }, [props.dataItem.symbol, fetchDate]);
 
     const direction = data && data.length && (data[0].close < data[data.length - 1].close)
         ? 'up'

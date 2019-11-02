@@ -343,7 +343,7 @@ const AreaChart = (props: any) => {
             }
 
             return result;
-        }, [props.range, props.interval.unit, props.interval.step, props.interval.duration]);
+        }, [props.range, props.interval.duration]);
 
     return (<Chart
         renderAs="canvas"
@@ -413,7 +413,7 @@ const LineChart = (props: any) => {
             }
 
             return result;
-        }, [props.range, props.interval.unit, props.interval.step, props.interval.duration]);
+        }, [props.range, props.interval.duration]);
 
     return (<Chart
         renderAs="canvas"
