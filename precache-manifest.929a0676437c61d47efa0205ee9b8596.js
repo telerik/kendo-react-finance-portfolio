@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "306c24888cb0593f67c4d7c73c393f07",
+    "revision": "6a2420dbe7689a332450d04347f4a89c",
     "url": "/kendo-react-finance-portfolio/index.html"
   },
   {
-    "revision": "9f936a12bb6f0d4dad0e",
+    "revision": "785d96a51598c8593e43",
     "url": "/kendo-react-finance-portfolio/static/css/main.33b006ab.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/kendo-react-finance-portfolio/static/js/2.f75b0104.chunk.js"
   },
   {
-    "revision": "9f936a12bb6f0d4dad0e",
-    "url": "/kendo-react-finance-portfolio/static/js/main.d777442c.chunk.js"
+    "revision": "785d96a51598c8593e43",
+    "url": "/kendo-react-finance-portfolio/static/js/main.16c57284.chunk.js"
   },
   {
     "revision": "25e4b4551d7b78009ab4",
