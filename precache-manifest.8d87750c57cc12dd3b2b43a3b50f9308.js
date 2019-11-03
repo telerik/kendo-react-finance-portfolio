@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2773add99f48dc18a717bdee86e5b561",
+    "revision": "1ab6d74464fef332324ade03dc2ce53d",
     "url": "/kendo-react-finance-portfolio/index.html"
   },
   {
