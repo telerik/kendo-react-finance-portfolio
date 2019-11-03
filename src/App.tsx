@@ -4,6 +4,7 @@ import { Footer } from './components/Footer';
 import {
   Route,
   BrowserRouter,
+  Redirect,
 } from 'react-router-dom';
 
 import { UserProfile } from './components/User/UserProfile';
@@ -128,10 +129,7 @@ const App: React.FunctionComponent<any> = () => {
                     <Header />
                     <StockPage />
                   </Route>
-                  <Route >
-                    <Header />
-                    <StockPage />
-                  </Route>
+                  <Redirect to="/stocks"/>
                 </main>
               </BrowserRouter>
               <Footer />
