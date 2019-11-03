@@ -138,7 +138,7 @@ const App: React.FunctionComponent<any> = () => {
         }}>
           <SectorContext.Provider value={{ sector, onSectorChange: handleSectorChange }}>
             <CurrencyContext.Provider value={{ currency, onCurrencyChange: handleCurrencyChange }}>
-              <HashRouter basename={process.env.PUBLIC_URL}>
+              <HashRouter>
                 <main className={styles.main}>
                   <Main />
                 </main>
