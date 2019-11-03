@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/kendo-react-finance-portfolio/static/css/main.33b006ab.chunk.css",
-    "main.js": "/kendo-react-finance-portfolio/static/js/main.e04796cd.chunk.js",
-    "main.js.map": "/kendo-react-finance-portfolio/static/js/main.e04796cd.chunk.js.map",
-    "runtime-main.js": "/kendo-react-finance-portfolio/static/js/runtime-main.7a63929c.js",
-    "runtime-main.js.map": "/kendo-react-finance-portfolio/static/js/runtime-main.7a63929c.js.map",
-    "static/js/2.f75b0104.chunk.js": "/kendo-react-finance-portfolio/static/js/2.f75b0104.chunk.js",
-    "static/js/2.f75b0104.chunk.js.map": "/kendo-react-finance-portfolio/static/js/2.f75b0104.chunk.js.map",
-    "index.html": "/kendo-react-finance-portfolio/index.html",
-    "precache-manifest.bb5eafdf85e1caacca76daabaad475e8.js": "/kendo-react-finance-portfolio/precache-manifest.bb5eafdf85e1caacca76daabaad475e8.js",
-    "service-worker.js": "/kendo-react-finance-portfolio/service-worker.js",
-    "static/css/main.33b006ab.chunk.css.map": "/kendo-react-finance-portfolio/static/css/main.33b006ab.chunk.css.map",
-    "static/media/area.2e780390.svg": "/kendo-react-finance-portfolio/static/media/area.2e780390.svg",
-    "static/media/candle.f5c64e3c.svg": "/kendo-react-finance-portfolio/static/media/candle.f5c64e3c.svg",
-    "static/media/footer-bg.svg": "/kendo-react-finance-portfolio/static/media/footer-bg.a08c1749.svg",
-    "static/media/header-bg.svg": "/kendo-react-finance-portfolio/static/media/header-bg.fb71804a.svg",
-    "static/media/line.1ce98a43.svg": "/kendo-react-finance-portfolio/static/media/line.1ce98a43.svg",
-    "static/media/user.jpg": "/kendo-react-finance-portfolio/static/media/user.30f34c6e.jpg"
+    "main.css": "/static/css/main.33b006ab.chunk.css",
+    "main.js": "/static/js/main.5c9d4a29.chunk.js",
+    "main.js.map": "/static/js/main.5c9d4a29.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.e4ac5e05.js",
+    "runtime-main.js.map": "/static/js/runtime-main.e4ac5e05.js.map",
+    "static/js/2.f75b0104.chunk.js": "/static/js/2.f75b0104.chunk.js",
+    "static/js/2.f75b0104.chunk.js.map": "/static/js/2.f75b0104.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.04d1e27a7d85cd7449fc42b5b0304510.js": "/precache-manifest.04d1e27a7d85cd7449fc42b5b0304510.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.33b006ab.chunk.css.map": "/static/css/main.33b006ab.chunk.css.map",
+    "static/media/area.2e780390.svg": "/static/media/area.2e780390.svg",
+    "static/media/candle.f5c64e3c.svg": "/static/media/candle.f5c64e3c.svg",
+    "static/media/footer-bg.svg": "/static/media/footer-bg.a08c1749.svg",
+    "static/media/header-bg.svg": "/static/media/header-bg.fb71804a.svg",
+    "static/media/line.1ce98a43.svg": "/static/media/line.1ce98a43.svg",
+    "static/media/user.jpg": "/static/media/user.30f34c6e.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.7a63929c.js",
+    "static/js/runtime-main.e4ac5e05.js",
     "static/js/2.f75b0104.chunk.js",
     "static/css/main.33b006ab.chunk.css",
-    "static/js/main.e04796cd.chunk.js"
+    "static/js/main.5c9d4a29.chunk.js"
   ]
 }
