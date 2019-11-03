@@ -97,6 +97,7 @@ export const AddRemoveSymbol = (props: AddRemoveSymbolProps) => {
                 filterable={true}
                 onFilterChange={handleFilterChange}
                 popupSettings={{
+                    className: "popup-animation",
                     width: '300px'
                 }}
                 valueRender={customValueRender}

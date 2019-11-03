@@ -16,7 +16,7 @@ export const ChartCell = (props: GridCellProps) => {
 
     React.useEffect(() => { fetchDate() }, [props.dataItem.symbol, fetchDate]);
 
-    const direction = data && data.length && (data[0].close < data[data.length - 1].close)
+    const direction = props.dataItem.day_change >= 0
         ? 'up'
         : 'down'
 
@@ -26,7 +26,7 @@ export const ChartCell = (props: GridCellProps) => {
 
     return (
         <td className={styles['chart-cell']}>
-            <Chart renderAs="canvas" style={{ height: 50 }} transitions={false} zoomable={false}>
+            <Chart renderAs="svg" style={{ height: 50 }} transitions={false} zoomable={false}>
                 <ChartSeries>
                     <ChartSeriesItem
                         data={data}

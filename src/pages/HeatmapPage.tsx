@@ -7,7 +7,7 @@ export const HeatmapPage = () => {
         <>
             <div className="container my-3">
                 <NavigationRow className="row justify-content-center">
-                    <Navigation className="col-4 flex-grow-1 text-center" />
+                    <Navigation className="col-24 flex-grow-1 text-center" />
                 </NavigationRow>
             </div>
             <div className="container">

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { DateRangePicker } from '@progress/kendo-react-dateinputs';
+import { DateRangePicker, MultiViewCalendarProps, MultiViewCalendar } from '@progress/kendo-react-dateinputs';
 import { MS_PER_DAY } from '@progress/kendo-date-math';
 import { classNames } from '@progress/kendo-react-common';
 import { DropDownList, ListItemProps } from '@progress/kendo-react-dropdowns';
@@ -174,6 +174,7 @@ const ChartRangePicker = (props: any) => {
 
     return (
         <DateRangePicker
+            calendarSettings={{views: 1}}
             value={value}
             onChange={handleChange}
             startDateInputSettings={{ label: '', width: 130 }}
@@ -287,20 +288,20 @@ export const Stock = () => {
     return (
         <>
             <div className="row">
-                <div className="col-4 text-left">
+                <div className="col-12 col-lg-4 mb-3 mt-lg-0 text-center text-lg-left">
                     <ChartRangePicker
                         value={range}
                         onChange={handleRangeChange}
                     />
                 </div>
-                <div className="col-4 text-center m-auto">
+                <div className="col-12 col-lg-4 mb-3 text-center m-lg-auto">
                     <ChartPredefinedRange
                         value={range}
                         onChange={handleRangeChange}
                         last={(data && data.length) ? new Date(data[data.length - 1].timestamp) : null}
                     />
                 </div>
-                <div className="col-4 text-right">
+                <div className="col-12 col-lg-4 text-center text-lg-right">
                     <ChartIntervalPicker
                         value={interval}
                         onChange={handleIntervalChange}

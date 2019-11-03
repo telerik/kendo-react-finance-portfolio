@@ -38,8 +38,8 @@ export const UserProfile = () => {
         <div className={classNames(styles['wrapper-profile'], 'wrapper-profile')}>
             <div className="profile-header container">
                 <div className="row mt-3 mb-2">
-                    <div className="col"><h1>My Portfolio</h1></div>
-                    <div className="col text-right my-auto">
+                    <div className="col-10"><h1 className="my-auto">My Portfolio</h1></div>
+                    <div className="col-2 text-right my-auto">
                         <a className={styles['close-icon']} onClick={handleBackClick}>
                             <i className={classNames('k-icon k-i-close')} />
                         </a>
@@ -48,7 +48,7 @@ export const UserProfile = () => {
             </div>
             <div className="container inner-wrapper">
                 <div className="row">
-                    <div className="col-3 text-center">
+                    <div className="col-12 col-lg-3 text-center">
                         <div className="avatar">
                             <img className={styles['user-icon']} src={useImage} width="100" alt="Collin Johnson" />
                         </div>
@@ -78,14 +78,14 @@ export const UserProfile = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div className="col-5">
+                    <div className="col-12 col-lg-5">
                         <Grid data={data}>
                             <GridColumn field='symbol' title="Symbol" className={styles['symbol-cell']} />
                             <GridColumn field='name' title="Name" width={200} />
                             <GridColumn field="proportion" title='Proportion' format={"{0:p2}"} />
                         </Grid>
                     </div>
-                    <div className="col-4">
+                    <div className="col-12 col-lg-4">
                         <Chart>
                             <ChartLegend position='bottom' />
                             <ChartTooltip render={tooltipRender} />

@@ -79,7 +79,7 @@ export const StockList: React.FunctionComponent = () => {
                 }
 
                 item.day_change = String(Number(item.price) - Number(item.price_open));
-                item.change_pct = String(((Number(item.price) - Number(item.price_open)) / Number(item.price)) * 100);
+                item.change_pct = String(((Number(item.price) - Number(item.price_open)) / Number(item.price)) * 80);
                 didFound = true;
                 return item;
             })
@@ -104,16 +104,16 @@ export const StockList: React.FunctionComponent = () => {
                 onSelectionChange={handleSelectionChange}
                 onRowClick={handleRowClick}
             >
-                <GridColumn field="selected" width="50px" headerCell={_ => null} cell={CheckboxCell} />
-                <GridColumn field="symbol" title="Symbol" className={styles['symbol-cell']} />
-                <GridColumn field="name" title="Name" className={styles['name-cell']} width={200} />
-                <GridColumn field="price" title="Price" className={styles['price-cell']} cell={PriceCell} headerCell={PriceHeaderCell} />
-                <GridColumn field="day_change" title="Change" cell={ChangeCell} />
-                <GridColumn field="change_pct" title="% Change" cell={ChangeCell} />
-                <GridColumn field="volume" title="Volume" cell={NumberCell} />
-                <GridColumn field="volume_avg" title="Avg Vol" cell={NumberCell} headerCell={AvgVolumeHeaderCell} />
-                <GridColumn field="market_cap" title="Market Cap" cell={NumberCell} />
-                <GridColumn field="pe" title="PE Ratio (TTM)" headerCell={PERatioHeaderCell} />
+                <GridColumn field="selected" headerCell={_ => null} cell={CheckboxCell} width={40} />
+                <GridColumn field="symbol" title="Symbol" className={styles['symbol-cell']} width={70} locked={true}/>
+                <GridColumn field="name" title="Name" className={styles['name-cell']} width={200}/>
+                <GridColumn field="price" title="Price" className={styles['price-cell']} cell={PriceCell} headerCell={PriceHeaderCell} width={80} />
+                <GridColumn field="day_change" title="Change" cell={ChangeCell} width={80} />
+                <GridColumn field="change_pct" title="% Change" cell={ChangeCell} width={80} />
+                <GridColumn field="volume" title="Volume" cell={NumberCell} width={80} />
+                <GridColumn field="volume_avg" title="Avg Vol" cell={NumberCell} headerCell={AvgVolumeHeaderCell} width={90} />
+                <GridColumn field="market_cap" title="Market Cap" cell={NumberCell} width={102} />
+                <GridColumn field="pe" title="PE Ratio (TTM)" headerCell={PERatioHeaderCell} width={80} />
                 <GridColumn cell={chartCell} title='1 Day Chart' width={200} />
             </Grid>
         </>
