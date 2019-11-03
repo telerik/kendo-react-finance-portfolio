@@ -519,7 +519,7 @@ const CandleChart = (props: any) => {
         (_values, _, dataItems) => {
             const first = dataItems[0];
             const last = dataItems[dataItems.length - 1];
-            return Math.abs((last.close - first.open) / dataItems.length / 100);
+            return Math.abs((last.close - first.open) / dataItems.length / 10);
         },
         []
     )
@@ -586,7 +586,7 @@ const CandleChart = (props: any) => {
                 <ChartSeriesItem
                     data={props.data}
                     type="column"
-                    field={"close"}
+                    field={"change"}
                     axis={"valueChangeAxis"}
                     colorField="color"
                     border={{ color: 'transparent' }}
@@ -604,7 +604,8 @@ const CandleChart = (props: any) => {
                 <ChartValueAxisItem
                     name="valueChangeAxis"
                     min={0}
-                    max={0.4}
+                    max={0.01}
+                    // max={2000000}
                     visible={false}
                 />
             </ChartValueAxis>
