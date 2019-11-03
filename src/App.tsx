@@ -5,6 +5,8 @@ import {
   Route,
   BrowserRouter,
   Redirect,
+  HashRouter,
+  useLocation,
 } from 'react-router-dom';
 
 import { UserProfile } from './components/User/UserProfile';
@@ -59,6 +61,30 @@ load(
   gbDateFields
 );
 
+const Main = () => {
+  const locations = useLocation();
+  return (
+    <>
+      <Route path={"/profile"}>
+        <UserProfile />
+      </Route>
+      <Route path="/heatmap">
+        <Header />
+        <HeatmapPage />
+      </Route>
+      <Route path="/virtualized">
+        <Header />
+        <VirtualizedPage />
+      </Route>
+      <Route path={["/stocks/:symbol?"]}  >
+        <Header />
+        <StockPage />
+      </Route>
+      {locations.pathname === '/' ? <Redirect to="/stocks" /> : null}
+    </>
+  )
+}
+
 const App: React.FunctionComponent<any> = () => {
   const selectedSymbols = React.useRef<string[]>([]);
   const [symbols, setSymbols] = React.useState<any>({
@@ -112,26 +138,11 @@ const App: React.FunctionComponent<any> = () => {
         }}>
           <SectorContext.Provider value={{ sector, onSectorChange: handleSectorChange }}>
             <CurrencyContext.Provider value={{ currency, onCurrencyChange: handleCurrencyChange }}>
-              <BrowserRouter basename={process.env.PUBLIC_URL}>
+              <HashRouter basename={process.env.PUBLIC_URL}>
                 <main className={styles.main}>
-                  <Route path={"/profile/"}>
-                    <UserProfile />
-                  </Route>
-                  <Route path="/heatmap">
-                    <Header />
-                    <HeatmapPage />
-                  </Route>
-                  <Route path="/virtualized">
-                    <Header />
-                    <VirtualizedPage />
-                  </Route>
-                  <Route path={["/stocks/:symbol?"]}  >
-                    <Header />
-                    <StockPage />
-                  </Route>
-                  <Redirect to="/stocks"/>
+                  <Main />
                 </main>
-              </BrowserRouter>
+              </HashRouter>
               <Footer />
             </CurrencyContext.Provider>
           </SectorContext.Provider>
