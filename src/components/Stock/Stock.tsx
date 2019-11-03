@@ -174,7 +174,7 @@ const ChartRangePicker = (props: any) => {
 
     return (
         <DateRangePicker
-            calendarSettings={{views: 1}}
+            calendarSettings={{ views: 1 }}
             value={value}
             onChange={handleChange}
             startDateInputSettings={{ label: '', width: 130 }}
@@ -519,7 +519,7 @@ const CandleChart = (props: any) => {
         (_values, _, dataItems) => {
             const first = dataItems[0];
             const last = dataItems[dataItems.length - 1];
-            return Math.abs((last.close - first.open) / dataItems.length / 10);
+            return Math.abs((last.close - first.open) / dataItems.length / 100);
         },
         []
     )
@@ -592,7 +592,7 @@ const CandleChart = (props: any) => {
                     border={{ color: 'transparent' }}
                     categoryField="date"
                     gap={0.75}
-                    aggregate={customChangeAggregate}
+                    aggregate="avg"
                     tooltip={{ format: "{0:p2}" }}
                 />
             </ChartSeries>
@@ -604,8 +604,7 @@ const CandleChart = (props: any) => {
                 <ChartValueAxisItem
                     name="valueChangeAxis"
                     min={0}
-                    max={0.01}
-                    // max={2000000}
+                    max={0.2}
                     visible={false}
                 />
             </ChartValueAxis>
