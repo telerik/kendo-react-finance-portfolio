@@ -102,7 +102,7 @@ export const StockList: React.FunctionComponent = () => {
 
     return (
         <>
-            <Symbol symbol={symbol} data={data.find((i: any) => i.symbol === symbol)} />
+            <Symbol symbol={symbol || 'SNAP'} data={data.find((i: any) => i.symbol === symbol) || data.find((i: any) => i.symbol === 'SNAP')} />
             <Grid
                 data={data}
                 selectedField="selected"
