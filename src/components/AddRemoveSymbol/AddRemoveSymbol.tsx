@@ -106,7 +106,7 @@ export const AddRemoveSymbol = (props: AddRemoveSymbolProps) => {
                 Add
                 </DropDownList>
             &nbsp;
-            <Button iconClass='k-icon k-i-delete' onClick={handleRemoveClick}>Remove</Button>
+            <Button iconClass='k-icon k-i-delete' look={"flat"} style={{ color: '#D9534F' }} onClick={handleRemoveClick}>Remove</Button>
 
         </div>
     )
