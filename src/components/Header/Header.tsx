@@ -44,7 +44,7 @@ export const Header: React.FunctionComponent<any> = () => {
             <div className="container pt-4 pb-2">
                 <div className="row">
                     <div className="col">
-                        <h1 className="mb-0 header-title">Stock stockslist</h1>
+                        <h1 className="mb-0 header-title">Stock watchlist</h1>
                         <DropDownList
                             popupSettings={{
                                 animate: {
