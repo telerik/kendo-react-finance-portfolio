@@ -123,6 +123,7 @@ const App: React.FunctionComponent<any> = () => {
   const handleSymbolsRemove = React.useCallback(
     () => {
       const newSymbols = symbols[sector].filter((s: string) => !selectedSymbols.current.some((x) => x === s));
+      selectedSymbols.current = [];
       setSymbols({ ...symbols, [sector]: newSymbols })
     },
     [setSymbols, symbols, sector]
