@@ -49,6 +49,11 @@ export const StockList: React.FunctionComponent = () => {
             let newSelectData = data.map(item => ({ ...item, selected: item.symbol === event.dataItem.symbol }))
             setData(newSelectData);
             history.push(`/stocks/${event.dataItem.symbol}`);
+
+            if (onSelectedSymbolsChange) {
+                onSelectedSymbolsChange.call(undefined, newSelectData.filter((i) => i.selected === true).map((i) => i.symbol))
+            }
+
         },
         [data, setData, history])
 
