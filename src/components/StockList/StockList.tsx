@@ -20,8 +20,9 @@ export const StockList: React.FunctionComponent = () => {
     const history = useHistory();
     const { symbol } = useParams();
     const { sector } = React.useContext(SectorContext);
-    const { symbols, onSelectedSymbolsChange } = React.useContext(SymbolsContext);
+    const { symbols, selectedSymbols, onSelectedSymbolsChange } = React.useContext(SymbolsContext);
     const [data, setData] = React.useState<any[]>([]);
+    const processed = React.useMemo(() => data.map((i: any) => ({ ...i, selected: selectedSymbols.current.some((s: any) => s === i.symbol) })), [symbol, selectedSymbols, data])
 
     const fetchData = React.useCallback(async () => {
         const newData = await dataService.getSectorSymbol(sector);
@@ -30,7 +31,7 @@ export const StockList: React.FunctionComponent = () => {
 
     const handleSelectionChange = React.useCallback(
         (event: GridSelectionChangeEvent) => {
-            let newSelectData = data.map(item => {
+            let newSelectData = processed.map(item => {
                 if (item.symbol === event.dataItem.symbol) {
                     item.selected = !event.dataItem.selected
                 }
@@ -42,11 +43,11 @@ export const StockList: React.FunctionComponent = () => {
             }
 
             setData(newSelectData);
-        }, [data, setData, onSelectedSymbolsChange])
+        }, [processed, setData, onSelectedSymbolsChange])
 
     const handleRowClick = React.useCallback(
         (event: GridRowClickEvent) => {
-            let newSelectData = data.map(item => ({ ...item, selected: item.symbol === event.dataItem.symbol }))
+            let newSelectData = processed.map(item => ({ ...item, selected: item.symbol === event.dataItem.symbol }))
             setData(newSelectData);
             history.push(`/stocks/${event.dataItem.symbol}`);
 
@@ -55,7 +56,7 @@ export const StockList: React.FunctionComponent = () => {
             }
 
         },
-        [data, setData, history])
+        [processed, setData, history])
 
     const magicPrice = (price: string) => {
         const rnd = (Math.random() + 0.01);
@@ -73,7 +74,7 @@ export const StockList: React.FunctionComponent = () => {
     React.useEffect(() => {
         const intv = window.setInterval(() => {
             let didFound = false;
-            const newData = data.map((old) => {
+            const newData = processed.map((old) => {
                 const rnd = Math.random();
                 if (rnd > 0.10 || didFound) { return old; }
 
@@ -104,14 +105,14 @@ export const StockList: React.FunctionComponent = () => {
         <>
             <Symbol symbol={symbol || 'SNAP'} data={data.find((i: any) => i.symbol === symbol) || data.find((i: any) => i.symbol === 'SNAP')} />
             <Grid
-                data={data}
+                data={processed}
                 selectedField="selected"
                 onSelectionChange={handleSelectionChange}
                 onRowClick={handleRowClick}
             >
                 <GridColumn field="selected" headerCell={_ => null} cell={CheckboxCell} width={40} />
-                <GridColumn field="symbol" title="Symbol" className={styles['symbol-cell']} width={70} locked={true}/>
-                <GridColumn field="name" title="Name" className={styles['name-cell']} width={200}/>
+                <GridColumn field="symbol" title="Symbol" className={styles['symbol-cell']} width={70} locked={true} />
+                <GridColumn field="name" title="Name" className={styles['name-cell']} width={200} />
                 <GridColumn field="price" title="Price" className={styles['price-cell']} cell={PriceCell} headerCell={PriceHeaderCell} width={80} />
                 <GridColumn field="day_change" title="Change" cell={ChangeCell} width={80} />
                 <GridColumn field="change_pct" title="% Change" cell={ChangeCell} width={80} />

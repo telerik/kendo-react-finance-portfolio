@@ -86,7 +86,7 @@ const Main = () => {
 }
 
 const App: React.FunctionComponent<any> = () => {
-  const selectedSymbols = React.useRef<string[]>([]);
+  const selectedSymbols = React.useRef<string[]>(["SNAP"]);
   const [symbols, setSymbols] = React.useState<any>({
     [SECTOR.HEALTHCARE]: ['SYK', "GILD", "DHR", "CVS", "BMY", "TMO", "SNY"],
     [SECTOR.TECHNOLOGY]: ['TWTR', 'AAPL', "MSFT", "SNAP", "NVDA", "CSCO"]
@@ -133,6 +133,7 @@ const App: React.FunctionComponent<any> = () => {
     <div className="App">
       <CustomIntlProvider locale={locales[currency]}>
         <SymbolsContext.Provider value={{
+          selectedSymbols,
           symbols, onSymbolsChange: handleSymbolsChange,
           onSelectedSymbolsChange: handleSelectedSymbolsChange,
           onSymbolsRemove: handleSymbolsRemove
