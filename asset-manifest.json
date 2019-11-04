@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/kendo-react-finance-portfolio/static/css/main.729a933c.chunk.css",
-    "main.js": "/kendo-react-finance-portfolio/static/js/main.a99ef3d8.chunk.js",
-    "main.js.map": "/kendo-react-finance-portfolio/static/js/main.a99ef3d8.chunk.js.map",
+    "main.css": "/kendo-react-finance-portfolio/static/css/main.241c5554.chunk.css",
+    "main.js": "/kendo-react-finance-portfolio/static/js/main.c73a4c56.chunk.js",
+    "main.js.map": "/kendo-react-finance-portfolio/static/js/main.c73a4c56.chunk.js.map",
     "runtime-main.js": "/kendo-react-finance-portfolio/static/js/runtime-main.7a63929c.js",
     "runtime-main.js.map": "/kendo-react-finance-portfolio/static/js/runtime-main.7a63929c.js.map",
-    "static/js/2.f75b0104.chunk.js": "/kendo-react-finance-portfolio/static/js/2.f75b0104.chunk.js",
-    "static/js/2.f75b0104.chunk.js.map": "/kendo-react-finance-portfolio/static/js/2.f75b0104.chunk.js.map",
+    "static/js/2.6e8a2fa4.chunk.js": "/kendo-react-finance-portfolio/static/js/2.6e8a2fa4.chunk.js",
+    "static/js/2.6e8a2fa4.chunk.js.map": "/kendo-react-finance-portfolio/static/js/2.6e8a2fa4.chunk.js.map",
     "index.html": "/kendo-react-finance-portfolio/index.html",
-    "precache-manifest.b10b301f62f9a8f97a6479682534e4e7.js": "/kendo-react-finance-portfolio/precache-manifest.b10b301f62f9a8f97a6479682534e4e7.js",
+    "precache-manifest.29a87f44eb7549b1e39ae722bd4a6047.js": "/kendo-react-finance-portfolio/precache-manifest.29a87f44eb7549b1e39ae722bd4a6047.js",
     "service-worker.js": "/kendo-react-finance-portfolio/service-worker.js",
-    "static/css/main.729a933c.chunk.css.map": "/kendo-react-finance-portfolio/static/css/main.729a933c.chunk.css.map",
+    "static/css/main.241c5554.chunk.css.map": "/kendo-react-finance-portfolio/static/css/main.241c5554.chunk.css.map",
     "static/media/area.2e780390.svg": "/kendo-react-finance-portfolio/static/media/area.2e780390.svg",
     "static/media/candle.f5c64e3c.svg": "/kendo-react-finance-portfolio/static/media/candle.f5c64e3c.svg",
     "static/media/footer-bg.svg": "/kendo-react-finance-portfolio/static/media/footer-bg.a08c1749.svg",
@@ -21,8 +21,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.7a63929c.js",
-    "static/js/2.f75b0104.chunk.js",
-    "static/css/main.729a933c.chunk.css",
-    "static/js/main.a99ef3d8.chunk.js"
+    "static/js/2.6e8a2fa4.chunk.js",
+    "static/css/main.241c5554.chunk.css",
+    "static/js/main.c73a4c56.chunk.js"
   ]
 }
