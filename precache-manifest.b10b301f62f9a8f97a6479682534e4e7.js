@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4b62f869170fadd0378649c842b83781",
+    "revision": "99f90f3ad4c8fa8f4bf0c03b01403ec0",
     "url": "/kendo-react-finance-portfolio/index.html"
   },
   {
-    "revision": "a4266947d58c01bc119e",
-    "url": "/kendo-react-finance-portfolio/static/css/main.33b006ab.chunk.css"
+    "revision": "a377659daf3374982203",
+    "url": "/kendo-react-finance-portfolio/static/css/main.729a933c.chunk.css"
   },
   {
     "revision": "1c5bce63df7b74cbd3bc",
     "url": "/kendo-react-finance-portfolio/static/js/2.f75b0104.chunk.js"
   },
   {
-    "revision": "a4266947d58c01bc119e",
-    "url": "/kendo-react-finance-portfolio/static/js/main.a6372203.chunk.js"
+    "revision": "a377659daf3374982203",
+    "url": "/kendo-react-finance-portfolio/static/js/main.a99ef3d8.chunk.js"
   },
   {
     "revision": "25e4b4551d7b78009ab4",
@@ -38,6 +38,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "1ce98a430f5b117dff20121222a2ebba",
     "url": "/kendo-react-finance-portfolio/static/media/line.1ce98a43.svg"
+  },
+  {
+    "revision": "86964657182b92a59a853643eb530cc2",
+    "url": "/kendo-react-finance-portfolio/static/media/progress-logo.86964657.svg"
   },
   {
     "revision": "30f34c6e5c421dc64e989c4c73dc4bf3",
