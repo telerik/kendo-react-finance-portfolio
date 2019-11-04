@@ -198,6 +198,7 @@ const ChartPredefinedRange = (props: any) => {
 
     const handleClick = React.useCallback(
         (event: React.SyntheticEvent<HTMLAnchorElement>) => {
+            event.preventDefault();
             const name = (event.target as HTMLElement).getAttribute("data-name");
             setSelected(name);
             if (!props.last) { return; }
@@ -245,7 +246,7 @@ const ChartPredefinedRange = (props: any) => {
 }
 
 export const Stock = () => {
-    const { symbol } = useParams();
+    const { symbol = "SNAP" } = useParams();
     const [data, setData] = React.useState<any>([]);
     const [range, setRange] = React.useState(DEFAULT_RANGE);
     const [interval, setInterval] = React.useState(DEFAULT_INTERVAL);
@@ -255,7 +256,7 @@ export const Stock = () => {
         () => (event: any) => {
             setRange(event.value);
         },
-        [])
+        [setRange])
 
     const handleTypeChange = (event: any) => {
         setType(event.value);
@@ -266,11 +267,12 @@ export const Stock = () => {
     }
 
     const fetchData = React.useCallback(async () => {
-        const newData = await dataService.getSymbol(symbol || 'SNAP');
+        const newData = await dataService.getSymbol(symbol);
         setData(newData)
     }, [symbol])
 
     React.useEffect(() => { fetchData() }, [fetchData]);
+
 
     const chartComp: React.ReactNode = React.useMemo(() => {
         switch (type) {
@@ -514,16 +516,6 @@ const CandleChart = (props: any) => {
             volume: (val: any[]) => val[0]
         }),
         [])
-
-    const customChangeAggregate = React.useCallback(
-        (_values, _, dataItems) => {
-            const first = dataItems[0];
-            const last = dataItems[dataItems.length - 1];
-            return Math.abs((last.close - first.open) / dataItems.length / 100);
-        },
-        []
-    )
-
 
     const plotBands = React.useMemo(
         () => {
