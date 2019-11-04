@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/kendo-react-finance-portfolio/precache-manifest.c4e925697b08a1e2bfa8b4c8b0261dbe.js"
+  "/kendo-react-finance-portfolio/precache-manifest.e6d0073a7ce183623ddf493859bb2dfe.js"
 );
 
 self.addEventListener('message', (event) => {
