@@ -15,11 +15,9 @@ export const StockPage = () => {
     return (
         <>
             <Splitter
+                style={{ height: '100%' }}
                 orientation={'vertical'}
-                defaultPanes={[
-                    { size: '520px', min: '200px' },
-                    {}
-                ]}
+                defaultPanes={[{},{}]}
             >
                 <div className={classNames("pt-4 pb-2")} >
                     <div className="container">

@@ -69,7 +69,7 @@ $popup-padding-y: 0;
   display: none;
 }
 
-.k-pane.k-pane-static {
+.k-pane:first-child {
   background-color: white;
 }
 

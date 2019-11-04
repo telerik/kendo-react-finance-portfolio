@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { DateRangePicker, MultiViewCalendarProps, MultiViewCalendar } from '@progress/kendo-react-dateinputs';
+import { DateRangePicker } from '@progress/kendo-react-dateinputs';
 import { MS_PER_DAY } from '@progress/kendo-date-math';
 import { classNames } from '@progress/kendo-react-common';
 import { DropDownList, ListItemProps } from '@progress/kendo-react-dropdowns';
@@ -30,8 +30,8 @@ import { dataService } from '../../services';
 import { useInternationalization } from '@progress/kendo-react-intl';
 
 const DEFAULT_RANGE = {
-    start: new Date(2019, 9, 20),
-    end: new Date(2019, 9, 23)
+    start: new Date(2019, 9, 28),
+    end: new Date(2019, 10, 1)
 }
 
 const DEFAULT_INTERVAL = {
@@ -194,7 +194,7 @@ const options = [
     { name: '1W', duration: MS_PER_DAY * 7 },
 ]
 const ChartPredefinedRange = (props: any) => {
-    const [selected, setSelected] = React.useState<string | null>(null);
+    const [selected, setSelected] = React.useState<string | null>('4D');
 
     const handleClick = React.useCallback(
         (event: React.SyntheticEvent<HTMLAnchorElement>) => {
@@ -214,6 +214,7 @@ const ChartPredefinedRange = (props: any) => {
         }, [props.last, props.onChange])
 
     const clear = () => {
+        if (!props.last) { return; }
         const current = options.find(o => o.name === selected);
         if (current && props.value.start && props.last.getTime() - current.duration !== props.value.start.getTime()) {
             setSelected(null);
@@ -351,7 +352,8 @@ const AreaChart = (props: any) => {
     return (<Chart
         renderAs="canvas"
         zoomable={false}
-        transitions={false}>
+    // transitions={false}
+    >
         <ChartSeries>
             <ChartSeriesItem
                 data={props.data}
@@ -421,7 +423,7 @@ const LineChart = (props: any) => {
     return (<Chart
         renderAs="canvas"
         zoomable={false}
-        transitions={false}
+    // transitions={false}
     >
         <ChartSeries>
             <ChartSeriesItem
@@ -544,7 +546,7 @@ const CandleChart = (props: any) => {
         <StockChart
             renderAs="canvas"
             zoomable={false}
-            transitions={false}
+            // transitions={false}
             onSelectEnd={handleSelectEnd}
             onZoomStart={(e) => e.preventDefault()}
         >

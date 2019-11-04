@@ -1,8 +1,15 @@
 .header {
+  height: 140px;
   h1,
   p {
     line-height: 1;
     color: white;
+  }
+
+  @media screen {
+    h1 {
+      font-size: 1.5rem;
+    }
   }
 }
 

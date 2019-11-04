@@ -38,13 +38,13 @@ export const Header: React.FunctionComponent<any> = () => {
 
     return (
         <header
-            className={classNames(styles.header, styles['currency-input'])}
+            className={classNames(styles.header, styles['currency-input'], 'py-3')}
             style={{ background: `url(${headerBg})` }}
         >
             <div className="container pt-4 pb-2">
                 <div className="row">
-                    <div className="col">
-                        <h1 className="mb-0 header-title">Stock watchlist</h1>
+                    <div className="col-9">
+                        <h1 className="mb-0 header-title">My Stocks Portfolio</h1>
                         <DropDownList
                             popupSettings={{
                                 animate: {
@@ -59,7 +59,7 @@ export const Header: React.FunctionComponent<any> = () => {
                             textField="name"
                         />
                     </div>
-                    <div className="col">
+                    <div className="col-3">
                         <div className="text-right">
                             <Link to="/profile">
                                 <img src={userImg} alt="user"/>
