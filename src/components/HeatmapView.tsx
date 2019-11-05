@@ -2,6 +2,7 @@ import * as React from 'react';
 import { dataService } from '../services';
 import $ from 'jquery';
 import '@progress/kendo-ui';
+import { Tooltip } from '@progress/kendo-react-tooltip';
 
 export const HeatmapView = () => {
     const fetchData = React.useCallback(async () => {
@@ -60,11 +61,37 @@ export const HeatmapView = () => {
             colors: [["#00AD51", "#00EF81"], ["#FF0000", "#FF8F8F"]]
         })
     }, []);
+    const nFormatter = (num: number) => {
+        if (num >= 1000000000) {
+            return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+        }
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        }
+        if (num >= 1000) {
+            return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+        }
+        return num;
+    }
+    const toolTipTemplate = (props: any) => {
+        let item = JSON.parse(props.title)
+        return (
+          <span>
+            <span>Company: {item.name}</span>
+            <br/>
+            <span>Change: {item.change}%</span>
+            <br/>
+            <span>Market cap: {nFormatter(item.value)}</span>
+          </span>
+        )
+    }
 
     React.useEffect(() => { fetchData() }, [fetchData]);
     return (
         <div>
-            <div id='heatmap' style={{ height: 600, marginBottom: 50 }}></div>
+            <Tooltip showCallout={false} content={toolTipTemplate}>
+                <div id='heatmap' style={{ height: 600, marginBottom: 50 }}></div>
+            </Tooltip>
         </div>
     )
 }
