@@ -40,21 +40,20 @@ $dialog-buttongroup-padding-y: 15px;
 // popup
 $popup-padding-y: 0;
 
-@import "~@progress/kendo-theme-bootstrap/scss/button";
-@import "~@progress/kendo-theme-bootstrap/scss/grid";
-@import "~@progress/kendo-theme-bootstrap/scss/splitter";
-@import "~@progress/kendo-theme-bootstrap/scss/input";
-@import "~@progress/kendo-theme-bootstrap/scss/checkbox";
-@import "~@progress/kendo-theme-bootstrap/scss/calendar";
-@import "~@progress/kendo-theme-bootstrap/scss/datetime";
-@import "~@progress/kendo-theme-bootstrap/scss/dropdownlist";
-@import "~@progress/kendo-theme-bootstrap/scss/autocomplete";
-@import "~@progress/kendo-theme-bootstrap/scss/dataviz";
-@import "~@progress/kendo-theme-bootstrap/scss/tooltip";
-@import "~@progress/kendo-theme-bootstrap/scss/common/icons";
-@import "~@progress/kendo-theme-bootstrap/scss/popup";
-@import "~@progress/kendo-theme-bootstrap/scss/numerictextbox";
-@import "~@progress/kendo-theme-bootstrap/scss/common/animations";
+@import "~@progress/kendo-theme-bootstrap/scss/button/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/grid/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/splitter/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/input/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/checkbox/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/calendar/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/datetime/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/dropdownlist/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/autocomplete/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/dataviz/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/tooltip/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/popup/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/numerictextbox/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/common/_index.scss";
 
 .k-widget.k-splitter {
   background-color: rgba(236, 238, 239, 0.5);

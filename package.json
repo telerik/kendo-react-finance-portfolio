@@ -8,6 +8,7 @@
     "@progress/kendo-data-query": "^1.5.2",
     "@progress/kendo-drawing": "^1.6.0",
     "@progress/kendo-react-charts": "^3.6.0",
+    "@progress/kendo-react-data-tools": "^3.12.0",
     "@progress/kendo-react-dateinputs": "^3.6.0",
     "@progress/kendo-react-dropdowns": "^3.6.0",
     "@progress/kendo-react-excel-export": "^3.6.0",
@@ -63,7 +64,6 @@
     "jest-watch-typeahead": "0.4.0",
     "jquery": "^3.4.1",
     "mini-css-extract-plugin": "0.8.0",
-    "node-sass": "^4.13.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.5.0",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -167,6 +167,8 @@
     ]
   },
   "devDependencies": {
-    "node-fetch": "^2.6.0"
+    "dart-sass": "^1.25.0",
+    "node-fetch": "^2.6.0",
+    "sass": "^1.26.3"
   }
 }
