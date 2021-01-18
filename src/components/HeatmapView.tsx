@@ -15,6 +15,7 @@ export const HeatmapView = () => {
                 newItem.change = item.change_pct;
                 return newItem
             }
+            return null;
         })
         const prizeDownItemsCollection = newData.map((item: any) => {
             if (item.change_pct.indexOf('-') === 0) {
@@ -24,6 +25,7 @@ export const HeatmapView = () => {
                 newItem.change = item.change_pct;
                 return newItem
             }
+            return null;
         })
         const prizeUpItems = prizeUpItemsCollection.filter((item: any) => item)
         const prizeDownItems = prizeDownItemsCollection.filter((item: any) => item)
