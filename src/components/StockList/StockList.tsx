@@ -22,7 +22,7 @@ export const StockList: React.FunctionComponent = () => {
     const { sector } = React.useContext(SectorContext);
     const { symbols, selectedSymbols, onSelectedSymbolsChange } = React.useContext(SymbolsContext);
     const [data, setData] = React.useState<any[]>([]);
-    const processed = React.useMemo(() => data.map((i: any) => ({ ...i, selected: selectedSymbols.current.some((s: any) => s === i.symbol) })), [symbol, selectedSymbols, data])
+    const processed = React.useMemo(() => data.map((i: any) => ({ ...i, selected: selectedSymbols.current.some((s: any) => s === i.symbol) })), [selectedSymbols, data])
 
     const fetchData = React.useCallback(async () => {
         const newData = await dataService.getSectorSymbol(sector);
@@ -56,7 +56,7 @@ export const StockList: React.FunctionComponent = () => {
             }
 
         },
-        [processed, setData, history])
+        [processed, setData, history, onSelectedSymbolsChange])
 
     const magicPrice = (price: string) => {
         const rnd = (Math.random() + 0.01);
