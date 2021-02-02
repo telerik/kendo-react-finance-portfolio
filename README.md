@@ -1,4 +1,20 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and uses the [KendoReact](https://www.telerik.com/kendo-react-ui/) components.
+
+You can see the following ten KendoReact components implemented in this sample application:
+
+- [KendoReact Charts](https://www.telerik.com/kendo-react-ui/components/charts/)
+ - Candle Chart
+ - Line Chart
+ - Area Chart
+- [KendoReact Data Grid](https://www.telerik.com/kendo-react-ui/components/grid/)
+- [KendoReact DropDownList](https://www.telerik.com/kendo-react-ui/components/dropdowns/)
+- [KendoReact DateRangePicker](https://www.telerik.com/kendo-react-ui/components/dateinputs/daterangepicker/)
+- [KendoReact Splitter](https://www.telerik.com/kendo-react-ui/components/layout/splitter/)
+- [KendoReact Tooltip](https://www.telerik.com/kendo-react-ui/components/tooltip/)
+- [KendoReact Animations](https://www.telerik.com/kendo-react-ui/components/animation/)
+- [KendoReact Buttons](https://www.telerik.com/kendo-react-ui/components/buttons/)
+
+
 
 ## Available Scripts
 
