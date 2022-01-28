@@ -21,7 +21,7 @@
     "@progress/kendo-react-progressbars": "^4.3.0",
     "@progress/kendo-react-tooltip": "^4.3.0",
     "@progress/kendo-react-treeview": "^4.3.0",
-    "@progress/kendo-theme-bootstrap": "^4.4.0",
+    "@progress/kendo-theme-bootstrap": "^4.42.0",
     "@progress/kendo-ui": "^2019.3.1023",
     "@svgr/webpack": "4.3.2",
     "@types/jest": "24.0.19",
