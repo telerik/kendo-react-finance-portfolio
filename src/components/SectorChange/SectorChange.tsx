@@ -29,7 +29,7 @@ export const ChangeSector = (props: ChangeSectorProps) => {
     ], [])
 
     const handleChange = React.useCallback(
-        (event) => {
+        (event: any) => {
             if (onSectorChange) {
                 onSectorChange.call(undefined, event.target.value.sector)
             }

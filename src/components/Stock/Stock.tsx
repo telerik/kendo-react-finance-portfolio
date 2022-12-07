@@ -100,7 +100,7 @@ const ChartTypePicker = (props: any) => {
     ], []);
 
     const handleChange = React.useCallback(
-        (event) => {
+        (event: any) => {
             if (props.onChange) {
                 props.onChange.call(undefined, { value: event.target.value.type })
             }
@@ -133,7 +133,7 @@ const ChartIntervalPicker = (props: any) => {
     ], []);
 
     const handleChange = React.useCallback(
-        (event) => {
+        (event: any) => {
             if (props.onChange) {
                 props.onChange.call(undefined, { value: event.target.value.interval })
             }
@@ -157,7 +157,7 @@ const ChartRangePicker = (props: any) => {
     const [value, setValue] = React.useState(props.value);
 
     const handleChange = React.useCallback(
-        (event) => {
+        (event: any) => {
             setValue(event.value);
             if (event.value.start && event.value.end) {
                 props.onChange.call(undefined, event);

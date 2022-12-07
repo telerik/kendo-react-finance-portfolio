@@ -92,8 +92,8 @@ export class VirtualizedPage extends React.Component<any, any> {
 
     dataStateChange = (event: any) => {
         this.setState({
-            dataResult: process(orders, event.data),
-            dataState: event.data
+            dataResult: process(orders, event.dataState),
+            dataState: event.dataState
         });
     }
 
@@ -117,6 +117,7 @@ export class VirtualizedPage extends React.Component<any, any> {
     }
 
     render() {
+
         return (
             <>
                 <div className="container my-3">
@@ -150,19 +151,19 @@ export class VirtualizedPage extends React.Component<any, any> {
                                     >
                                         <GridToolbar>
                                             Locale:&nbsp;&nbsp;&nbsp;
-                                    <DropDownList
+                                            <DropDownList
                                                 value={this.state.currentLocale}
                                                 textField="language"
                                                 onChange={(e) => { this.setState({ currentLocale: e.target.value }); }}
                                                 data={this.locales} />&nbsp;&nbsp;&nbsp;
-                                    <button
+                                            <button
                                                 title="Export to Excel"
                                                 className="k-button k-primary"
                                                 onClick={this.exportExcel}
                                             >
                                                 Export to Excel
-                                    </button>&nbsp;
-                                    <button className="k-button k-primary" onClick={this.exportPDF}>Export to PDF</button>
+                                            </button>&nbsp;
+                                            <button className="k-button k-primary" onClick={this.exportPDF}>Export to PDF</button>
                                         </GridToolbar>
                                         <GridColumn field="customerID" width="200px" />
                                         <GridColumn field="orderDate" filter="date" format="{0:D}" width="300px" />
@@ -176,7 +177,7 @@ export class VirtualizedPage extends React.Component<any, any> {
                                 <GridPDFExport
                                     ref={(element) => { this._pdfExport = element; }}
                                     margin="1cm" >
-                                    {<Grid data={process(orders, { skip: this.state.dataState.skip, take: this.state.dataState.take })} >
+                                    {<Grid data={process(orders, this.state.dataState)} >
                                         <GridColumn field="customerID" width="200px" />
                                         <GridColumn field="orderDate" filter="date" format="{0:D}" width="300px" />
                                         <GridColumn field="shipName" width="280px" />

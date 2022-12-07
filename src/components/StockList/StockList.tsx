@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, GridColumn, GridSelectionChangeEvent, GridRowClickEvent } from '@progress/kendo-react-grid';
 import { dataService } from '../../services';
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ChangeCell } from './ChangeCell';
 import { NumberCell } from './NumberCell';
 import { ChartCell } from './ChartCell';
@@ -17,7 +17,7 @@ import { Symbol } from '../Stock/Symbol';
 
 
 export const StockList: React.FunctionComponent = () => {
-    const history = useHistory();
+    const history = useNavigate();
     const { symbol } = useParams();
     const { sector } = React.useContext(SectorContext);
     const { symbols, selectedSymbols, onSelectedSymbolsChange } = React.useContext(SymbolsContext);
@@ -49,7 +49,7 @@ export const StockList: React.FunctionComponent = () => {
         (event: GridRowClickEvent) => {
             let newSelectData = processed.map(item => ({ ...item, selected: item.symbol === event.dataItem.symbol }))
             setData(newSelectData);
-            history.push(`/stocks/${event.dataItem.symbol}`);
+            history(`/stocks/${event.dataItem.symbol}`);
 
             if (onSelectedSymbolsChange) {
                 onSelectedSymbolsChange.call(undefined, newSelectData.filter((i) => i.selected === true).map((i) => i.symbol))

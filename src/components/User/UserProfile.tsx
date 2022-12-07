@@ -5,10 +5,10 @@ import { Chart, ChartSeries, ChartSeriesItem, ChartTooltip, ChartLegend } from '
 import useImage from '../../images/user.jpg';
 import styles from './user.module.scss';
 import { classNames } from '@progress/kendo-react-common';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const UserProfile = () => {
-    const history = useHistory();
+    const history = useNavigate();
     const [data, setData] = React.useState<any[]>([]);
     const fetchData = React.useCallback(async () => {
         const newData = await dataService.getAllSymbols();
@@ -21,7 +21,7 @@ export const UserProfile = () => {
 
     const handleBackClick = React.useCallback(
         () => {
-            history.goBack();
+            history(-1);
         },
         [history]
     )

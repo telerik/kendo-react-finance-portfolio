@@ -65,7 +65,7 @@ export const AddRemoveSymbol = (props: AddRemoveSymbolProps) => {
     );
 
     const handleSymbolsAdd = React.useCallback(
-        (event) => {
+        (event: any) => {
             if (onSymbolsChange && event.target && event.target.value && event.target.value.symbol) {
                 const newSymbols = !symbols[sector].some((s: any) => s === event.target.value.symbol)
                     ? symbols[sector].concat([event.target.value.symbol])
@@ -102,11 +102,10 @@ export const AddRemoveSymbol = (props: AddRemoveSymbolProps) => {
                 }}
                 valueRender={customValueRender}
                 itemRender={customItemRender}
-            >
-                Add
-                </DropDownList>
+            />
+
             &nbsp;
-            <Button iconClass='k-icon k-i-delete' look={"flat"} style={{ color: '#D9534F' }} onClick={handleRemoveClick}>Remove</Button>
+            <Button iconClass='k-icon k-i-delete' fillMode={"flat"} style={{ color: '#D9534F' }} onClick={handleRemoveClick}>Remove</Button>
 
         </div>
     )
