@@ -177,7 +177,10 @@ export class VirtualizedPage extends React.Component<any, any> {
                                 <GridPDFExport
                                     ref={(element) => { this._pdfExport = element; }}
                                     margin="1cm" >
-                                    {<Grid data={process(orders, this.state.dataState)} >
+                                    {<Grid data={process(orders, {
+                                        skip: this.state.dataState.skip,
+                                        take: this.state.dataState.take,
+                                    })} >
                                         <GridColumn field="customerID" width="200px" />
                                         <GridColumn field="orderDate" filter="date" format="{0:D}" width="300px" />
                                         <GridColumn field="shipName" width="280px" />
