@@ -51,8 +51,12 @@ export const Header: React.FunctionComponent<any> = () => {
                                     closeDuration: 0
                                 }
                             }}
+                            fillMode={null}
                             data={data}
-                            style={{ width: 200 }}
+                            style={{
+                                width: 200,
+                                border: 'none'
+                            }}
                             value={data.find(c => c.value === currency)}
                             onChange={handleChange}
                             valueRender={customValueRender}
@@ -62,7 +66,7 @@ export const Header: React.FunctionComponent<any> = () => {
                     <div className="col-3">
                         <div className="text-right">
                             <Link to="/profile">
-                                <img src={userImg} alt="user"/>
+                                <img src={userImg} alt="user" />
                             </Link>
                         </div>
                     </div>

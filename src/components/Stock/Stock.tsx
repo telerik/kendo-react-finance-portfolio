@@ -111,7 +111,11 @@ const ChartTypePicker = (props: any) => {
     return (
         <DropDownList
             data={data}
-            style={{ width: 130 }}
+            style={{
+                width: 130,
+                border: 'none'
+            }}
+            fillMode={null}
             value={data.find(i => i.type === props.value)}
             onChange={handleChange}
             textField={'name'}
@@ -144,7 +148,11 @@ const ChartIntervalPicker = (props: any) => {
     return (
         <DropDownList
             data={data}
-            style={{ width: 150 }}
+            style={{
+                width: 150,
+                border: 'none'
+            }}
+            fillMode={null}
             value={data.find(i => i.interval.unit === props.value.unit && i.interval.step === props.value.step)}
             onChange={handleChange}
             textField={'name'}

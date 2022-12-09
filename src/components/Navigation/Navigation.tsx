@@ -10,6 +10,8 @@ export interface NavigationProps {
 export const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
     const history = useNavigate();
     const location = useLocation();
+    const fillMode = "solid"
+    const themeColor = "base";
 
     const handleStockClick = React.useCallback(() => { history('/stocks'); }, [history]);
     const handleHeatmapClick = React.useCallback(() => { history('/heatmap'); }, [history]);
@@ -18,9 +20,9 @@ export const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
     return (
         <div className={classNames(props.className)}>
             <ButtonGroup>
-                <Button togglable={true} selected={location.pathname.includes('/stocks')} onClick={handleStockClick}>Stock List</Button>
-                <Button togglable={true} selected={location.pathname.includes('/heatmap')} onClick={handleHeatmapClick}>Heatmap View</Button>
-                <Button togglable={true} selected={location.pathname.includes('/virtualized')} onClick={handleVirtualizedClick}>Virtualized</Button>
+                <Button togglable={true} themeColor={themeColor} fillMode={fillMode} selected={location.pathname.includes('/stocks')} onClick={handleStockClick}>Stock List</Button>
+                <Button togglable={true} themeColor={themeColor} fillMode={fillMode} selected={location.pathname.includes('/heatmap')} onClick={handleHeatmapClick}>Heatmap View</Button>
+                <Button togglable={true} themeColor={themeColor} fillMode={fillMode} selected={location.pathname.includes('/virtualized')} onClick={handleVirtualizedClick}>Virtualized</Button>
             </ButtonGroup>
         </div>
     )

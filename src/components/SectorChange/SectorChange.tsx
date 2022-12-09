@@ -41,12 +41,14 @@ export const ChangeSector = (props: ChangeSectorProps) => {
         <div className={classNames(props.className)}>
             <DropDownList
                 textField="name"
+                style={{
+                    border: 'none',
+                    width: 'auto'
+                }}
+                fillMode={null}
                 value={data.find(s => s.sector === sector)}
                 onChange={handleChange}
                 data={data}
-                popupSettings={{
-                    animate: { closeDuration: 0 }
-                }}
                 valueRender={customValueRender}
             />
         </div>
