@@ -31,7 +31,6 @@ const customItemRender = (el: any, value: any) => (
 const customValueRender = (el: any) => (
     <el.type
         {...el.props}
-        className={classNames(el.props.className, "text-left pl-0")}
     >
         Add new
     </el.type>)
