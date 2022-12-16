@@ -10,9 +10,6 @@ export interface NavigationProps {
 export const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
     const history = useNavigate();
     const location = useLocation();
-
-
-
     const handleStockClick = React.useCallback(() => { history('/stocks'); }, [history]);
     const handleHeatmapClick = React.useCallback(() => { history('/heatmap'); }, [history]);
     const handleVirtualizedClick = React.useCallback(() => { history('/virtualized'); }, [history]);
