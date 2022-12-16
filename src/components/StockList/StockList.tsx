@@ -115,7 +115,7 @@ export const StockList: React.FunctionComponent = () => {
                 <GridColumn field="name" title="Name" className={styles['name-cell']} width={200} />
                 <GridColumn field="price" title="Price" className={styles['price-cell']} cell={PriceCell} headerCell={PriceHeaderCell} width={80} />
                 <GridColumn field="day_change" title="Change" cell={ChangeCell} width={80} />
-                <GridColumn field="change_pct" title="% Change" cell={ChangeCell} width={80} />
+                <GridColumn field="change_pct" title="% Change" cell={ChangeCell} width={90} />
                 <GridColumn field="volume" title="Volume" cell={NumberCell} width={80} />
                 <GridColumn field="volume_avg" title="Avg Vol" cell={NumberCell} headerCell={AvgVolumeHeaderCell} width={90} />
                 <GridColumn field="market_cap" title="Market Cap" cell={NumberCell} width={102} />
