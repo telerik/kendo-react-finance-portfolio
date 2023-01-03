@@ -2,9 +2,10 @@ import React from 'react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import {
+  Routes,
   Route,
   BrowserRouter,
-  Redirect,
+  Navigate,
   HashRouter,
   useLocation,
 } from 'react-router-dom';
@@ -64,24 +65,17 @@ load(
 const Main = () => {
   const locations = useLocation();
   return (
-    <>
-      <Route path={"/profile"}>
-        <UserProfile />
-      </Route>
-      <Route path="/heatmap">
-        <Header />
-        <HeatmapPage />
-      </Route>
-      <Route path="/virtualized">
-        <Header />
-        <VirtualizedPage />
-      </Route>
-      <Route path={["/stocks/:symbol?"]}  >
-        <Header />
-        <StockPage />
-      </Route>
-      {locations.pathname === '/' ? <Redirect to="/stocks" /> : null}
-    </>
+
+    <Routes>
+      <Route path={"/"} element={<><Header /><StockPage /></>} />
+      <Route path={"/profile"} element={<UserProfile />} />
+      <Route path="/heatmap" element={<><Header /><HeatmapPage /></>} />
+      <Route path="/virtualized" element={<><Header /><VirtualizedPage /></>} />
+      <Route path={'/stocks'} element={<><Header /><StockPage /></>} />
+      <Route path={"/stocks/:symbol"} element={<><Header /><StockPage /></>} />
+      {/*locations.pathname === '/' ? <Navigate to="/stocks" /> : null*/}
+    </Routes>
+
   )
 }
 

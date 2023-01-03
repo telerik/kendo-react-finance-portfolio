@@ -29,7 +29,7 @@ export const ChangeSector = (props: ChangeSectorProps) => {
     ], [])
 
     const handleChange = React.useCallback(
-        (event) => {
+        (event: any) => {
             if (onSectorChange) {
                 onSectorChange.call(undefined, event.target.value.sector)
             }
@@ -41,12 +41,14 @@ export const ChangeSector = (props: ChangeSectorProps) => {
         <div className={classNames(props.className)}>
             <DropDownList
                 textField="name"
+                style={{
+                    border: 'none',
+                    width: 'auto'
+                }}
+                fillMode={null}
                 value={data.find(s => s.sector === sector)}
                 onChange={handleChange}
                 data={data}
-                popupSettings={{
-                    animate: { closeDuration: 0 }
-                }}
                 valueRender={customValueRender}
             />
         </div>

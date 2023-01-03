@@ -2,6 +2,7 @@ import * as React from 'react';
 import { LocalizationProvider, IntlProvider, load, loadMessages } from '@progress/kendo-react-intl';
 import { ExcelExport } from '@progress/kendo-react-excel-export';
 import { GridPDFExport } from '@progress/kendo-react-pdf';
+import { Button } from "@progress/kendo-react-buttons";
 
 import likelySubtags from 'cldr-core/supplemental/likelySubtags.json';
 import currencyData from 'cldr-core/supplemental/currencyData.json';
@@ -92,8 +93,8 @@ export class VirtualizedPage extends React.Component<any, any> {
 
     dataStateChange = (event: any) => {
         this.setState({
-            dataResult: process(orders, event.data),
-            dataState: event.data
+            dataResult: process(orders, event.dataState),
+            dataState: event.dataState
         });
     }
 
@@ -117,6 +118,7 @@ export class VirtualizedPage extends React.Component<any, any> {
     }
 
     render() {
+
         return (
             <>
                 <div className="container my-3">
@@ -150,19 +152,26 @@ export class VirtualizedPage extends React.Component<any, any> {
                                     >
                                         <GridToolbar>
                                             Locale:&nbsp;&nbsp;&nbsp;
-                                    <DropDownList
+                                            <DropDownList
+                                                style={{ border: 'none' }}
                                                 value={this.state.currentLocale}
+                                                fillMode={null}
                                                 textField="language"
                                                 onChange={(e) => { this.setState({ currentLocale: e.target.value }); }}
                                                 data={this.locales} />&nbsp;&nbsp;&nbsp;
-                                    <button
+                                            <Button
                                                 title="Export to Excel"
-                                                className="k-button k-primary"
+                                                themeColor="primary"
+                                                fillMode="solid"
                                                 onClick={this.exportExcel}
                                             >
                                                 Export to Excel
-                                    </button>&nbsp;
-                                    <button className="k-button k-primary" onClick={this.exportPDF}>Export to PDF</button>
+                                            </Button>&nbsp;
+                                            <Button
+                                                title="Export to PDF"
+                                                themeColor="primary"
+                                                fillMode="solid"
+                                                onClick={this.exportPDF}>Export to PDF</Button>
                                         </GridToolbar>
                                         <GridColumn field="customerID" width="200px" />
                                         <GridColumn field="orderDate" filter="date" format="{0:D}" width="300px" />
@@ -176,7 +185,10 @@ export class VirtualizedPage extends React.Component<any, any> {
                                 <GridPDFExport
                                     ref={(element) => { this._pdfExport = element; }}
                                     margin="1cm" >
-                                    {<Grid data={process(orders, { skip: this.state.dataState.skip, take: this.state.dataState.take })} >
+                                    {<Grid data={process(orders, {
+                                        skip: this.state.dataState.skip,
+                                        take: this.state.dataState.take,
+                                    })} >
                                         <GridColumn field="customerID" width="200px" />
                                         <GridColumn field="orderDate" filter="date" format="{0:D}" width="300px" />
                                         <GridColumn field="shipName" width="280px" />

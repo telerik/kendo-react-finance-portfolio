@@ -3,6 +3,7 @@ import { dataService } from '../services';
 import $ from 'jquery';
 import '@progress/kendo-ui';
 import { Tooltip } from '@progress/kendo-react-tooltip';
+declare const window: any;
 
 export const HeatmapView = () => {
     const fetchData = React.useCallback(async () => {
@@ -46,7 +47,7 @@ export const HeatmapView = () => {
             return `<span title=${title}>${props.text}<br/>${props.dataItem.change}%</span>`;
         }
 
-        $("#heatmap").kendoTreeMap({
+        window.$("#heatmap").kendoTreeMap({
             template: renderItem,
             dataSource: new kendo.data.HierarchicalDataSource({
                 transport: {
@@ -76,16 +77,18 @@ export const HeatmapView = () => {
         return num;
     }
     const toolTipTemplate = (props: any) => {
-        let item = JSON.parse(props.title)
-        return (
-          <span>
-            <span>Company: {item.name}</span>
-            <br/>
-            <span>Change: {item.change}%</span>
-            <br/>
-            <span>Market cap: {nFormatter(item.value)}</span>
-          </span>
-        )
+        if (props.title !== '{"value":1,"name":"Price' && props.title !== '{"name":"Market') {
+            let item = JSON.parse(props.title)
+            return (
+                <span>
+                    <span>Company: {item.name}</span>
+                    <br />
+                    <span>Change: {item.change}%</span>
+                    <br />
+                    <span>Market cap: {nFormatter(item.value)}</span>
+                </span>
+            )
+        }
     }
 
     React.useEffect(() => { fetchData() }, [fetchData]);

@@ -46,7 +46,7 @@ $popup-padding-y: 0;
 @import "~@progress/kendo-theme-bootstrap/scss/input/_index.scss";
 @import "~@progress/kendo-theme-bootstrap/scss/checkbox/_index.scss";
 @import "~@progress/kendo-theme-bootstrap/scss/calendar/_index.scss";
-@import "~@progress/kendo-theme-bootstrap/scss/datetime/_index.scss";
+@import "~@progress/kendo-theme-bootstrap/scss/datetimepicker/_index.scss";
 @import "~@progress/kendo-theme-bootstrap/scss/dropdownlist/_index.scss";
 @import "~@progress/kendo-theme-bootstrap/scss/autocomplete/_index.scss";
 @import "~@progress/kendo-theme-bootstrap/scss/dataviz/_index.scss";
@@ -108,6 +108,7 @@ $popup-padding-y: 0;
 
 .k-master-row .k-grid-content-sticky,
 .k-alt-row .k-grid-content-sticky {
+  color: #55595c;
   background: white;
   opacity: 1;
   z-index: 106;
@@ -119,10 +120,10 @@ $popup-padding-y: 0;
   background-color: #f0f0f1;
 }
 
-.k-grid .k-master-row.k-state-selected .k-grid-content-sticky {
+.k-grid .k-master-row.k-selected .k-grid-content-sticky {
   background-color: #CADEF5;
 }
 
-.k-grid .k-master-row.k-state-selected:hover .k-grid-content-sticky {
+.k-grid .k-master-row.k-selected:hover .k-grid-content-sticky {
   background-color: #BFD3EB;
 }

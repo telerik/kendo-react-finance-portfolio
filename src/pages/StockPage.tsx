@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Splitter } from '@progress/kendo-react-layout';
 import {
-    Switch
+    Routes
 } from 'react-router-dom';
 import { classNames } from '@progress/kendo-react-common';
 
@@ -34,9 +34,7 @@ export const StockPage = () => {
                         </NavigationRow>
                     </div>
                     <div className="container">
-                        <Switch >
-                            <StockList />
-                        </Switch>
+                        <StockList />
                     </div>
                 </div>
             </Splitter>

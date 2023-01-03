@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, GridColumn, GridSelectionChangeEvent, GridRowClickEvent } from '@progress/kendo-react-grid';
 import { dataService } from '../../services';
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ChangeCell } from './ChangeCell';
 import { NumberCell } from './NumberCell';
 import { ChartCell } from './ChartCell';
@@ -17,7 +17,7 @@ import { Symbol } from '../Stock/Symbol';
 
 
 export const StockList: React.FunctionComponent = () => {
-    const history = useHistory();
+    const history = useNavigate();
     const { symbol } = useParams();
     const { sector } = React.useContext(SectorContext);
     const { symbols, selectedSymbols, onSelectedSymbolsChange } = React.useContext(SymbolsContext);
@@ -49,7 +49,7 @@ export const StockList: React.FunctionComponent = () => {
         (event: GridRowClickEvent) => {
             let newSelectData = processed.map(item => ({ ...item, selected: item.symbol === event.dataItem.symbol }))
             setData(newSelectData);
-            history.push(`/stocks/${event.dataItem.symbol}`);
+            history(`/stocks/${event.dataItem.symbol}`);
 
             if (onSelectedSymbolsChange) {
                 onSelectedSymbolsChange.call(undefined, newSelectData.filter((i) => i.selected === true).map((i) => i.symbol))
@@ -115,7 +115,7 @@ export const StockList: React.FunctionComponent = () => {
                 <GridColumn field="name" title="Name" className={styles['name-cell']} width={200} />
                 <GridColumn field="price" title="Price" className={styles['price-cell']} cell={PriceCell} headerCell={PriceHeaderCell} width={80} />
                 <GridColumn field="day_change" title="Change" cell={ChangeCell} width={80} />
-                <GridColumn field="change_pct" title="% Change" cell={ChangeCell} width={80} />
+                <GridColumn field="change_pct" title="% Change" cell={ChangeCell} width={90} />
                 <GridColumn field="volume" title="Volume" cell={NumberCell} width={80} />
                 <GridColumn field="volume_avg" title="Avg Vol" cell={NumberCell} headerCell={AvgVolumeHeaderCell} width={90} />
                 <GridColumn field="market_cap" title="Market Cap" cell={NumberCell} width={102} />

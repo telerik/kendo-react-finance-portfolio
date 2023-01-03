@@ -21,7 +21,7 @@ export const CheckboxCell = (props: GridCellProps) => {
             colSpan={props.colSpan}
         >
             <span>
-                <input onChange={handleChange} type="checkbox" checked={props.dataItem.selected || false} id={id} className="k-checkbox" />
+                <input onChange={handleChange} type="checkbox" checked={props.dataItem.selected || false} id={id} />
                 <label className="k-checkbox-label" htmlFor={id} />
             </span>
         </td>
