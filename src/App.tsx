@@ -4,10 +4,7 @@ import { Footer } from './components/Footer';
 import {
   Routes,
   Route,
-  BrowserRouter,
-  Navigate,
   HashRouter,
-  useLocation,
 } from 'react-router-dom';
 
 import { UserProfile } from './components/User/UserProfile';
@@ -63,17 +60,14 @@ load(
 );
 
 const Main = () => {
-  const locations = useLocation();
   return (
-
-    <Routes>
-      <Route path={"/"} element={<><Header /><StockPage /></>} />
-      <Route path={"/profile"} element={<UserProfile />} />
-      <Route path="/heatmap" element={<><Header /><HeatmapPage /></>} />
-      <Route path="/virtualized" element={<><Header /><VirtualizedPage /></>} />
-      <Route path={'/stocks'} element={<><Header /><StockPage /></>} />
-      <Route path={"/stocks/:symbol"} element={<><Header /><StockPage /></>} />
-      {/*locations.pathname === '/' ? <Navigate to="/stocks" /> : null*/}
+      <Routes>
+        <Route path={"/"} element={<><Header /><StockPage /></>} />
+        <Route path={"/profile"} element={<UserProfile />} />
+        <Route path="/heatmap" element={<><Header /><HeatmapPage /></>} />
+        <Route path="/virtualized" element={<><Header /><VirtualizedPage /></>} />
+        <Route path={'/stocks'} element={<><Header /><StockPage /></>} />
+        <Route path={"/stocks/:symbol"} element={<><Header /><StockPage /></>} />
     </Routes>
 
   )

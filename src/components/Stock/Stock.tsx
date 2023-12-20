@@ -205,7 +205,7 @@ const ChartPredefinedRange = (props: any) => {
     const [selected, setSelected] = React.useState<string | null>('4D');
 
     const handleClick = React.useCallback(
-        (event: React.SyntheticEvent<HTMLAnchorElement>) => {
+        (event: React.SyntheticEvent<HTMLSpanElement>) => {
             event.preventDefault();
             const name = (event.target as HTMLElement).getAttribute("data-name");
             setSelected(name);
@@ -235,8 +235,7 @@ const ChartPredefinedRange = (props: any) => {
             <ul className="k-reset d-flex">
                 {options.map((item) =>
                     <li className="ml-3" key={item.name} >
-                        <a
-                            href="#"
+                        <span
                             onClick={handleClick}
                             data-name={item.name}
                             data-duration={item.duration}
@@ -247,7 +246,7 @@ const ChartPredefinedRange = (props: any) => {
                             )}
                         >
                             {item.name}
-                        </a>
+                        </span>
                     </li>
                 )}
             </ul>
@@ -357,6 +356,8 @@ const AreaChart = (props: any) => {
             return result;
         }, [props.range, props.interval.duration]);
 
+
+
     return (<Chart
         renderAs="canvas"
         zoomable={false}
@@ -439,7 +440,8 @@ const LineChart = (props: any) => {
                 type="line"
                 field="close"
                 color="#007BFF"
-                style="smooth"
+                // eslint-disable-next-line react/style-prop-object
+                style={"smooth"}
                 categoryAxis="close"
                 axis="valueCloseAxis"
                 categoryField="date"

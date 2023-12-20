@@ -1,9 +1,27 @@
-import * as React from 'react';
+import React from 'react';
 import { dataService } from '../services';
 import $ from 'jquery';
 import '@progress/kendo-ui';
 import { Tooltip } from '@progress/kendo-react-tooltip';
-declare const window: any;
+
+type HeatMapItemType = {
+    name : string;
+    value? : number;
+    change? : string;
+    isParentElement? : boolean;
+}
+
+type TooltipTemplateProps = {
+    title: string,
+    target: HTMLElement,
+}
+
+type TreeDataItem = {
+    name: string;
+    value: number;
+    items: TreeDataItem[];
+    isParentElement?: boolean;    
+} 
 
 export const HeatmapView = () => {
     const fetchData = React.useCallback(async () => {
@@ -30,11 +48,11 @@ export const HeatmapView = () => {
         })
         const prizeUpItems = prizeUpItemsCollection.filter((item: any) => item)
         const prizeDownItems = prizeDownItemsCollection.filter((item: any) => item)
-        let TreeData = [
+        const TreeData: TreeDataItem[] = [
             {
-                name: 'Market capitalization', value: 1, items: [
-                    { value: 1, name: "Price up", items: prizeUpItems },
-                    { value: 1, name: "Price down", items: prizeDownItems }
+                name: 'Market\u00a0Capitalization', isParentElement: true ,value: 1, items: [
+                    { value: 1, name: 'Price\u00a0Up', isParentElement: true, items: prizeUpItems },
+                    { value: 1, name: 'Price\u00a0Down', isParentElement: true, items: prizeDownItems }
                 ]
             }
         ]
@@ -43,11 +61,11 @@ export const HeatmapView = () => {
         }
 
         const renderItem = (props: any) => {
-            let title = JSON.stringify(props.dataItem)
+            const title = JSON.stringify(props.dataItem);
             return `<span title=${title}>${props.text}<br/>${props.dataItem.change}%</span>`;
         }
 
-        window.$("#heatmap").kendoTreeMap({
+        $("#heatmap").kendoTreeMap({
             template: renderItem,
             dataSource: new kendo.data.HierarchicalDataSource({
                 transport: {
@@ -76,22 +94,25 @@ export const HeatmapView = () => {
         }
         return num;
     }
-    const toolTipTemplate = (props: any) => {
-        if (props.title !== '{"value":1,"name":"Price' && props.title !== '{"name":"Market') {
-            let item = JSON.parse(props.title)
-            return (
-                <span>
-                    <span>Company: {item.name}</span>
-                    <br />
-                    <span>Change: {item.change}%</span>
-                    <br />
-                    <span>Market cap: {nFormatter(item.value)}</span>
-                </span>
-            )
-        }
+
+    const toolTipTemplate = (props: TooltipTemplateProps) => {
+        
+        const { title } = props;
+        const item: HeatMapItemType = JSON.parse(title);
+        return (
+            item.isParentElement ? 
+            <span>{item.name}</span>
+            :
+            <span>
+                <span>Company: {item.name}</span>
+                {item.change && <span><br />Change: {item.change!}%</span>}
+                {item.value && <span><br />Market cap: {nFormatter(item.value!)}</span>}
+            </span> 
+        )   
     }
 
     React.useEffect(() => { fetchData() }, [fetchData]);
+    
     return (
         <div>
             <Tooltip showCallout={false} content={toolTipTemplate}>

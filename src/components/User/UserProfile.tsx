@@ -4,8 +4,9 @@ import { dataService } from '../../services';
 import { Chart, ChartSeries, ChartSeriesItem, ChartTooltip, ChartLegend } from '@progress/kendo-react-charts';
 import useImage from '../../images/user.jpg';
 import styles from './user.module.scss';
-import { classNames } from '@progress/kendo-react-common';
+import { SvgIcon, classNames } from '@progress/kendo-react-common';
 import { useNavigate } from 'react-router-dom';
+import { xIcon } from '@progress/kendo-svg-icons';
 
 export const UserProfile = () => {
     const history = useNavigate();
@@ -40,9 +41,7 @@ export const UserProfile = () => {
                 <div className="row mt-3 mb-2">
                     <div className="col-10"><h1 className="my-auto">My Portfolio</h1></div>
                     <div className="col-2 text-right my-auto">
-                        <a className={styles['close-icon']} onClick={handleBackClick}>
-                            <i className={classNames('k-icon k-i-close')} />
-                        </a>
+                        <SvgIcon size={'xlarge'} icon={xIcon} className={styles['close-icon']} onClick={handleBackClick}/>
                     </div>
                 </div>
             </div>
