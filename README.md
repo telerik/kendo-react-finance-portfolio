@@ -20,6 +20,10 @@ You can see the following ten KendoReact components implemented in this sample a
 
 In the project directory, you can run:
 
+### `yarn install`
+
+Installs all the necessary packages and dependencies;
+
 ### `yarn start`
 
 Runs the app in the development mode.<br />

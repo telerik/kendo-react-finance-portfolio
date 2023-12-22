@@ -17,7 +17,7 @@ export const Navigation: React.FunctionComponent<NavigationProps> = (props) => {
     return (
         <div className={classNames(props.className)}>
             <ButtonGroup>
-                <Button togglable={true} selected={location.pathname.includes('/stocks')} onClick={handleStockClick}>Stock List</Button>
+                <Button togglable={true} selected={location.pathname.includes('/stocks') || location.pathname === '/'} onClick={handleStockClick}>Stock List</Button>
                 <Button togglable={true} selected={location.pathname.includes('/heatmap')} onClick={handleHeatmapClick}>Heatmap View</Button>
                 <Button togglable={true} selected={location.pathname.includes('/virtualized')} onClick={handleVirtualizedClick}>Virtualized</Button>
             </ButtonGroup>
